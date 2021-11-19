@@ -124,7 +124,7 @@ public class Address {
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, name, companyName, street, city, postCode, country);
+        return Objects.hash(uuid, name, Objects.isNull(companyName) ? "42" : companyName, street, city, postCode, country);
     }
 
     @Override
