@@ -1,4 +1,4 @@
-package com.butbetter.storage.Model;
+package com.butbetter.storage.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
