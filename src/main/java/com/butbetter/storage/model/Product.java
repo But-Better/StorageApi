@@ -2,7 +2,6 @@ package com.butbetter.storage.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -24,34 +23,24 @@ public class Product {
     private BigDecimal price;
 
     @OneToOne
-    @Column(name = "address", nullable = false)
-    private Address address;
-
-    @Column(name = "delivery_time", nullable = false)
-    private Date deliveryTime;
-
-    @Column(name = "amount", nullable = false)
-    private int amount;
+    @Column(name = "product_information", nullable = false)
+    private ProductInformation productInformation;
 
     /**
      * Model of Product
      *
-     * @param uuid         = identifier
-     * @param name         = name of product
-     * @param description  = description of product
-     * @param price        = selling price
-     * @param address      = product location
-     * @param deliveryTime = time of delivery
-     * @param amount       = amount of product
+     * @param uuid               = identifier
+     * @param name               = name of product
+     * @param description        = description of product
+     * @param price              = selling price
+     * @param productInformation = productInformation location
      */
-    public Product(UUID uuid, String name, String description, BigDecimal price, Address address, Date deliveryTime, int amount) {
+    public Product(UUID uuid, String name, String description, BigDecimal price, ProductInformation productInformation) {
         this.uuid = uuid;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.address = address;
-        this.deliveryTime = deliveryTime;
-        this.amount = amount;
+        this.productInformation = productInformation;
     }
 
     public Product() {
@@ -90,28 +79,12 @@ public class Product {
         this.price = price;
     }
 
-    public Address getAddress() {
-        return address;
+    public ProductInformation getProductInformation() {
+        return productInformation;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public Date getDeliveryTime() {
-        return deliveryTime;
-    }
-
-    public void setDeliveryTime(Date deliveryTime) {
-        this.deliveryTime = deliveryTime;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setProductInformation(ProductInformation productInformation) {
+        this.productInformation = productInformation;
     }
 
     @Override
@@ -119,18 +92,16 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return amount == product.amount
-                && Objects.equals(uuid, product.uuid)
+        return Objects.equals(uuid, product.uuid)
                 && Objects.equals(name, product.name)
                 && Objects.equals(description, product.description)
                 && Objects.equals(price, product.price)
-                && Objects.equals(address, product.address)
-                && Objects.equals(deliveryTime, product.deliveryTime);
+                && Objects.equals(productInformation, product.productInformation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, name, description, price, address, deliveryTime, amount);
+        return Objects.hash(uuid, name, description, price, productInformation);
     }
 
     @Override
@@ -140,9 +111,7 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", address=" + address +
-                ", deliveryTime=" + deliveryTime +
-                ", amount=" + amount +
+                ", productInformation=" + productInformation +
                 '}';
     }
 }
