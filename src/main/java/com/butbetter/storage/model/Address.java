@@ -1,5 +1,6 @@
 package com.butbetter.storage.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,12 +12,25 @@ public class Address {
 
     @Id
     @GeneratedValue
+    @Column(name = "id", updatable = false)
     private UUID uuid;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "company_name")
     private String companyName;
+
+    @Column(name = "street", nullable = false, columnDefinition = "TEXT")
     private String street;
+
+    @Column(name = "city", nullable = false)
     private String city;
+
+    @Column(name = "post_code", nullable = false, length = 10)
     private String postCode;
+
+    @Column(name = "country", nullable = false)
     private String country;
 
     public Address(UUID uuid, String name, String companyName, String street, String city, String postCode, String country) {
