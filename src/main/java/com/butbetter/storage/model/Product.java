@@ -34,7 +34,7 @@ public class Product {
     private int amount;
 
     /**
-     * A Object of Product
+     * Model of Product
      *
      * @param uuid         = identifier
      * @param name         = name of product

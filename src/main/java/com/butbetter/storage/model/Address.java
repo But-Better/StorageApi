@@ -33,6 +33,17 @@ public class Address {
     @Column(name = "country", nullable = false)
     private String country;
 
+    /**
+     * Model of Product
+     *
+     * @param uuid        = identifier
+     * @param name        = your name
+     * @param companyName = your company name
+     * @param street      = your street
+     * @param city        = your city
+     * @param postCode    = your postcode
+     * @param country     = your country
+     */
     public Address(UUID uuid, String name, String companyName, String street, String city, String postCode, String country) {
         this.uuid = uuid;
         this.name = name;
