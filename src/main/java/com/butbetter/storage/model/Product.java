@@ -1,9 +1,6 @@
 package com.butbetter.storage.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
@@ -14,14 +11,26 @@ public class Product {
 
     @Id
     @GeneratedValue
+    @Column(name = "id", nullable = false)
     private UUID uuid;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
     @OneToOne
+    @Column(name = "address", nullable = false)
     private Address address;
+
+    @Column(name = "delivery_time", nullable = false)
     private Date deliveryTime;
+
+    @Column(name = "amount", nullable = false)
     private int amount;
 
     /**
