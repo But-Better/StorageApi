@@ -22,6 +22,23 @@ public class ProductInformation {
     @Column(name = "address", nullable = false)
     private Address address;
 
+    /**
+     * Model of ProductInformation
+     *
+     * @param deliveryTime = sent time of product
+     * @param amount       = amount of product
+     * @param address      = address of product location
+     */
+    public ProductInformation(Date deliveryTime, int amount, Address address) {
+        this.deliveryTime = deliveryTime;
+        this.amount = amount;
+        this.address = address;
+    }
+
+    public ProductInformation() {
+
+    }
+
     public UUID getUuid() {
         return uuid;
     }
