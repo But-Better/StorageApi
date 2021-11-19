@@ -1,9 +1,6 @@
 package com.butbetter.storage.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -11,8 +8,8 @@ import java.util.UUID;
 public class Address {
 
     @Id
-    @GeneratedValue
-    @Column(name = "id", updatable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", insertable = false, updatable = false, nullable = false)
     private UUID uuid;
 
     @Column(name = "name", nullable = false)
@@ -36,7 +33,6 @@ public class Address {
     /**
      * Model of Product
      *
-     * @param uuid        = identifier
      * @param name        = your name
      * @param companyName = your company name
      * @param street      = your street
@@ -44,8 +40,7 @@ public class Address {
      * @param postCode    = your postcode
      * @param country     = your country
      */
-    public Address(UUID uuid, String name, String companyName, String street, String city, String postCode, String country) {
-        this.uuid = uuid;
+    public Address(String name, String companyName, String street, String city, String postCode, String country) {
         this.name = name;
         this.companyName = companyName;
         this.street = street;

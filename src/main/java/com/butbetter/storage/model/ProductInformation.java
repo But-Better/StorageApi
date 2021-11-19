@@ -9,7 +9,8 @@ import java.util.UUID;
 public class ProductInformation {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id", insertable = false, updatable = false, nullable = false)
     private UUID uuid;
 
     @Column(name = "delivery_time", nullable = false)
