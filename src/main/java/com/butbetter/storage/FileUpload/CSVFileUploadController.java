@@ -3,6 +3,7 @@ package com.butbetter.storage.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,27 +13,24 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 public class CSVFileUploadController {
 
-	@Autowired
 	private final StorageService storageService;
 
+	@Autowired
 	public CSVFileUploadController(StorageService storageService) {
 		this.storageService = storageService;
 	}
 
 	@GetMapping("/")
-	public String listUploadedFiles(Model model) throws IOException {
-
-		model.addAttribute("files", storageService.loadAll().map(
-						path -> MvcUriComponentsBuilder.fromMethodName(CSVFileUploadController.class,
-								"serveFile", path.getFileName().toString()).build().toUri().toString())
-				.collect(Collectors.toList()));
-
-		return "uploadForm";
+	public ResponseEntity<List<Path>> listUploadedFiles() throws IOException {
+		return new ResponseEntity<>(storageService.loadAll().collect(Collectors.toList()), HttpStatus.OK);
 	}
 
 	@GetMapping("/files/{filename:.+}")
@@ -56,8 +54,13 @@ public class CSVFileUploadController {
 	}
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
-	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException ex) {
 		return ResponseEntity.notFound().build();
+	}
+
+	@ExceptionHandler(IOException.class)
+	public ResponseEntity<?> handleIOException(IOException ex) {
+		return ResponseEntity.badRequest().build();
 	}
 }
 
