@@ -8,15 +8,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AddressTest {
 
-	private Address testAddress;
+    private Address testAddress;
 
-	@Test
-	void testNullHashCodeGeneration() {
-		testAddress = new Address("a", "a", "a", "a", "a", null);
-		try {
-			testAddress.hashCode();
-		} catch (Exception ex) {
-			fail();
-		}
-	}
+    @Test
+    void testNullHashCodeGeneration() {
+        testAddress = new Address("a", "a", "a", "a", "a", null);
+        assertThrows(Exception.class, () -> {
+            testAddress.hashCode();
+        });
+    }
 }
