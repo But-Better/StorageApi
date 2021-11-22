@@ -19,7 +19,7 @@ public class ProductInformation {
     @Column(name = "amount", nullable = false)
     private int amount;
 
-    @OneToOne
+    @ManyToOne
     @Column(name = "address", nullable = false)
     private Address address;
 
