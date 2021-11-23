@@ -10,22 +10,16 @@ import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
 public class ProductInformation {
 
-	@Id
-	@GeneratedValue
 	private UUID uuid;
 
 	@CsvCustomBindByName(converter = BeanOffsetDateTimeConverter.class, column = "deliveryTime", required = true)
 	private OffsetDateTime deliveryTime;
 
-	@Column(name = "amount", nullable = false)
 	@CsvBindByName(column = "amount", required = true)
 	private int amount;
 
-	@OneToOne
-	@Column(name = "address", nullable = false)
 	@CsvCustomBindByName(converter = BeanAddressConverter.class, column = "address", required = true)
 	private Address address;
 
