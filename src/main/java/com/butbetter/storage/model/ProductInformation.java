@@ -5,7 +5,6 @@ import com.butbetter.storage.customConverter.BeanOffsetDateTimeConverter;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
 
-import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
