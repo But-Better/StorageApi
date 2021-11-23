@@ -1,5 +1,7 @@
 package com.butbetter.storage.FileUpload;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -20,11 +22,22 @@ import java.util.stream.Stream;
 @Service
 public class CSVStorageService implements StorageService {
 
+	private final Logger logger = LoggerFactory.getLogger(CSVStorageService.class);
 	private final Path rootLocation;
 
 	@Autowired
 	public CSVStorageService(StorageProperties properties) {
 		this.rootLocation = Paths.get(properties.getLocation());
+	}
+
+	@Override
+	public void init() throws StorageException {
+		try {
+			Files.createDirectories(rootLocation);
+		}
+		catch (IOException e) {
+			throw new StorageException("Could not initialize storage", e);
+		}
 	}
 
 	@Override
@@ -92,16 +105,6 @@ public class CSVStorageService implements StorageService {
 	@Override
 	public void deleteAll() {
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());
-	}
-
-	@Override
-	public void init() throws StorageException {
-		try {
-			Files.createDirectories(rootLocation);
-		}
-		catch (IOException e) {
-			throw new StorageException("Could not initialize storage", e);
-		}
 	}
 }
 
