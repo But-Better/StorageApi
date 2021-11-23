@@ -36,7 +36,9 @@ public class CSVStorageService implements StorageService {
 			Files.createDirectories(rootLocation);
 		}
 		catch (IOException e) {
-			throw new StorageException("Could not initialize storage", e);
+			String message = "Could not initialize storage";
+			logger.error(message);
+			throw new StorageException(message, e);
 		}
 	}
 
@@ -44,7 +46,9 @@ public class CSVStorageService implements StorageService {
 	public void store(MultipartFile file) throws StorageException {
 		try {
 			if (file.isEmpty()) {
-				throw new StorageException("Failed to store empty file.");
+				String message = "Failed to store empty file";
+				logger.error(message);
+				throw new StorageException(message);
 			}
 			Path destinationFile = this.rootLocation.resolve(
 							Paths.get(Objects.requireNonNull(file.getOriginalFilename())))
@@ -52,8 +56,9 @@ public class CSVStorageService implements StorageService {
 
 			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
 				// This is a security check
-				throw new StorageException(
-						"Cannot store file outside current directory.");
+				String message = "Cannot store file outside current directory";
+				logger.error(message);
+				throw new StorageException(message);
 			}
 			try (InputStream inputStream = file.getInputStream()) {
 				Files.copy(inputStream, destinationFile,
@@ -61,7 +66,9 @@ public class CSVStorageService implements StorageService {
 			}
 		}
 		catch (IOException e) {
-			throw new StorageException("Failed to store file.", e);
+			String message = "Failed to store file";
+			logger.error(message);
+			throw new StorageException(message, e);
 		}
 	}
 
@@ -73,7 +80,9 @@ public class CSVStorageService implements StorageService {
 					.map(this.rootLocation::relativize);
 		}
 		catch (IOException e) {
-			throw new StorageException("Failed to read stored files", e);
+			String message = "Failed to read stored files";
+			logger.error(message);
+			throw new StorageException(message, e);
 		}
 
 	}
@@ -92,13 +101,16 @@ public class CSVStorageService implements StorageService {
 				return resource;
 			}
 			else {
-				throw new StorageFileNotFoundException(
-						"Could not read file: " + filename);
+				String message = "Could not read file: " + filename;
+				logger.error(message);
+				throw new StorageFileNotFoundException(message);
 
 			}
 		}
 		catch (MalformedURLException e) {
-			throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+			String message = "Could not read file: " + filename;
+			logger.error(message);
+			throw new StorageFileNotFoundException(message, e);
 		}
 	}
 
