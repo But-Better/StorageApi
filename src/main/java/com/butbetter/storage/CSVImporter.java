@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class CSVImporter {
 
-	private static Logger logger = LoggerFactory.getLogger(CSVImporter.class);
+	private static final Logger logger = LoggerFactory.getLogger(CSVImporter.class);
 
 	public List<ProductInformation> getFromCSV(File file) throws FileNotFoundException {
 		return new CsvToBeanBuilder<ProductInformation>(new FileReader(file))

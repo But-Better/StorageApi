@@ -31,7 +31,7 @@ class CSVImporterTest {
 	private static final String BASE_PATH = "src/test/resources";
 	private final File file = new File(BASE_PATH + "/test.csv");
 	private List<ProductInformation> productInformation;
-	private CSVImporter importer = new CSVImporter();
+	private final CSVImporter importer = new CSVImporter();
 
 	@BeforeEach
 	void setup() throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
