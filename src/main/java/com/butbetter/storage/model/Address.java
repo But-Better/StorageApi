@@ -9,35 +9,25 @@ import javax.persistence.Id;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
 public class Address {
 
-	@Id
-	@GeneratedValue
-	@Column(name = "id", updatable = false)
 	private UUID uuid;
 
-	@Column(name = "name", nullable = false)
 	@CsvBindByName(column = "name", required = true)
 	private String name;
 
-	@Column(name = "company_name")
 	@CsvBindByName(column = "companyName", required = true)
 	private String companyName;
 
-	@Column(name = "street", nullable = false, columnDefinition = "TEXT")
 	@CsvBindByName(column = "street", required = true)
 	private String street;
 
-	@Column(name = "city", nullable = false)
 	@CsvBindByName(column = "city", required = true)
 	private String city;
 
-	@Column(name = "post_code", nullable = false, length = 10)
 	@CsvBindByName(column = "postCode", required = true)
 	private String postCode;
 
-	@Column(name = "country", nullable = false)
 	@CsvBindByName(column = "country", required = true)
 	private String country;
 
