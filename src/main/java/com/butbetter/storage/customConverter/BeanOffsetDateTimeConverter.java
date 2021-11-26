@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
 
 public class BeanOffsetDateTimeConverter<T, I> extends AbstractBeanField<T, I> {
 
-	Logger logger = LoggerFactory.getLogger(BeanOffsetDateTimeConverter.class);
+	private final Logger logger = LoggerFactory.getLogger(BeanOffsetDateTimeConverter.class);
 
 	/**
 	 * converts String to OffsetDateTime, by using the build in OffsetDateTime parser

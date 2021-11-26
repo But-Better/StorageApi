@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  */
 public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 
-	Logger logger = LoggerFactory.getLogger(BeanAddressConverter.class);
+	private final Logger logger = LoggerFactory.getLogger(BeanAddressConverter.class);
 
 	private static final String NAME_IDENTIFIER = "name=";
 	private static final String COMPANY_NAME_IDENTIFIER = "companyName=";
