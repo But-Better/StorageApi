@@ -1,4 +1,4 @@
-package com.butbetter.storage;
+package com.butbetter.storage.CSV;
 
 import com.butbetter.storage.CSV.CSVImporter;
 import com.butbetter.storage.model.Address;
@@ -44,7 +44,7 @@ class CSVImporterTest {
 
 	@Test
 	void generalTheoreticalSerializeTest() throws IOException {
-		List<ProductInformation> beans = importer.getFromCSV(file);
+		List<ProductInformation> beans = importer.getFromCSV(file.toPath());
 		assertEquals(productInformation.get(0), beans.get(0));
 	}
 }
