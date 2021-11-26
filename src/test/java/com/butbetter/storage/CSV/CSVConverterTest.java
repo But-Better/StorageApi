@@ -1,6 +1,5 @@
 package com.butbetter.storage.CSV;
 
-import com.butbetter.storage.CSV.CSVImporter;
 import com.butbetter.storage.model.Address;
 import com.butbetter.storage.model.ProductInformation;
 
@@ -18,12 +17,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CSVImporterTest {
+class CSVConverterTest {
 
 	private static final String BASE_PATH = "src/test/resources";
 	private final File file = new File(BASE_PATH + "/test.csv");
 	private List<ProductInformation> productInformation;
-	private final CSVImporter importer = new CSVImporter();
+	private final CSVConverter importer = new CSVConverter();
 
 	@BeforeEach
 	void setup() throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
