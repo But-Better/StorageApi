@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -19,8 +20,8 @@ public class CSVImporter {
 
 	private final Logger logger = LoggerFactory.getLogger(CSVImporter.class);
 
-	public List<ProductInformation> getFromCSV(File file) throws FileNotFoundException {
-		return new CsvToBeanBuilder<ProductInformation>(new FileReader(file))
+	public List<ProductInformation> getFromCSV(Path file) throws FileNotFoundException {
+		return new CsvToBeanBuilder<ProductInformation>(new FileReader(String.valueOf(file)))
 				.withType(ProductInformation.class).build().parse();
 	}
 

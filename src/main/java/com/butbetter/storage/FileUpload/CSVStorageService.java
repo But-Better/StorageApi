@@ -78,6 +78,14 @@ public class CSVStorageService implements StorageService {
 			throw new StorageException(message, e);
 		}
 		logger.info("stored " + file.getOriginalFilename());
+
+		try {
+			List<ProductInformation> information = converter.getFromCSV(load(file.getOriginalFilename()));
+		} catch (FileNotFoundException e) {
+			String message = "the file wasn't stored correctly, and therefore couldn't be further processed";
+			logger.error(message);
+			throw new StorageException(message, e);
+		}
 	}
 
 	@Override
