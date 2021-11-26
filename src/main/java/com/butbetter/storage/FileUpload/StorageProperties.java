@@ -10,6 +10,12 @@ public class StorageProperties {
 	 */
 	private String location = "csv-dir";
 
+	public StorageProperties() {}
+
+	public StorageProperties(String customLocation) {
+		location = customLocation;
+	}
+
 	public String getLocation() {
 		return location;
 	}
