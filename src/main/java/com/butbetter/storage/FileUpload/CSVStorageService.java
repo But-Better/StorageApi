@@ -23,13 +23,16 @@ import java.util.stream.Stream;
 @Service
 public class CSVStorageService implements StorageService {
 
+	private final CSVImporter converter;
+
 	private final Logger logger = LoggerFactory.getLogger(CSVStorageService.class);
 	private final Path rootLocation;
 
 	@Autowired
-	public CSVStorageService(StorageProperties properties) {
+	public CSVStorageService(StorageProperties properties, CSVImporter converter) {
 		logger.info("Location: \"" + properties.getLocation() + "\" is getting used for the save location");
 		this.rootLocation = Paths.get(properties.getLocation());
+		this.converter = converter;
 	}
 
 	@Override
