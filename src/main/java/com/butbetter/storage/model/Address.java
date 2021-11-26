@@ -1,30 +1,43 @@
 package com.butbetter.storage.model;
 
 import com.opencsv.bean.CsvBindByName;
+import nonapi.io.github.classgraph.json.Id;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Address {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id", insertable = false, updatable = false, nullable = false)
 	private UUID uuid;
 
 	@CsvBindByName(column = "name", required = true)
+	@Column(name = "name", nullable = false)
 	private String name;
 
 	@CsvBindByName(column = "companyName", required = true)
+	@Column(name = "company_name")
 	private String companyName;
 
 	@CsvBindByName(column = "street", required = true)
+	@Column(name = "street", nullable = false, columnDefinition = "TEXT")
 	private String street;
 
 	@CsvBindByName(column = "city", required = true)
+	@Column(name = "city", nullable = false)
 	private String city;
 
 	@CsvBindByName(column = "postCode", required = true)
+	@Column(name = "post_code", nullable = false, length = 10)
 	private String postCode;
 
 	@CsvBindByName(column = "country", required = true)
+	@Column(name = "country", nullable = false)
 	private String country;
 
 	/**

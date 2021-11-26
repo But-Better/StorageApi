@@ -5,21 +5,31 @@ import com.butbetter.storage.customConverter.BeanOffsetDateTimeConverter;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 public class ProductInformation {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id", insertable = false, updatable = false, nullable = false)
 	private UUID uuid;
 
 	@CsvCustomBindByName(converter = BeanOffsetDateTimeConverter.class, column = "deliveryTime", required = true)
+	@Column(name = "delivery_time", nullable = false)
 	private OffsetDateTime deliveryTime;
 
 	@CsvBindByName(column = "amount", required = true)
+	@Column(name = "amount", nullable = false)
 	private int amount;
 
 	@CsvCustomBindByName(converter = BeanAddressConverter.class, column = "address", required = true)
+	@Column(name = "address", nullable = false)
 	private Address address;
 
 	/**
@@ -77,7 +87,7 @@ public class ProductInformation {
 		return amount == that.amount
 				&& Objects.equals(uuid, that.uuid)
 				&& Objects.equals(deliveryTime, that.deliveryTime)
-				&& address.equals(that.address);
+				&& Objects.equals(address, that.address);
 	}
 
 	@Override
