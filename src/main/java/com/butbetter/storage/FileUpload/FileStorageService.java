@@ -1,7 +1,6 @@
 package com.butbetter.storage.FileUpload;
 
-import com.butbetter.storage.CSV.CSVImporter;
-import com.butbetter.storage.model.ProductInformation;
+import com.butbetter.storage.CSV.CSVImportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -19,23 +17,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
-public class CSVStorageService implements StorageService {
+public class FileStorageService implements StorageService {
 
-	private final CSVImporter converter;
+	private final CSVImportService importer;
 
-	private final Logger logger = LoggerFactory.getLogger(CSVStorageService.class);
+	private final Logger logger = LoggerFactory.getLogger(FileStorageService.class);
 	private final Path rootLocation;
 
 	@Autowired
-	public CSVStorageService(StorageProperties properties, CSVImporter converter) {
+	public FileStorageService(StorageProperties properties, CSVImportService importer) {
 		logger.info("Location: \"" + properties.getLocation() + "\" is getting used for the save location");
 		this.rootLocation = Paths.get(properties.getLocation());
-		this.converter = converter;
+		this.importer = importer;
 	}
 
 	@Override
@@ -56,27 +53,10 @@ public class CSVStorageService implements StorageService {
 	public void store(MultipartFile file) throws StorageException {
 		logger.info("storing " + file.getOriginalFilename());
 		try {
-			if (file.isEmpty()) {
-				String message = "Failed to store empty file";
-				logger.error(message);
-				throw new StorageException(message);
-			}
-			Path destinationFile = this.rootLocation.resolve(
-							Paths.get(Objects.requireNonNull(file.getOriginalFilename())))
-					.normalize().toAbsolutePath();
-
-			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
-				// This is a security check
-				String message = "Cannot store file outside current directory";
-				logger.error(message);
-				throw new StorageException(message);
-			}
-
-
-			try (InputStream inputStream = file.getInputStream()) {
-				Files.copy(inputStream, destinationFile,
-						StandardCopyOption.REPLACE_EXISTING);
-			}
+			checkIfFileWasEmpty(file);
+			Path destinationFile = getSaveDestination(file);
+			checkIfDestinationIsOutsideOfRootLocation(destinationFile);
+			putFileTo(file, destinationFile);
 		}
 		catch (IOException e) {
 			String message = "Failed to store file";
@@ -85,12 +65,40 @@ public class CSVStorageService implements StorageService {
 		}
 		logger.info("stored " + file.getOriginalFilename());
 
-		try {
-			List<ProductInformation> information = converter.getFromCSV(load(file.getOriginalFilename()));
-		} catch (FileNotFoundException e) {
-			String message = "the file wasn't stored correctly, and therefore couldn't be further processed";
+		importToDatabase(load(file.getOriginalFilename()));
+	}
+
+	private void importToDatabase(Path load) throws StorageException {
+		importer.fromFile(load);
+	}
+
+	private void checkIfFileWasEmpty(MultipartFile file) throws StorageException {
+		if (file.isEmpty()) {
+			String message = "File was empty, not going to store that";
 			logger.error(message);
-			throw new StorageException(message, e);
+			throw new StorageException(message);
+		}
+	}
+
+	private Path getSaveDestination(MultipartFile file) {
+		return this.rootLocation.resolve(
+						Paths.get(Objects.requireNonNull(file.getOriginalFilename())))
+				.normalize().toAbsolutePath();
+	}
+
+	private void checkIfDestinationIsOutsideOfRootLocation(Path destinationFile) throws StorageException {
+		if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+			// This is a security check
+			String message = "Cannot store file outside current directory";
+			logger.error(message);
+			throw new StorageException(message);
+		}
+	}
+
+	private void putFileTo(MultipartFile file, Path destinationFile) throws IOException {
+		try (InputStream inputStream = file.getInputStream()) {
+			Files.copy(inputStream, destinationFile,
+					StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
 
@@ -117,19 +125,29 @@ public class CSVStorageService implements StorageService {
 		try {
 			Stream<Path> all = Files.walk(this.rootLocation, 1)
 					.filter(path -> !path.equals(this.rootLocation));
-			if(all.findAny().isEmpty()) {
-				String message = "last file can't be found, since no files were uploaded yet";
-				logger.error(message);
-				throw new StorageFileNotFoundException(message);
-			}
+
+			checkIfPathStreamIsEmpty(all);
+
 			logger.info("last loaded");
-			return all.skip(all.count() - 1)
-					.findFirst()
-					.orElse(null);
+			return (Path) getLastFromStream(all);
 		} catch (IOException e) {
 			String message = "Failed to read stored files";
 			logger.error(message);
 			throw new StorageException(message, e);
+		}
+	}
+
+	private Object getLastFromStream(Stream<?> all) {
+		return all.skip(all.count() - 1)
+				.findFirst()
+				.orElse(null);
+	}
+
+	private void checkIfPathStreamIsEmpty(Stream<Path> all) throws StorageFileNotFoundException {
+		if(all.findAny().isEmpty()) {
+			String message = "last file can't be found, since no files were uploaded yet";
+			logger.error(message);
+			throw new StorageFileNotFoundException(message);
 		}
 	}
 
@@ -152,7 +170,6 @@ public class CSVStorageService implements StorageService {
 				String message = "Could not read file: " + filename;
 				logger.error(message);
 				throw new StorageFileNotFoundException(message);
-
 			}
 		}
 		catch (MalformedURLException e) {
@@ -169,4 +186,3 @@ public class CSVStorageService implements StorageService {
 		logger.info("removed all known files");
 	}
 }
-
