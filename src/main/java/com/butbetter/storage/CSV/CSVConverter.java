@@ -4,9 +4,8 @@ import com.butbetter.storage.model.ProductInformation;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.nio.file.Path;
@@ -15,10 +14,10 @@ import java.util.List;
 /**
  * File-Importer for a class
  */
-@Service
-public class CSVImporter {
+@Component
+public class CSVConverter {
 
-	private final Logger logger = LoggerFactory.getLogger(CSVImporter.class);
+	private final Logger logger = LoggerFactory.getLogger(CSVConverter.class);
 
 	public List<ProductInformation> getFromCSV(Path file) throws FileNotFoundException {
 		return new CsvToBeanBuilder<ProductInformation>(new FileReader(String.valueOf(file)))
