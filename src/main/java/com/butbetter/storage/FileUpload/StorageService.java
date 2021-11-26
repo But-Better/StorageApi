@@ -27,6 +27,12 @@ public interface StorageService {
 	Stream<Path> loadAll() throws StorageException;
 
 	/**
+	 * get last uploaded file
+	 * @return path to last uploaded file
+	 */
+	Path loadLast() throws StorageFileNotFoundException, StorageException;
+
+	/**
 	 * get specific path of file by name
 	 * @param filename filename of requested file
 	 * @return Path to file
@@ -44,5 +50,4 @@ public interface StorageService {
 	 * delete all files
 	 */
 	void deleteAll();
-
 }

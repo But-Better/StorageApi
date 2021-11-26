@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -90,6 +91,28 @@ public class CSVStorageService implements StorageService {
 			return paths;
 		}
 		catch (IOException e) {
+			String message = "Failed to read stored files";
+			logger.error(message);
+			throw new StorageException(message, e);
+		}
+	}
+
+	@Override
+	public Path loadLast() throws StorageFileNotFoundException, StorageException {
+		logger.info("loading last");
+		try {
+			Stream<Path> all = Files.walk(this.rootLocation, 1)
+					.filter(path -> !path.equals(this.rootLocation));
+			if(all.findAny().isEmpty()) {
+				String message = "last file can't be found, since no files were uploaded yet";
+				logger.error(message);
+				throw new StorageFileNotFoundException(message);
+			}
+			logger.info("last loaded");
+			return all.skip(all.count() - 1)
+					.findFirst()
+					.orElse(null);
+		} catch (IOException e) {
 			String message = "Failed to read stored files";
 			logger.error(message);
 			throw new StorageException(message, e);
