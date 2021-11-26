@@ -35,15 +35,6 @@ public class CSVFileUploadController {
 		return new ResponseEntity<>(storageService.loadAll().collect(Collectors.toList()), HttpStatus.OK);
 	}
 
-	@GetMapping("/files/{filename:.+}")
-	@ResponseBody
-	public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws StorageFileNotFoundException {
-
-		Resource file = storageService.loadAsResource(filename);
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
-	}
-
 	@PostMapping("/")
 	public String handleFileUpload(@RequestParam("file") MultipartFile file,
 	                               RedirectAttributes redirectAttributes) throws StorageException {
