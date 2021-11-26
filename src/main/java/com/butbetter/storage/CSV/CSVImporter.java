@@ -1,4 +1,4 @@
-package com.butbetter.storage;
+package com.butbetter.storage.CSV;
 
 import com.butbetter.storage.model.ProductInformation;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class CSVImporter {
 
-	private static final Logger logger = LoggerFactory.getLogger(CSVImporter.class);
+	private final Logger logger = LoggerFactory.getLogger(CSVImporter.class);
 
 	public List<ProductInformation> getFromCSV(File file) throws FileNotFoundException {
 		return new CsvToBeanBuilder<ProductInformation>(new FileReader(file))
