@@ -3,9 +3,6 @@ package com.butbetter.storage.FileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,19 +10,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("storage/v1/")
-public class CSVFileUploadController {
+public class FileUploadController {
 
-	private final Logger logger = LoggerFactory.getLogger(CSVFileUploadController.class);
+	private final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
 	private final StorageService storageService;
 
 	@Autowired
-	public CSVFileUploadController(StorageService storageService) {
+	public FileUploadController(StorageService storageService) {
 		this.storageService = storageService;
 	}
 
