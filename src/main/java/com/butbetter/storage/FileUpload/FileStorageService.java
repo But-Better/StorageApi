@@ -1,6 +1,9 @@
 package com.butbetter.storage.FileUpload;
 
 import com.butbetter.storage.CSV.CSVImportService;
+import com.butbetter.storage.FileUpload.Exceptions.StorageException;
+import com.butbetter.storage.FileUpload.Exceptions.StorageFileNotFoundException;
+import com.butbetter.storage.FileUpload.Properties.StorageProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -54,11 +58,15 @@ public class FileStorageService implements StorageService {
 		logger.info("storing " + file.getOriginalFilename());
 		try {
 			checkIfFileWasEmpty(file);
+
 			Path destinationFile = getSaveDestination(file);
+
 			checkIfDestinationIsOutsideOfRootLocation(destinationFile);
+
+			createDestinationFileIfNotExisting(destinationFile);
+
 			putFileTo(file, destinationFile);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			String message = "Failed to store file";
 			logger.error(message);
 			throw new StorageException(message, e);
@@ -66,6 +74,21 @@ public class FileStorageService implements StorageService {
 		logger.info("stored " + file.getOriginalFilename());
 
 		importToDatabase(load(file.getOriginalFilename()));
+	}
+
+	private void createDestinationFileIfNotExisting(Path destinationFile) throws IOException {
+		File handle = destinationFile.toFile();
+		try {
+			if (!handle.exists() && !handle.createNewFile()) {
+				String message = "non-existent file " + handle.getName() + " couldn't be created in " + destinationFile.getParent();
+				logger.error(message);
+				throw new StorageException(message);
+			}
+		} catch (IOException e) {
+			String message = "non-existent file " + handle.getName() + " couldn't be created in " + destinationFile.getParent();
+			logger.error(message);
+			throw new StorageException(message);
+		}
 	}
 
 	private void importToDatabase(Path load) throws StorageException {
@@ -95,10 +118,14 @@ public class FileStorageService implements StorageService {
 		}
 	}
 
-	private void putFileTo(MultipartFile file, Path destinationFile) throws IOException {
+	private void putFileTo(MultipartFile file, Path destinationFile) throws StorageException {
 		try (InputStream inputStream = file.getInputStream()) {
 			Files.copy(inputStream, destinationFile,
 					StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			String message = "wasn't able to store the contents of " + file.getOriginalFilename() + " in " + destinationFile;
+			logger.error(message);
+			throw new StorageException(message, e);
 		}
 	}
 
@@ -111,8 +138,7 @@ public class FileStorageService implements StorageService {
 					.map(this.rootLocation::relativize);
 			logger.info("loaded all");
 			return paths;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			String message = "Failed to read stored files";
 			logger.error(message);
 			throw new StorageException(message, e);
@@ -165,8 +191,7 @@ public class FileStorageService implements StorageService {
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
-			}
-			else {
+			} else {
 				String message = "Could not read file: " + filename;
 				logger.error(message);
 				throw new StorageFileNotFoundException(message);
