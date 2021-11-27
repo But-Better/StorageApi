@@ -27,6 +27,7 @@ class FileStorageServiceTest {
 
 	private StorageProperties property;
 	private CSVImportService importer;
+	private Path properties_path;
 
 	private MultipartFile file;
 	private File fileHandle;
@@ -52,10 +53,17 @@ class FileStorageServiceTest {
 
 		service = new FileStorageService(property, importer);
 		service.init();
+
+		properties_path = Paths.get(property.getLocation());
 	}
 
 	@AfterEach
-	void tearDown() {
+	void tearDown() throws IOException {
+		// clean csvs test directory
+		if (Files.list(properties_path).findAny().isPresent()) {
+			Files.list(properties_path).forEach(f -> f.toFile().delete());
+		}
+
 		file = null;
 		service = null;
 	}
@@ -63,8 +71,7 @@ class FileStorageServiceTest {
 	@Test
 	void newFileIsStored() throws IOException {
 		service.store(file);
-		Path path = Paths.get(property.getLocation());
-		assert Files.list(path).findAny().isPresent();
+		assert Files.list(properties_path).findAny().isPresent();
 	}
 
 	@Test
