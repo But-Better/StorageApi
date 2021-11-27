@@ -1,6 +1,6 @@
 package com.butbetter.storage.CSV;
 
-import com.butbetter.storage.FileUpload.StorageException;
+import com.butbetter.storage.FileUpload.Exceptions.StorageException;
 import com.butbetter.storage.ProductRepository;
 import com.butbetter.storage.model.ProductInformation;
 import org.slf4j.Logger;
