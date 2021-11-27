@@ -1,4 +1,4 @@
-package com.butbetter.storage.FileUpload;
+package com.butbetter.storage.FileUpload.Properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
