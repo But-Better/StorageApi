@@ -91,4 +91,35 @@ class FileStorageServiceTest {
 		File newFileHandle = new File(property.getLocation() + "/" + file.getOriginalFilename());
 		assertEquals(readEntireFile(fileHandle), readEntireFile(newFileHandle));
 	}
+
+	@Test
+	void loadAllGeneralTest() throws FaultyCSVException, StorageException {
+		service.store(file);
+		Stream<Path> loadedFiles = service.loadAll();
+		assertEquals(file.getOriginalFilename(), loadedFiles.findFirst().get().toString());
+	}
+
+	@Test
+	void simpleLoadLastTest() throws FaultyCSVException, StorageException, StorageFileNotFoundException {
+		service.store(file);
+		Path loadedFile = service.loadLast();
+		assertEquals(file.getOriginalFilename(), loadedFile.toString());
+	}
+
+	@Test
+	void simpleLoadTest() throws FaultyCSVException, StorageException {
+		service.store(file);
+		assertEquals(file.getOriginalFilename(), service.load(file.getOriginalFilename()).toString());
+	}
+
+	@Test
+	void simpleLoadAsResourceTest() {
+		// TODO
+	}
+
+	@Test
+	void singleDeleteAllTest() {
+		// TODO
+	}
+
 }
