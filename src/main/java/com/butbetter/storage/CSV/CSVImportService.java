@@ -1,5 +1,6 @@
 package com.butbetter.storage.CSV;
 
+import com.butbetter.storage.CSV.Exceptions.FaultyCSVException;
 import com.butbetter.storage.FileUpload.Exceptions.StorageException;
 import com.butbetter.storage.ProductRepository;
 import com.butbetter.storage.model.ProductInformation;
@@ -12,6 +13,9 @@ import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.List;
 
+/**
+ * File to CSV-Objects Converter Service
+ */
 @Service
 public class CSVImportService {
 
@@ -20,6 +24,12 @@ public class CSVImportService {
 
 	private Logger logger = LoggerFactory.getLogger(CSVImportService.class);
 
+	/**
+	 * Autowired CSVImportService Constructor
+	 *
+	 * @param converter Converter
+	 * @param repo      repo to save objects to
+	 */
 	@Autowired
 	public CSVImportService(CSVConverter converter, ProductRepository repo) {
 		this.converter = converter;
@@ -44,6 +54,12 @@ public class CSVImportService {
 		repo.saveAll(info);
 	}
 
+	/**
+	 * pulling information out of the file at given path
+	 * @param path path to csv file
+	 * @return List of converted ProductInformation
+	 * @throws StorageException thrown, if file can't be processed or File was not properly stored beforehand
+	 */
 	private List<ProductInformation> getInformationOutOfFile(Path path) throws StorageException {
 		try {
 			return converter.getFromCSV(path);
