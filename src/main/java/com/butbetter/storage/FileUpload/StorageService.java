@@ -1,5 +1,6 @@
 package com.butbetter.storage.FileUpload;
 
+import com.butbetter.storage.CSV.Exceptions.FaultyCSVException;
 import com.butbetter.storage.FileUpload.Exceptions.StorageException;
 import com.butbetter.storage.FileUpload.Exceptions.StorageFileNotFoundException;
 import org.springframework.core.io.Resource;
@@ -19,7 +20,7 @@ public interface StorageService {
 	 * store file
 	 * @param file file to store
 	 */
-	void store(MultipartFile file) throws StorageException;
+	void store(MultipartFile file) throws StorageException, FaultyCSVException;
 
 	/**
 	 * get all available file-paths

@@ -1,6 +1,7 @@
 package com.butbetter.storage.FileUpload;
 
 import com.butbetter.storage.CSV.CSVImportService;
+import com.butbetter.storage.CSV.Exceptions.FaultyCSVException;
 import com.butbetter.storage.FileUpload.Exceptions.StorageException;
 import com.butbetter.storage.FileUpload.Properties.StorageProperties;
 import org.junit.jupiter.api.AfterEach;
@@ -69,13 +70,13 @@ class FileStorageServiceTest {
 	}
 
 	@Test
-	void newFileIsStored() throws IOException {
+	void newFileIsStored() throws IOException, FaultyCSVException {
 		service.store(file);
 		assert Files.list(properties_path).findAny().isPresent();
 	}
 
 	@Test
-	void fileNameAreTheSame() throws StorageException {
+	void fileNameAreTheSame() throws StorageException,FaultyCSVException {
 		when(file.getOriginalFilename()).thenReturn("this_is_a_file");
 		service.store(file);
 		File newFileHandle = new File(property.getLocation() + "/" + file.getOriginalFilename());
@@ -83,7 +84,7 @@ class FileStorageServiceTest {
 	}
 
 	@Test
-	void contentsOfFileAreSame() throws IOException {
+	void contentsOfFileAreSame() throws IOException, FaultyCSVException {
 		service.store(file);
 		File newFileHandle = new File(property.getLocation() + "/" + file.getOriginalFilename());
 		assertEquals(readEntireFile(fileHandle), readEntireFile(newFileHandle));

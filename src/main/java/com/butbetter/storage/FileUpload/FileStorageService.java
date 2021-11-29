@@ -1,6 +1,7 @@
 package com.butbetter.storage.FileUpload;
 
 import com.butbetter.storage.CSV.CSVImportService;
+import com.butbetter.storage.CSV.Exceptions.FaultyCSVException;
 import com.butbetter.storage.FileUpload.Exceptions.StorageException;
 import com.butbetter.storage.FileUpload.Exceptions.StorageFileNotFoundException;
 import com.butbetter.storage.FileUpload.Properties.StorageProperties;
@@ -54,7 +55,7 @@ public class FileStorageService implements StorageService {
 	}
 
 	@Override
-	public void store(MultipartFile file) throws StorageException {
+	public void store(MultipartFile file) throws StorageException, FaultyCSVException {
 		logger.info("storing " + file.getOriginalFilename());
 		try {
 			checkIfFileWasEmpty(file);
@@ -91,7 +92,7 @@ public class FileStorageService implements StorageService {
 		}
 	}
 
-	private void importToDatabase(Path load) throws StorageException {
+	private void importToDatabase(Path load) throws StorageException, FaultyCSVException {
 		importer.fromFile(load);
 	}
 

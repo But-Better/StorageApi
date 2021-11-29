@@ -26,9 +26,22 @@ public class CSVImportService {
 		this.repo = repo;
 	}
 
-	public void fromFile(Path path) throws StorageException {
+	/**
+	 * Converting and then Saving all objects from the given File at Path
+	 *
+	 * @param path Path to the File with CSV Information
+	 *
+	 * @throws StorageException thrown, if the File couldn't be properly stored/processed before
+	 * @throws FaultyCSVException thrown, if no convertable CSV Elements were found in the File
+	 */
+	public void fromFile(Path path) throws StorageException, FaultyCSVException {
 		List<ProductInformation> info = getInformationOutOfFile(path);
-		//TODO: repo.saveAll(info.iterator());
+		if (info.isEmpty()) {
+			String message = "no elements where found in csv file at: " + path.toString();
+			logger.error(message);
+			throw new FaultyCSVException(message);
+		}
+		repo.saveAll(info);
 	}
 
 	private List<ProductInformation> getInformationOutOfFile(Path path) throws StorageException {
