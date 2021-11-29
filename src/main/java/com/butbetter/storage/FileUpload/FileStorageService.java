@@ -169,12 +169,6 @@ public class FileStorageService implements StorageService {
 		}
 	}
 
-	private Object getLastFromStream(Stream<?> all) {
-		return all.skip(all.count() - 1)
-				.findFirst()
-				.orElse(null);
-	}
-
 	private void checkIfPathStreamIsEmpty(Stream<Path> all) throws StorageFileNotFoundException {
 		if(all.findAny().isEmpty()) {
 			String message = "last file can't be found, since no files were uploaded yet";
