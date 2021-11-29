@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * File-Importer for a class
+ * CSV-File-to-Objects-Converter
  */
 @Component
 public class CSVConverter {
