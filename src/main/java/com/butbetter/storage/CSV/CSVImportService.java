@@ -22,7 +22,7 @@ public class CSVImportService {
 	private final CSVConverter converter;
 	private final ProductRepository repo;
 
-	private Logger logger = LoggerFactory.getLogger(CSVImportService.class);
+	private final Logger logger = LoggerFactory.getLogger(CSVImportService.class);
 
 	/**
 	 * Autowired CSVImportService Constructor
