@@ -50,22 +50,22 @@ public class FileUploadController {
 
 	/**
 	 * Controller Exception Handler for StorageFileNotFoundException
-	 * @param ex StorageFileNotFoundException
+	 * @param e StorageFileNotFoundException
 	 * @return Build Response-Entity
 	 */
 	@ExceptionHandler(StorageFileNotFoundException.class)
-	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException ex) {
+	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException e) {
 		return ResponseEntity.notFound().build();
 	}
 
 	/**
 	 * Controller Exception Handler for IOException
-	 * @param ex IOException
+	 * @param e IOException
 	 * @return Build Response-Entity
 	 */
 	@ExceptionHandler(IOException.class)
-	public ResponseEntity<?> handleIOException(IOException ex) {
-		return ResponseEntity.badRequest().build();
+	public ResponseEntity<?> handleIOException(IOException e) {
+		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
 	/**
