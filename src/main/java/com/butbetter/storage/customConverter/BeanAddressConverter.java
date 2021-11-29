@@ -73,7 +73,7 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 	 * @see AbstractBeanField
 	 */
 	@Override
-	protected Object convert(String value) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
+	public final Object convert(String value) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
 		// Pattern check, if the String contains the needed value and is in the right format
 		if (!check_pattern.matcher(value).find()) {
 			CsvDataTypeMismatchException ex = new CsvDataTypeMismatchException();

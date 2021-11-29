@@ -23,7 +23,7 @@ public class BeanOffsetDateTimeConverter<T, I> extends AbstractBeanField<T, I> {
 	 * @see AbstractBeanField
 	 */
 	@Override
-	protected Object convert(String value) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
+	public final Object convert(String value) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
 		try {
 			return OffsetDateTime.parse(value);
 		} catch (DateTimeParseException ex) {
