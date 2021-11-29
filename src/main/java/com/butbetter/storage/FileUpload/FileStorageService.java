@@ -150,13 +150,16 @@ public class FileStorageService implements StorageService {
 	public Path loadLast() throws StorageFileNotFoundException, StorageException {
 		logger.info("loading last");
 		try {
-			Stream<Path> all = Files.walk(this.rootLocation, 1)
-					.filter(path -> !path.equals(this.rootLocation));
+			List<Path> all = Files.walk(this.rootLocation, 1)
+					.filter(path -> !path.equals(this.rootLocation))
+					.map(this.rootLocation::relativize)
+					.collect(Collectors.toList());
 
-			checkIfPathStreamIsEmpty(all);
+			checkIfPathStreamIsEmpty(all.stream());
 
+			Path last = all.get(all.size() - 1);
 			logger.info("last loaded");
-			return (Path) getLastFromStream(all);
+			return last;
 		} catch (IOException e) {
 			String message = "Failed to read stored files";
 			logger.error(message);
