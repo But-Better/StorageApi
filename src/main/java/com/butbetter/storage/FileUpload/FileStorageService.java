@@ -216,4 +216,8 @@ public class FileStorageService implements StorageService {
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());
 		logger.info("removed all known files");
 	}
+
+	private boolean fileExists(String filename) {
+		return rootLocation.resolve(filename).toFile().exists();
+	}
 }
