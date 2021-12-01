@@ -6,11 +6,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
+@Table(name = "product_information")
 public class ProductInformation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id", insertable = false, updatable = false, nullable = false)
+    @Column(name = "id", insertable = false, updatable = false, nullable = false)
     private UUID uuid;
 
     @Column(name = "delivery_time", nullable = false)
@@ -19,8 +20,8 @@ public class ProductInformation {
     @Column(name = "amount", nullable = false)
     private int amount;
 
-    @ManyToOne
-    @Column(name = "address", nullable = false)
+    @JoinColumn(name = "address", nullable = false)
+    @ManyToOne(targetEntity = Address.class)
     private Address address;
 
     /**
