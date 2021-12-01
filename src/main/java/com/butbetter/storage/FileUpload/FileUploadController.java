@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("storage/v1/")
+@RequestMapping("csv_import/v1/")
 public class FileUploadController {
 
 	private final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
