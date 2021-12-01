@@ -37,7 +37,7 @@ public class StorageService {
 
     private void ValidateANewProductInformation(ProductInformation productInformation) throws NullPointerException {
         if (productInformation.getAddress() == null
-                || productInformation.getAmount() > -1
+                || productInformation.getAmount() >= 0
                 || productInformation.getDeliveryTime() == null
         ) {
             throw new NullPointerException();
