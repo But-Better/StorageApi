@@ -1,4 +1,4 @@
-package com.butbetter.storage;
+package com.butbetter.storage.service;
 
 import com.butbetter.storage.controller.ProductInformationNotFoundException;
 import com.butbetter.storage.model.ProductInformation;

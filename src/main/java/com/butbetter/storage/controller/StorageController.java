@@ -1,6 +1,6 @@
 package com.butbetter.storage.controller;
 
-import com.butbetter.storage.StorageService;
+import com.butbetter.storage.service.StorageService;
 import com.butbetter.storage.model.ProductInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
