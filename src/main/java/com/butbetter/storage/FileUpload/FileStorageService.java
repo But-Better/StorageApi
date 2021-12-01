@@ -76,7 +76,14 @@ public class FileStorageService implements StorageService {
 		}
 		logger.info("stored " + file.getOriginalFilename());
 
-		importToDatabase(load(file.getOriginalFilename()));
+		try {
+			importToDatabase(load(file.getOriginalFilename()));
+		} catch (StorageFileNotFoundException e) {
+			String message = "file " + file.getOriginalFilename() + " seemed correctly stored, but in the end wasn't, " +
+					"if this message comes up, something terrible must have happened";
+			logger.error(message);
+			throw new StorageException(message, e);
+		}
 	}
 
 	private void createDestinationFileIfNotExisting(Path destinationFile) throws IOException {
@@ -178,18 +185,26 @@ public class FileStorageService implements StorageService {
 	}
 
 	@Override
-	public Path load(String filename) {
-		logger.info("loading " + filename);
-		return rootLocation.resolve(filename);
+	public Path load(String filename) throws StorageFileNotFoundException {
+		logger.info("loading path of: " + filename);
+		if (!fileExists(filename)) {
+			String message = "file with filename: " + filename + " wasn't found";
+			logger.error(message);
+			throw new StorageFileNotFoundException(message);
+		}
+		Path filePath = rootLocation.resolve(filename);
+		logger.info("loaded path of: " + filename);
+		return filePath;
 	}
 
 	@Override
 	public Resource loadAsResource(String filename) throws StorageFileNotFoundException {
-		logger.info("loading " + filename);
+		logger.info("loading " + filename + " as resource");
 		try {
 			Path file = load(filename);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
+				logger.info(filename + " loaded as resource");
 				return resource;
 			} else {
 				String message = "Could not read file: " + filename;

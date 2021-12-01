@@ -5,14 +5,12 @@ import com.butbetter.storage.customConverter.BeanOffsetDateTimeConverter;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
 public class ProductInformation {
 
 	@Id
@@ -29,7 +27,8 @@ public class ProductInformation {
 	private int amount;
 
 	@CsvCustomBindByName(converter = BeanAddressConverter.class, column = "address", required = true)
-	@Column(name = "address", nullable = false)
+	@JoinColumn(name = "address_id", nullable = false)
+	@ManyToOne(fetch=FetchType.LAZY)
 	private Address address;
 
 	/**

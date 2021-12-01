@@ -5,9 +5,12 @@ import com.butbetter.storage.CSV.Exceptions.FaultyCSVException;
 import com.butbetter.storage.FileUpload.Exceptions.StorageException;
 import com.butbetter.storage.FileUpload.Exceptions.StorageFileNotFoundException;
 import com.butbetter.storage.FileUpload.Properties.StorageProperties;
+import org.apache.catalina.webresources.FileResource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.io.UrlResource;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -29,7 +32,6 @@ class FileStorageServiceTest {
 	private static final String BASE_PATH = "src/test/resources/";
 
 	private StorageProperties property;
-	private CSVImportService importer;
 	private Path properties_path;
 
 	private MultipartFile file;
@@ -41,7 +43,7 @@ class FileStorageServiceTest {
 
 	@BeforeEach
 	void setUp() throws IOException {
-		importer = mock(CSVImportService.class);
+		CSVImportService importer = mock(CSVImportService.class);
 		property = new StorageProperties(BASE_PATH + "csvs");
 
 		fileHandle = new File(BASE_PATH + fileName);
@@ -53,6 +55,7 @@ class FileStorageServiceTest {
 		file = mock(MultipartFile.class);
 		when(file.getOriginalFilename()).thenReturn(fileName);
 		when(file.getInputStream()).thenReturn(new FileInputStream(fileHandle));
+		when(file.getResource()).thenReturn(new UrlResource(fileHandle.toURI()));
 
 		service = new FileStorageService(property, importer);
 		service.init();
@@ -64,7 +67,7 @@ class FileStorageServiceTest {
 	void tearDown() throws IOException {
 		// clean csvs test directory
 		if (Files.list(properties_path).findAny().isPresent()) {
-			Files.list(properties_path).forEach(f -> f.toFile().delete());
+			FileSystemUtils.deleteRecursively(properties_path);
 		}
 
 		file = null;
@@ -78,7 +81,7 @@ class FileStorageServiceTest {
 	}
 
 	@Test
-	void fileNameAreTheSame() throws StorageException,FaultyCSVException {
+	void fileNameAreTheSame() throws StorageException, FaultyCSVException {
 		when(file.getOriginalFilename()).thenReturn("this_is_a_file");
 		service.store(file);
 		File newFileHandle = new File(property.getLocation() + "/" + file.getOriginalFilename());
@@ -107,19 +110,23 @@ class FileStorageServiceTest {
 	}
 
 	@Test
-	void simpleLoadTest() throws FaultyCSVException, StorageException {
+	void simpleLoadTest() throws FaultyCSVException, StorageException, StorageFileNotFoundException {
 		service.store(file);
 		assertEquals(file.getOriginalFilename(), service.load(file.getOriginalFilename()).toString());
 	}
 
 	@Test
-	void simpleLoadAsResourceTest() {
+	void simpleLoadAsResourceTest() throws FaultyCSVException, IOException, StorageFileNotFoundException {
+		service.store(file);
 		// TODO
+		// assertEquals(, service.loadAsResource(fileName));
 	}
 
 	@Test
-	void singleDeleteAllTest() {
-		// TODO
+	void singleDeleteAllTest() throws FaultyCSVException, StorageException {
+		service.store(file);
+		service.deleteAll();
+
 	}
 
 }

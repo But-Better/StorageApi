@@ -23,7 +23,7 @@ public interface StorageService {
 	 * @throws StorageException thrown, if file couldn't be stored
 	 * @throws FaultyCSVException thrown, if file couldn't be correctly processed
 	 */
-	void store(MultipartFile file) throws StorageException, FaultyCSVException;
+	void store(MultipartFile file) throws StorageException, FaultyCSVException, StorageFileNotFoundException;
 
 	/**
 	 * get all available file-paths

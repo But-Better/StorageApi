@@ -1,20 +1,18 @@
 package com.butbetter.storage.model;
 
 import com.opencsv.bean.CsvBindByName;
-import nonapi.io.github.classgraph.json.Id;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
 public class Address {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id", insertable = false, updatable = false, nullable = false)
-	private UUID uuid;
+	private UUID id;
 
 	@CsvBindByName(column = "name", required = true)
 	@Column(name = "name", nullable = false)
@@ -43,7 +41,7 @@ public class Address {
 	/**
 	 * Model of Product
 	 *
-	 * @param uuid        = identifier
+	 * @param id        = identifier
 	 * @param name        = your name
 	 * @param companyName = your company name
 	 * @param street      = your street
@@ -51,8 +49,8 @@ public class Address {
 	 * @param postCode    = your postcode
 	 * @param country     = your country
 	 */
-	public Address(UUID uuid, String name, String companyName, String street, String city, String postCode, String country) {
-		this.uuid = uuid;
+	public Address(UUID id, String name, String companyName, String street, String city, String postCode, String country) {
+		this.id = id;
 		this.name = name;
 		this.companyName = companyName;
 		this.street = street;
@@ -74,12 +72,12 @@ public class Address {
 
 	}
 
-	public UUID getUuid() {
-		return uuid;
+	public UUID getId() {
+		return id;
 	}
 
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
+	public void setId(UUID id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -135,7 +133,7 @@ public class Address {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Address address = (Address) o;
-		return Objects.equals(uuid, address.uuid)
+		return Objects.equals(id, address.id)
 				&& Objects.equals(name, address.name)
 				&& Objects.equals(companyName, address.companyName)
 				&& Objects.equals(street, address.street)
@@ -146,13 +144,13 @@ public class Address {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(uuid, name, companyName, street, city, postCode, country);
+		return Objects.hash(id, name, companyName, street, city, postCode, country);
 	}
 
 	@Override
 	public String toString() {
 		return "Address{" +
-				"uuid=" + uuid +
+				"uuid=" + id +
 				", name='" + name + '\'' +
 				", companyName='" + companyName + '\'' +
 				", street='" + street + '\'' +
