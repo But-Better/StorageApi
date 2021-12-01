@@ -43,13 +43,13 @@ public class StorageController {
     }
 
     @ExceptionHandler(ProductInformationNotFoundException.class)
-    public ResponseEntity<?> productInformationNotFoundException(ProductInformationNotFoundException e) {
+    private ResponseEntity<?> productInformationNotFoundException(ProductInformationNotFoundException e) {
         logger.error(e.getMessage());
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<?> productInformationHasOneNullPointer(NullPointerException e) {
+    private ResponseEntity<?> productInformationHasOneNullPointer(NullPointerException e) {
         logger.error(e.getMessage());
         return ResponseEntity.badRequest().build();
     }
