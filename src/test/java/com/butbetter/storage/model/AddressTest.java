@@ -1,10 +1,9 @@
 package com.butbetter.storage.model;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Null;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AddressTest {
 
@@ -13,7 +12,7 @@ class AddressTest {
     @Test
     void testNullHashCodeGeneration() {
         testAddress = new Address("a", "a", "a", "a", "a", null);
-        assertThrows(Exception.class, () -> {
+        assertDoesNotThrow(() -> {
             testAddress.hashCode();
         });
     }
