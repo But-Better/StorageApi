@@ -33,7 +33,6 @@ public class ProductInformationTests {
 
     @Test
     void createProductInformation() {
-
         Date date = new Date();
         int hour = 3;
         int minute = 30;
