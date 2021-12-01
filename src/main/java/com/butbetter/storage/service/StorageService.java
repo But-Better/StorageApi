@@ -35,12 +35,13 @@ public class StorageService {
         this.productRepository.save(productInformation);
     }
 
-    private void ValidateANewProductInformation(ProductInformation productInformation) throws NullPointerException {
-        if (productInformation.getAddress() == null
-                || productInformation.getAmount() >= 0
-                || productInformation.getDeliveryTime() == null
-        ) {
-            throw new NullPointerException();
+    private void ValidateANewProductInformation(ProductInformation productInformation) throws NullPointerException, IllegalArgumentException {
+        if (productInformation.getAddress() == null || productInformation.getDeliveryTime() == null) {
+            throw new NullPointerException("Address or DeliveryTime is null");
+        }
+
+        if (productInformation.getAmount() <= 0) {
+            throw new IllegalArgumentException("Number is negative");
         }
     }
 }
