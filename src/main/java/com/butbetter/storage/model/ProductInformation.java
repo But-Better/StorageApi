@@ -1,6 +1,7 @@
 package com.butbetter.storage.model;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -15,7 +16,7 @@ public class ProductInformation {
     private UUID uuid;
 
     @Column(name = "delivery_time", nullable = false)
-    private Date deliveryTime;
+    private OffsetDateTime date;
 
     @Column(name = "amount", nullable = false)
     private int amount;
@@ -27,12 +28,12 @@ public class ProductInformation {
     /**
      * Model of ProductInformation
      *
-     * @param deliveryTime = sent time of product
-     * @param amount       = amount of product
-     * @param address      = address of product location
+     * @param date    = sent time of product
+     * @param amount  = amount of product
+     * @param address = address of product location
      */
-    public ProductInformation(Date deliveryTime, int amount, Address address) {
-        this.deliveryTime = deliveryTime;
+    public ProductInformation(OffsetDateTime date, int amount, Address address) {
+        this.date = date;
         this.amount = amount;
         this.address = address;
     }
@@ -45,8 +46,8 @@ public class ProductInformation {
         return uuid;
     }
 
-    public Date getDeliveryTime() {
-        return deliveryTime;
+    public OffsetDateTime getDeliveryTime() {
+        return date;
     }
 
     public int getAmount() {
@@ -61,8 +62,8 @@ public class ProductInformation {
         this.uuid = uuid;
     }
 
-    public void setDeliveryTime(Date deliveryTime) {
-        this.deliveryTime = deliveryTime;
+    public void setDeliveryTime(OffsetDateTime date) {
+        this.date = date;
     }
 
     public void setAmount(int amount) {
@@ -80,20 +81,20 @@ public class ProductInformation {
         ProductInformation that = (ProductInformation) o;
         return amount == that.amount
                 && Objects.equals(uuid, that.uuid)
-                && Objects.equals(deliveryTime, that.deliveryTime)
+                && Objects.equals(date, that.date)
                 && Objects.equals(address, that.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, deliveryTime, amount, address);
+        return Objects.hash(uuid, date, amount, address);
     }
 
     @Override
     public String toString() {
         return "ProductInformation{" +
                 "uuid=" + uuid +
-                ", deliveryTime=" + deliveryTime +
+                ", deliveryTime=" + date +
                 ", amount=" + amount +
                 ", address=" + address +
                 '}';
