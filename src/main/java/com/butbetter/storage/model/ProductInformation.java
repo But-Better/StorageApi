@@ -1,8 +1,9 @@
 package com.butbetter.storage.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.time.OffsetDateTime;
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -19,6 +20,8 @@ public class ProductInformation {
     private OffsetDateTime date;
 
     @Column(name = "amount", nullable = false)
+    @Min(0)
+    @Max(999999)
     private int amount;
 
     @JoinColumn(name = "address", nullable = false)
