@@ -220,9 +220,23 @@ public class FileStorageService implements StorageService {
 	}
 
 	@Override
-	public void deleteAll() {
+	public void deleteAll() throws StorageException {
 		logger.info("removing all known files");
-		FileSystemUtils.deleteRecursively(rootLocation.toFile());
+		try {
+			Files.list(rootLocation).forEach(filePath -> {
+				try {
+					FileSystemUtils.deleteRecursively(filePath);
+				} catch (IOException e) {
+					logger.error("problems occurred while removing: " + filePath + " , probably not removed yet", e);
+					e.printStackTrace();
+				}
+			});
+		} catch (IOException e) {
+			String message = "couldn't remove all files, either because " +
+					"of permission problems or the path doesn't exist anymore";
+			logger.error(message, e);
+			throw new StorageException(message, e);
+		}
 		logger.info("removed all known files");
 	}
 
