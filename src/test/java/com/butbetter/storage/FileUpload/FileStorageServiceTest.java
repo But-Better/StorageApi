@@ -126,7 +126,7 @@ class FileStorageServiceTest {
 	void singleDeleteAllTest() throws FaultyCSVException, StorageException {
 		service.store(file);
 		service.deleteAll();
-
+		assert service.loadAll().findAny().isEmpty();
 	}
 
 }
