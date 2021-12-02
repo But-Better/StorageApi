@@ -52,12 +52,11 @@ public class FileUploadControllerTest {
         then(this.storageService).should().store(multipartFile);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void should404WhenMissingFile() throws Exception, StorageFileNotFoundException {
         given(this.storageService.loadAsResource("test.txt")).willThrow(StorageFileNotFoundException.class);
 
-        this.mvc.perform(get("/files/test.txt")).andExpect(status().isNotFound());
+        this.mvc.perform(get("/csv/v1/test.txt")).andExpect(status().isNotFound());
     }
 
 }
