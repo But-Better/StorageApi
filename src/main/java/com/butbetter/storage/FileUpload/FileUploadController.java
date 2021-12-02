@@ -15,9 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("csv_import/v1/")
+@RequestMapping("csv/v1")
 public class FileUploadController {
 
 	private final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
