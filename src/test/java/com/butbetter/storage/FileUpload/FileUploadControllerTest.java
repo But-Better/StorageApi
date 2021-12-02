@@ -45,7 +45,7 @@ public class FileUploadControllerTest {
     public void shouldSaveUploadedFile() throws Exception, StorageFileNotFoundException {
         MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
                 "text/plain", "Spring Framework".getBytes());
-        this.mvc.perform(multipart("/").file(multipartFile))
+        this.mvc.perform(multipart("/csv/v1/").file(multipartFile))
                 .andExpect(status().isFound())
                 .andExpect(header().string("Location", "/"));
 
