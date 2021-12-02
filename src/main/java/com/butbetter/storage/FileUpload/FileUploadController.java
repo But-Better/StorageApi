@@ -50,6 +50,13 @@ public class FileUploadController {
 		return "redirect:/";
 	}
 
+	@GetMapping("/")
+	public ResponseEntity<List<Path>> listAllFiles() throws StorageException {
+		logger.info("request for listing all available files");
+		List<Path> availableList = storageService.loadAll().collect(Collectors.toList());
+		return ResponseEntity.ok().body(availableList);
+	}
+
 	@GetMapping("/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws StorageFileNotFoundException {
