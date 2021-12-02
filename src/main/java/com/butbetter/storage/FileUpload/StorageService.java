@@ -60,6 +60,8 @@ public interface StorageService {
 
 	/**
 	 * delete all files
+	 * @throws StorageException thrown, if storage couldn't remove all files without complications
+	 * (Files may be still present)
 	 */
-	void deleteAll();
+	void deleteAll() throws StorageException;
 }
