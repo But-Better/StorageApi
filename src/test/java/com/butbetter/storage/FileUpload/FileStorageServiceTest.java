@@ -112,7 +112,7 @@ class FileStorageServiceTest {
 	@Test
 	void simpleLoadTest() throws FaultyCSVException, StorageException, StorageFileNotFoundException {
 		service.store(file);
-		assertEquals(file.getOriginalFilename(), service.load(file.getOriginalFilename()).toString());
+		assertEquals(properties_path.toString() + "/" + fileName, service.load(file.getOriginalFilename()).toString());
 	}
 
 	@Test
