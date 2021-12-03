@@ -95,6 +95,7 @@ public class StorageControllerTests {
     /**
      * Required Runnable Psql
      */
+    @Disabled
     @Test
     void createAProduct() {
         Date date = new Date();
