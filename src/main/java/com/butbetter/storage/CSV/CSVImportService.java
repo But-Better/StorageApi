@@ -20,7 +20,7 @@ import java.util.List;
 public class CSVImportService {
 
 	private final CSVConverter converter;
-	private final ProductRepository repo;
+	private final FileProductRepository repo;
 
 	private final Logger logger = LoggerFactory.getLogger(CSVImportService.class);
 
@@ -31,7 +31,7 @@ public class CSVImportService {
 	 * @param repo      repo to save objects to
 	 */
 	@Autowired
-	public CSVImportService(CSVConverter converter, ProductRepository repo) {
+	public CSVImportService(CSVConverter converter, FileProductRepository repo) {
 		this.converter = converter;
 		this.repo = repo;
 	}
