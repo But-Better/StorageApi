@@ -44,7 +44,7 @@ class CSVConverterTest {
 	}
 
 	@Test
-	void generalTheoreticalSerializeTest() throws IOException {
+	void generalTheoreticalSerializeTest() throws IOException, StorageFileNotFoundException {
 		List<ProductInformation> beans = importer.getFromCSV(file.toPath());
 		assertEquals(productInformation.get(0), beans.get(0));
 	}
