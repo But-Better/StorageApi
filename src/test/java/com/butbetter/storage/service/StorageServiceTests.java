@@ -29,23 +29,9 @@ public class StorageServiceTests {
     @Autowired
     private MockMvc mvc;
 
-    @BeforeEach
-    void setUp() {
-
-    }
-
     @AfterEach
     void tearDown() {
         storageService = null;
-    }
-
-    @BeforeAll
-    static void beforeAll() {
-    }
-
-    @AfterAll
-    static void afterAll() {
-
     }
 
     @Disabled("Address or DeliveryTime is null")

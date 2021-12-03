@@ -28,21 +28,6 @@ public class StorageControllerTests {
         repository.deleteAll();
     }
 
-    @BeforeAll
-    static void beforeAll() {
-
-    }
-
-    @AfterEach
-    void tearDown() {
-
-    }
-
-    @AfterAll
-    static void afterAll() {
-
-    }
-
     @Test
     public void contextLoads() {
         assertThat(controller).isNotNull();
