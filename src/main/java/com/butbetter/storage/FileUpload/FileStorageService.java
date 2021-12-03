@@ -101,7 +101,7 @@ public class FileStorageService implements StorageService {
 		}
 	}
 
-	private void importToDatabase(Path load) throws StorageException, FaultyCSVException {
+	private void importToDatabase(Path load) throws FaultyCSVException, StorageFileNotFoundException {
 		importer.fromFile(load);
 	}
 
