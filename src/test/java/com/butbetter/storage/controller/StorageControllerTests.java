@@ -2,6 +2,7 @@ package com.butbetter.storage.controller;
 
 import com.butbetter.storage.model.Address;
 import com.butbetter.storage.model.ProductInformation;
+import com.butbetter.storage.repository.ProductRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,12 +13,16 @@ import java.util.Date;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class StorageControllerTests {
 
     @Autowired
     private StorageController controller;
+
+    @Autowired
+    private ProductRepository repository;
 
     @BeforeEach
     void setUp() {
@@ -88,4 +93,25 @@ public class StorageControllerTests {
         });
     }
 
+    @Test
+    void createAProduct() {
+        Date date = new Date();
+        int hour = 3;
+        int minute = 30;
+        OffsetDateTime offsetDateTime = date.toInstant()
+                .atOffset(ZoneOffset.ofHoursMinutes(hour, minute));
+
+        controller.newProductInformation(
+                new ProductInformation(offsetDateTime, 10, new Address(
+                        "Peter Lustig",
+                        "Lustig GmbH",
+                        "Lustig-Ja-42A",
+                        "Warschau",
+                        "4332",
+                        "DE"
+                ))
+        );
+
+        assertEquals(repository.findAll().size(), 1);
+    }
 }
