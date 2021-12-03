@@ -1,12 +1,12 @@
 package com.butbetter.storage.CSV;
 
 import com.butbetter.storage.CSV.Exceptions.FaultyCSVException;
-import com.butbetter.storage.FileUpload.Exceptions.StorageException;
-import com.butbetter.storage.ProductRepository;
+import com.butbetter.storage.FileUpload.Exceptions.StorageFileNotFoundException;
 import com.butbetter.storage.customConverter.BeanAddressConverter;
 import com.butbetter.storage.customConverter.BeanOffsetDateTimeConverter;
 import com.butbetter.storage.model.Address;
 import com.butbetter.storage.model.ProductInformation;
+import com.butbetter.storage.repository.FileProductRepository;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import org.junit.jupiter.api.AfterEach;
@@ -50,7 +50,7 @@ class CSVImportServiceTest {
 	}
 
 	@Test
-	void normalFromFileConversionTest() throws StorageException, FaultyCSVException, FileNotFoundException {
+	void normalFromFileConversionTest() throws FaultyCSVException, FileNotFoundException, StorageFileNotFoundException {
 		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation()}).collect(Collectors.toList());
 		when(converter.getFromCSV(any())).thenReturn(convertedList);
 
@@ -71,7 +71,7 @@ class CSVImportServiceTest {
 	}
 
 	@Test
-	void usingActualConverterTest() throws CsvConstraintViolationException, CsvDataTypeMismatchException, FaultyCSVException, StorageException {
+	void usingActualConverterTest() throws CsvConstraintViolationException, CsvDataTypeMismatchException, FaultyCSVException, StorageFileNotFoundException {
 		OffsetDateTime date = (OffsetDateTime) new BeanOffsetDateTimeConverter<String, OffsetDateTime>().convert("2021-11-20T14:20:53.128120+01:00");
 		Address address = (Address) new BeanAddressConverter<String, Address>().convert("Address{uuid=null, name='a', companyName='a', street='a', city='a', postCode='a', country='a'}");
 
