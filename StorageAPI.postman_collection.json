@@ -1,0 +1,82 @@
+{
+	"info": {
+		"_postman_id": "eb61a9a1-82e9-4535-88f5-58be1b6b713d",
+		"name": "StorageAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetAllProductInformation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/storage/v1/productInformation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"v1",
+						"productInformation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOneProductInformation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/storage/v1/productInformation/79b3a966-0ae9-4b16-ae9d-1b2b993dd456",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"v1",
+						"productInformation",
+						"79b3a966-0ae9-4b16-ae9d-1b2b993dd456"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostOneProductInformation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"amount\": 20,\n  \"address\": {\n    \"name\": \"Kevin\",\n    \"companyName\": \"Peter GmbH\",\n    \"street\": \"Hilfe-Bug-A13\",\n    \"city\": \"Downtown\",\n    \"postCode\": \"15234\",\n    \"country\": \"DE\"\n  },\n  \"deliveryTime\": \"2021-12-01T17:11:08.715Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/storage/v1/productInformation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"storage",
+						"v1",
+						"productInformation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
