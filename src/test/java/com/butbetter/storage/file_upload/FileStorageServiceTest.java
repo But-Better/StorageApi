@@ -1,14 +1,14 @@
-package com.butbetter.storage.FileUpload;
+package com.butbetter.storage.file_upload;
 
-import com.butbetter.storage.CSV.CSVImportService;
-import com.butbetter.storage.CSV.Exceptions.FaultyCSVException;
-import com.butbetter.storage.FileUpload.Exceptions.StorageException;
-import com.butbetter.storage.FileUpload.Exceptions.StorageFileNotFoundException;
-import com.butbetter.storage.FileUpload.Properties.StorageProperties;
-import org.apache.catalina.webresources.FileResource;
+import com.butbetter.storage.csv.CSVImportService;
+import com.butbetter.storage.csv.Exceptions.FaultyCSVException;
+import com.butbetter.storage.file_upload.Exceptions.StorageException;
+import com.butbetter.storage.file_upload.Exceptions.StorageFileNotFoundException;
+import com.butbetter.storage.file_upload.Properties.StorageProperties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -118,8 +118,9 @@ class FileStorageServiceTest {
 	@Test
 	void simpleLoadAsResourceTest() throws FaultyCSVException, IOException, StorageFileNotFoundException {
 		service.store(file);
-		// TODO
-		// assertEquals(, service.loadAsResource(fileName));
+		File expectedFileHandle = new File(properties_path.toAbsolutePath() + "/" + fileName);
+		Resource expected = new UrlResource(expectedFileHandle.toURI());
+		assertEquals(expected, service.loadAsResource(fileName));
 	}
 
 	@Test

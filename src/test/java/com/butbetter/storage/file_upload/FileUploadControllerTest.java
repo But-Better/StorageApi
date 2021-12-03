@@ -1,10 +1,9 @@
-package com.butbetter.storage.FileUpload;
+package com.butbetter.storage.file_upload;
 
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-import com.butbetter.storage.FileUpload.Exceptions.StorageFileNotFoundException;
-import org.hamcrest.Matchers;
+import com.butbetter.storage.file_upload.Exceptions.StorageFileNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc

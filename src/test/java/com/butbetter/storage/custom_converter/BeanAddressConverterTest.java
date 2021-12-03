@@ -1,4 +1,4 @@
-package com.butbetter.storage.customConverter;
+package com.butbetter.storage.custom_converter;
 
 import com.butbetter.storage.model.Address;
 import com.opencsv.exceptions.CsvConstraintViolationException;

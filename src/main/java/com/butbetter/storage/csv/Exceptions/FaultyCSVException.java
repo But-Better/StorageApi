@@ -1,4 +1,4 @@
-package com.butbetter.storage.CSV.Exceptions;
+package com.butbetter.storage.csv.Exceptions;
 
 public class FaultyCSVException extends Exception {
 	public FaultyCSVException(String message) {

@@ -1,4 +1,4 @@
-package com.butbetter.storage.CSV;
+package com.butbetter.storage.csv;
 
 import com.butbetter.storage.model.ProductInformation;
 import com.opencsv.bean.CsvToBeanBuilder;

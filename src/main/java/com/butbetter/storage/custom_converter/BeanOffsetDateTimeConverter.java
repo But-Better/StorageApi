@@ -1,4 +1,4 @@
-package com.butbetter.storage.customConverter;
+package com.butbetter.storage.custom_converter;
 
 import com.opencsv.bean.AbstractBeanField;
 import com.opencsv.exceptions.CsvConstraintViolationException;

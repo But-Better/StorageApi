@@ -1,6 +1,6 @@
-package com.butbetter.storage.FileUpload.Configurations;
+package com.butbetter.storage.file_upload.Configurations;
 
-import com.butbetter.storage.FileUpload.StorageService;
+import com.butbetter.storage.file_upload.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

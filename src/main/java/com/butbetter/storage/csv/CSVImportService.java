@@ -1,8 +1,8 @@
-package com.butbetter.storage.CSV;
+package com.butbetter.storage.csv;
 
-import com.butbetter.storage.CSV.Exceptions.FaultyCSVException;
-import com.butbetter.storage.FileUpload.Exceptions.StorageException;
-import com.butbetter.storage.FileUpload.Exceptions.StorageFileNotFoundException;
+import com.butbetter.storage.csv.Exceptions.FaultyCSVException;
+import com.butbetter.storage.file_upload.Exceptions.StorageException;
+import com.butbetter.storage.file_upload.Exceptions.StorageFileNotFoundException;
 import com.butbetter.storage.repository.FileProductRepository;
 import com.butbetter.storage.model.ProductInformation;
 import org.slf4j.Logger;

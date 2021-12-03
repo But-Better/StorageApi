@@ -1,8 +1,8 @@
-package com.butbetter.storage.FileUpload;
+package com.butbetter.storage.file_upload;
 
-import com.butbetter.storage.CSV.Exceptions.FaultyCSVException;
-import com.butbetter.storage.FileUpload.Exceptions.StorageException;
-import com.butbetter.storage.FileUpload.Exceptions.StorageFileNotFoundException;
+import com.butbetter.storage.csv.Exceptions.FaultyCSVException;
+import com.butbetter.storage.file_upload.Exceptions.StorageException;
+import com.butbetter.storage.file_upload.Exceptions.StorageFileNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
