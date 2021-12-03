@@ -32,7 +32,7 @@ public class StorageService {
     /**
      * Get all {@link ProductInformation} value
      *
-     * @return
+     * @return = a list of {@link ProductInformation}
      */
     public List<ProductInformation> all() {
         return this.productRepository.findAll();
@@ -41,9 +41,9 @@ public class StorageService {
     /**
      * Get One {@link ProductInformation} value
      *
-     * @param id
-     * @return
-     * @throws ProductInformationNotFoundException
+     * @param id = type UUID
+     * @return = one {@link ProductInformation}
+     * @throws ProductInformationNotFoundException = if no {@link ProductInformation} was found
      */
     public ProductInformation one(UUID id) throws ProductInformationNotFoundException {
         return this.productRepository.findById(id)
@@ -66,7 +66,7 @@ public class StorageService {
      * Validate the input of {@link ProductInformation}
      *
      * @param productInformation = {@link ProductInformation}
-     * @throws NullPointerException = if Address or DeliveryTime null
+     * @throws NullPointerException     = if Address or DeliveryTime null
      * @throws IllegalArgumentException = if amount smaller then zero
      */
     private void ValidateANewProductInformation(ProductInformation productInformation) throws NullPointerException, IllegalArgumentException {
