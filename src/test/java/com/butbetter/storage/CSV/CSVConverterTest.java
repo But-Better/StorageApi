@@ -1,5 +1,6 @@
 package com.butbetter.storage.CSV;
 
+import com.butbetter.storage.FileUpload.Exceptions.StorageFileNotFoundException;
 import com.butbetter.storage.model.Address;
 import com.butbetter.storage.model.ProductInformation;
 
@@ -7,6 +8,7 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CSVConverterTest {
 
 	private static final String BASE_PATH = "src/test/resources";
-	private final File file = new File(BASE_PATH + "/test.csv");
+	private File file = new File(BASE_PATH + "/test.csv");
 	private List<ProductInformation> productInformation;
 	private final CSVConverter importer = new CSVConverter();
 
@@ -45,5 +47,11 @@ class CSVConverterTest {
 	void generalTheoreticalSerializeTest() throws IOException {
 		List<ProductInformation> beans = importer.getFromCSV(file.toPath());
 		assertEquals(productInformation.get(0), beans.get(0));
+	}
+
+	@Test
+	void noFileFoundTest() {
+		file = new File(RandomStringUtils.randomAlphabetic(10));
+		assertThrows(StorageFileNotFoundException.class, () -> importer.getFromCSV(file.toPath()));
 	}
 }
