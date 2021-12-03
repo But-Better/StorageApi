@@ -29,13 +29,15 @@ public class StorageController {
 
     @GetMapping("/productInformation")
     public ResponseEntity<List<ProductInformation>> all() {
+        logger.info("calling all");
         List<ProductInformation> list = this.storageService.all();
         logger.info(Arrays.toString(list.toArray()));
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping("/ProductInformation/{id}")
+    @GetMapping("/productInformation/{id}")
     public ResponseEntity<ProductInformation> one(@PathVariable UUID id) throws ProductInformationNotFoundException {
+        logger.info("calling one");
         ProductInformation productInformation = this.storageService.one(id);
         logger.info(String.valueOf(productInformation));
         return ResponseEntity.ok().body(productInformation);
