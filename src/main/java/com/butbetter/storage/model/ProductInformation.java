@@ -3,13 +3,14 @@ package com.butbetter.storage.model;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Table(name = "product_information")
-public class ProductInformation {
+public class ProductInformation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,8 +25,8 @@ public class ProductInformation {
     @Max(999999)
     private int amount;
 
-    @JoinColumn(name = "address", nullable = false)
-    @ManyToOne(targetEntity = Address.class)
+    @ManyToOne()
+    @JoinColumn(name="address")
     private Address address;
 
     /**
