@@ -12,8 +12,7 @@ import java.time.ZoneOffset;
 import java.util.Date;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class StorageControllerTests {
@@ -26,7 +25,7 @@ public class StorageControllerTests {
 
     @BeforeEach
     void setUp() {
-
+        repository.deleteAll();
     }
 
     @BeforeAll
@@ -79,7 +78,7 @@ public class StorageControllerTests {
         OffsetDateTime offsetDateTime = date.toInstant()
                 .atOffset(ZoneOffset.ofHoursMinutes(hour, minute));
 
-        assertDoesNotThrow(() -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             controller.newProductInformation(
                     new ProductInformation(offsetDateTime, -1, new Address(
                             "Peter Lustig",
@@ -93,6 +92,9 @@ public class StorageControllerTests {
         });
     }
 
+    /**
+     * Required Runnable Psql
+     */
     @Test
     void createAProduct() {
         Date date = new Date();
