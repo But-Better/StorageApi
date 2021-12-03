@@ -27,6 +27,11 @@ public class StorageController {
         this.storageService = storageService;
     }
 
+    /**
+     * Get all {@link ProductInformation}
+     *
+     * @return = all {@link ProductInformation} as JSON format
+     */
     @GetMapping("/productInformation")
     public ResponseEntity<List<ProductInformation>> all() {
         logger.info("calling all");
@@ -35,6 +40,13 @@ public class StorageController {
         return ResponseEntity.ok().body(list);
     }
 
+    /**
+     * Get one {@link ProductInformation}
+     *
+     * @param id = type UUID
+     * @return = one {@link ProductInformation} as JSON format
+     * @throws ProductInformationNotFoundException = not found a {@link ProductInformation}
+     */
     @GetMapping("/productInformation/{id}")
     public ResponseEntity<ProductInformation> one(@PathVariable UUID id) throws ProductInformationNotFoundException {
         logger.info("calling one");
@@ -43,6 +55,12 @@ public class StorageController {
         return ResponseEntity.ok().body(productInformation);
     }
 
+    /**
+     * Create a {@link ProductInformation}
+     *
+     * @param productInformation = {@link ProductInformation}
+     * @return Ok status if Post request correct
+     */
     @PostMapping(value = "/productInformation",
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
