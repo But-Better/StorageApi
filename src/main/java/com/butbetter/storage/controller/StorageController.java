@@ -5,9 +5,11 @@ import com.butbetter.storage.model.ProductInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -18,8 +20,12 @@ public class StorageController {
 
     private static final Logger logger = LoggerFactory.getLogger(StorageController.class);
 
+    private final StorageService storageService;
+
     @Autowired
-    private StorageService storageService;
+    public StorageController(StorageService storageService) {
+        this.storageService = storageService;
+    }
 
     @GetMapping("/productInformation")
     public ResponseEntity<List<ProductInformation>> all() {
@@ -35,8 +41,11 @@ public class StorageController {
         return ResponseEntity.ok().body(productInformation);
     }
 
-    @PostMapping("/productInformation")
-    public ResponseEntity<?> newProductInformation(@RequestBody ProductInformation productInformation) {
+    @PostMapping(value = "/productInformation",
+            consumes = {MediaType.APPLICATION_JSON_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public ResponseEntity<?> newProductInformation(@Valid @RequestBody ProductInformation productInformation) {
         logger.info(String.valueOf(productInformation));
         this.storageService.newProductInformation(productInformation);
         return ResponseEntity.ok().build();
@@ -49,7 +58,13 @@ public class StorageController {
     }
 
     @ExceptionHandler(NullPointerException.class)
-    private ResponseEntity<?> productInformationHasOneNullPointer(NullPointerException e) {
+    private ResponseEntity<?> productInformationNullPointerException(NullPointerException e) {
+        logger.error(e.getMessage());
+        return ResponseEntity.badRequest().build();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    private ResponseEntity<?> productInformationIllegalArgumentException(IllegalArgumentException e) {
         logger.error(e.getMessage());
         return ResponseEntity.badRequest().build();
     }
