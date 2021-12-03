@@ -30,14 +30,14 @@ class CSVImportServiceTest {
 	private Path testFile = Path.of(BASE_PATH + "test.csv");
 
 	private CSVConverter converter;
-	private ProductRepository repo;
+	private FileProductRepository repo;
 
 	private CSVImportService service;
 
 	@BeforeEach
 	void setUp() {
 		converter = mock(CSVConverter.class);
-		repo = mock(ProductRepository.class);
+		repo = mock(FileProductRepository.class);
 
 		service = new CSVImportService(converter, repo);
 	}
