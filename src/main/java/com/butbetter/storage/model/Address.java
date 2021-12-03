@@ -3,16 +3,17 @@ package com.butbetter.storage.model;
 import com.opencsv.bean.CsvBindByName;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-public class Address {
+public class Address implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id", insertable = false, updatable = false, nullable = false)
-	private UUID id;
+	private UUID uuid;
 
 	@CsvBindByName(column = "name", required = true)
 	@Column(name = "name", nullable = false)
@@ -41,7 +42,7 @@ public class Address {
 	/**
 	 * Model of Product
 	 *
-	 * @param id        = identifier
+	 * @param uuid        = identifier
 	 * @param name        = your name
 	 * @param companyName = your company name
 	 * @param street      = your street
@@ -49,8 +50,8 @@ public class Address {
 	 * @param postCode    = your postcode
 	 * @param country     = your country
 	 */
-	public Address(UUID id, String name, String companyName, String street, String city, String postCode, String country) {
-		this.id = id;
+	public Address(UUID uuid, String name, String companyName, String street, String city, String postCode, String country) {
+		this.uuid = uuid;
 		this.name = name;
 		this.companyName = companyName;
 		this.street = street;
@@ -133,7 +134,7 @@ public class Address {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Address address = (Address) o;
-		return Objects.equals(id, address.id)
+		return Objects.equals(uuid, address.uuid)
 				&& Objects.equals(name, address.name)
 				&& Objects.equals(companyName, address.companyName)
 				&& Objects.equals(street, address.street)
@@ -144,13 +145,13 @@ public class Address {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, companyName, street, city, postCode, country);
+		return Objects.hash(uuid, name, companyName, street, city, postCode, country);
 	}
 
 	@Override
 	public String toString() {
 		return "Address{" +
-				"uuid=" + id +
+				"uuid=" + uuid +
 				", name='" + name + '\'' +
 				", companyName='" + companyName + '\'' +
 				", street='" + street + '\'' +

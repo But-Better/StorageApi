@@ -1,5 +1,10 @@
 package com.butbetter.storage.model;
 
+
+import org.hibernate.validator.constraints.Range;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import com.butbetter.storage.customConverter.BeanAddressConverter;
 import com.butbetter.storage.customConverter.BeanOffsetDateTimeConverter;
 import com.opencsv.bean.CsvBindByName;
@@ -11,96 +16,100 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-public class ProductInformation {
+@Table(name = "product_information")
+public class ProductInformation implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id", insertable = false, updatable = false, nullable = false)
-	private UUID uuid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", insertable = false, updatable = false, nullable = false)
+    private UUID uuid;
 
 	@CsvCustomBindByName(converter = BeanOffsetDateTimeConverter.class, column = "deliveryTime", required = true)
 	@Column(name = "delivery_time", nullable = false)
-	private OffsetDateTime deliveryTime;
+    private OffsetDateTime date;
 
 	@CsvBindByName(column = "amount", required = true)
-	@Column(name = "amount", nullable = false)
-	private int amount;
+    @Range(min = 0, max = 999999)
+    @Column(name = "amount", nullable = false)
+    private int amount;
 
 	@CsvCustomBindByName(converter = BeanAddressConverter.class, column = "address", required = true)
-	@JoinColumn(name = "address_id", nullable = false)
-	@ManyToOne(fetch=FetchType.LAZY)
-	private Address address;
+	@ManyToOne()
+    @JoinColumn(name="address")
+    private Address address;
 
-	/**
-	 * Model of ProductInformation
-	 *
-	 * @param deliveryTime = sent time of product
-	 * @param amount       = amount of product
-	 * @param address      = address of product location
-	 */
-	public ProductInformation(OffsetDateTime deliveryTime, int amount, Address address) {
-		this.deliveryTime = deliveryTime;
-		this.amount = amount;
-		this.address = address;
-	}
+    /**
+     * Model of ProductInformation
+     *
+     * @param date    = sent time of product
+     * @param amount  = amount of product
+     * @param address = address of product location
+     */
+    public ProductInformation(OffsetDateTime date, int amount, Address address) {
+        this.date = date;
+        this.amount = amount;
+        this.address = address;
+    }
 
-	public ProductInformation() {}
+    public ProductInformation() {
 
-	public UUID getUuid() {
-		return uuid;
-	}
+    }
 
-	public OffsetDateTime getDeliveryTime() {
-		return deliveryTime;
-	}
+    public UUID getUuid() {
+        return uuid;
+    }
 
-	public int getAmount() {
-		return amount;
-	}
+    public OffsetDateTime getDeliveryTime() {
+        return date;
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public int getAmount() {
+        return amount;
+    }
 
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
-	}
+    public Address getAddress() {
+        return address;
+    }
 
-	public void setDeliveryTime(OffsetDateTime deliveryTime) {
-		this.deliveryTime = deliveryTime;
-	}
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
 
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
+    public void setDeliveryTime(OffsetDateTime date) {
+        this.date = date;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		ProductInformation that = (ProductInformation) o;
-		return amount == that.amount
-				&& Objects.equals(uuid, that.uuid)
-				&& Objects.equals(deliveryTime, that.deliveryTime)
-				&& Objects.equals(address, that.address);
-	}
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(uuid, deliveryTime, amount, address);
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductInformation that = (ProductInformation) o;
+        return amount == that.amount
+                && Objects.equals(uuid, that.uuid)
+                && Objects.equals(date, that.date)
+                && Objects.equals(address, that.address);
+    }
 
-	@Override
-	public String toString() {
-		return "ProductInformation{" +
-				"uuid=" + uuid +
-				", deliveryTime=" + deliveryTime +
-				", amount=" + amount +
-				", address=" + address +
-				'}';
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid, date, amount, address);
+    }
+
+    @Override
+    public String toString() {
+        return "ProductInformation{" +
+                "uuid=" + uuid +
+                ", deliveryTime=" + date +
+                ", amount=" + amount +
+                ", address=" + address +
+                '}';
+    }
 }
