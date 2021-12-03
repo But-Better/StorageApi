@@ -76,7 +76,7 @@ public class StorageService {
             throw new NullPointerException(message);
         }
 
-        if (productInformation.getAmount() <= 0) {
+        if (productInformation.getAmount() < 0) {
             String message = "Number is negative";
             logger.error(message);
             throw new IllegalArgumentException(message);
