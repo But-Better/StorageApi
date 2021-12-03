@@ -1,8 +1,9 @@
 package com.butbetter.storage.model;
 
+
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.Objects;
@@ -20,9 +21,8 @@ public class ProductInformation implements Serializable {
     @Column(name = "delivery_time", nullable = false)
     private OffsetDateTime date;
 
+    @Range(min = 0, max = 999999)
     @Column(name = "amount", nullable = false)
-    @Min(0)
-    @Max(999999)
     private int amount;
 
     @ManyToOne()
