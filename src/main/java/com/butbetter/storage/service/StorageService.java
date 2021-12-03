@@ -18,8 +18,6 @@ public class StorageService {
 
     private static final Logger logger = LoggerFactory.getLogger(StorageService.class);
 
-    private static final String couldNotfoundUser = "User not found with the UUID";
-
     private final ProductRepository productRepository;
     private final AddressRepository addressRepository;
 
@@ -47,7 +45,7 @@ public class StorageService {
      */
     public ProductInformation one(UUID id) throws ProductInformationNotFoundException {
         return this.productRepository.findById(id)
-                .orElseThrow(() -> new ProductInformationNotFoundException(couldNotfoundUser, id));
+                .orElseThrow(() -> new ProductInformationNotFoundException("User could not found with the UUID", id));
     }
 
     /**
