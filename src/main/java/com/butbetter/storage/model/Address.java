@@ -1,11 +1,13 @@
 package com.butbetter.storage.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-public class Address {
+@Table(name = "address")
+public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
