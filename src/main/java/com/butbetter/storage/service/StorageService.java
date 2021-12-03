@@ -2,6 +2,7 @@ package com.butbetter.storage.service;
 
 import com.butbetter.storage.controller.ProductInformationNotFoundException;
 import com.butbetter.storage.model.ProductInformation;
+import com.butbetter.storage.repository.AddressRepository;
 import com.butbetter.storage.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,9 @@ public class StorageService {
         }
 
         if (productInformation.getAmount() <= 0) {
-            throw new IllegalArgumentException("Number is negative");
+            String message = "Number is negative";
+            logger.error(message);
+            throw new IllegalArgumentException(message);
         }
     }
 }
