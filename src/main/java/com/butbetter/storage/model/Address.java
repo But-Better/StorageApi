@@ -74,11 +74,11 @@ public class Address implements Serializable {
 	}
 
 	public UUID getId() {
-		return id;
+		return uuid;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setId(UUID uuid) {
+		this.uuid = uuid;
 	}
 
 	public String getName() {
