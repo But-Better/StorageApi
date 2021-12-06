@@ -7,6 +7,7 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +19,7 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 
 	private final Logger logger = LoggerFactory.getLogger(BeanAddressConverter.class);
 
+	private static final String UUID_IDENTIFIER = "uuid=";
 	private static final String NAME_IDENTIFIER = "name=";
 	private static final String COMPANY_NAME_IDENTIFIER = "companyName=";
 	private static final String STREET_IDENTIFIER = "street=";
@@ -27,8 +29,9 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 
 	private static final String VALUE_PACKAGE = "'";
 
-	private final Pattern check_pattern = Pattern.compile("(Address.uuid=).+?"
-			+ NAME_IDENTIFIER + ".+?" +
+	private final Pattern check_pattern = Pattern.compile("(Address.)" +
+			UUID_IDENTIFIER + ".+?" +
+			NAME_IDENTIFIER + ".+?" +
 			COMPANY_NAME_IDENTIFIER +".+?" +
 			STREET_IDENTIFIER +".+?" +
 			CITY_IDENTIFIER +".+?" +
@@ -36,6 +39,7 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 			COUNTRY_IDENTIFIER );
 
 
+	private final Pattern uuid_pattern = Pattern.compile("(" + UUID_IDENTIFIER + VALUE_PACKAGE + ").+?(" + VALUE_PACKAGE + ")");
 	private final Pattern name_pattern = Pattern.compile("(" + NAME_IDENTIFIER + VALUE_PACKAGE + ").+?(" + VALUE_PACKAGE + ")");
 	private final Pattern company_name_pattern = Pattern.compile("("+ COMPANY_NAME_IDENTIFIER + VALUE_PACKAGE + ").+?(" + VALUE_PACKAGE + ")");
 	private final Pattern street_pattern = Pattern.compile("(" + STREET_IDENTIFIER + VALUE_PACKAGE + ").+?(" + VALUE_PACKAGE + ")");
@@ -82,12 +86,21 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 		}
 
 		// Matching of all needed information
+		Matcher uuid_matcher = uuid_pattern.matcher(value);
 		Matcher name_matcher = name_pattern.matcher(value);
 		Matcher company_name_matcher = company_name_pattern.matcher(value);
 		Matcher street_matcher = street_pattern.matcher(value);
 		Matcher city_matcher = city_pattern.matcher(value);
 		Matcher postCode_matcher = postCode_pattern.matcher(value);
 		Matcher country_matcher = country_pattern.matcher(value);
+
+
+		String uuid = getCleanValue(
+				getGroup(uuid_matcher, 0),
+				UUID_IDENTIFIER + VALUE_PACKAGE,
+				VALUE_PACKAGE);
+
+		UUID actualUUID = parseUUIDFromString(uuid);
 
 		String name = getCleanValue(
 				getGroup(name_matcher, 0),
@@ -119,7 +132,22 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 				COUNTRY_IDENTIFIER + VALUE_PACKAGE,
 				VALUE_PACKAGE);
 
-		return new Address(name, company_name, street, city, postCode, country);
+		return new Address(actualUUID, name, company_name, street, city, postCode, country);
+	}
+
+	/**
+	 * parses a string into its uuid equivalent
+	 * @param uuid string to parse
+	 * @return parsed UUID
+	 */
+	private UUID parseUUIDFromString(String uuid) throws CsvDataTypeMismatchException {
+		try {
+			return UUID.fromString(uuid);
+		} catch (IllegalArgumentException e) {
+			String message = "the given UUID cannot be converted into its representable Object";
+			logger.error(message, e);
+			throw new CsvDataTypeMismatchException(message);
+		}
 	}
 
 	/**
@@ -128,13 +156,14 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 	 * @param i group id
 	 * @return matched String
 	 */
-	private String getGroup(Matcher matcher, int i) {
+	private String getGroup(Matcher matcher, int i) throws CsvConstraintViolationException {
 		if (matcher.find()) {
 			return matcher.group(i);
 		}
-		String message = "couldn't find group on index " + i + " (max index is: " + matcher.groupCount();
+		String message = "Pattern: " + matcher.pattern().toString() + " couldn't find values that matches itself, " +
+				"the given String might be broken";
 		logger.error(message);
-		throw new IndexOutOfBoundsException(message);
+		throw new CsvConstraintViolationException(message);
 	}
 
 	/**
