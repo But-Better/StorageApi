@@ -5,6 +5,11 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import com.butbetter.storage.custom_converter.BeanAddressConverter;
+import com.butbetter.storage.custom_converter.BeanOffsetDateTimeConverter;
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvCustomBindByName;
+
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -18,14 +23,17 @@ public class ProductInformation implements Serializable {
     @Column(name = "id", insertable = false, updatable = false, nullable = false)
     private UUID uuid;
 
-    @Column(name = "delivery_time", nullable = false)
+	@CsvCustomBindByName(converter = BeanOffsetDateTimeConverter.class, column = "deliveryTime", required = true)
+	@Column(name = "delivery_time", nullable = false)
     private OffsetDateTime date;
 
+	@CsvBindByName(column = "amount", required = true)
     @Range(min = 0, max = 999999)
     @Column(name = "amount", nullable = false)
     private int amount;
 
-    @ManyToOne()
+	@CsvCustomBindByName(converter = BeanAddressConverter.class, column = "address", required = true)
+	@ManyToOne()
     @JoinColumn(name="address")
     private Address address;
 

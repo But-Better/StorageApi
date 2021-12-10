@@ -1,144 +1,163 @@
 package com.butbetter.storage.model;
 
+import com.opencsv.bean.CsvBindByName;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "address")
 public class Address implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", insertable = false, updatable = false, nullable = false)
-    private UUID uuid;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id", insertable = false, updatable = false, nullable = false)
+	private UUID uuid;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+	@CsvBindByName(column = "name", required = true)
+	@Column(name = "name", nullable = false)
+	private String name;
 
-    @Column(name = "company_name")
-    private String companyName;
+	@CsvBindByName(column = "companyName", required = true)
+	@Column(name = "company_name")
+	private String companyName;
 
-    @Column(name = "street", nullable = false, columnDefinition = "TEXT")
-    private String street;
+	@CsvBindByName(column = "street", required = true)
+	@Column(name = "street", nullable = false, columnDefinition = "TEXT")
+	private String street;
 
-    @Column(name = "city", nullable = false)
-    private String city;
+	@CsvBindByName(column = "city", required = true)
+	@Column(name = "city", nullable = false)
+	private String city;
 
-    @Column(name = "post_code", nullable = false, length = 10)
-    private String postCode;
+	@CsvBindByName(column = "postCode", required = true)
+	@Column(name = "post_code", nullable = false, length = 10)
+	private String postCode;
 
-    @Column(name = "country", nullable = false)
-    private String country;
+	@CsvBindByName(column = "country", required = true)
+	@Column(name = "country", nullable = false)
+	private String country;
 
-    /**
-     * Model of Product
-     *
-     * @param name        = your name
-     * @param companyName = your company name
-     * @param street      = your street
-     * @param city        = your city
-     * @param postCode    = your postcode
-     * @param country     = your country
-     */
-    public Address(String name, String companyName, String street, String city, String postCode, String country) {
-        this.name = name;
-        this.companyName = companyName;
-        this.street = street;
-        this.city = city;
-        this.postCode = postCode;
-        this.country = country;
-    }
+	/**
+	 * Model of Product
+	 *
+	 * @param uuid        = identifier
+	 * @param name        = your name
+	 * @param companyName = your company name
+	 * @param street      = your street
+	 * @param city        = your city
+	 * @param postCode    = your postcode
+	 * @param country     = your country
+	 */
+	public Address(UUID uuid, String name, String companyName, String street, String city, String postCode, String country) {
+		this.uuid = uuid;
+		this.name = name;
+		this.companyName = companyName;
+		this.street = street;
+		this.city = city;
+		this.postCode = postCode;
+		this.country = country;
+	}
 
-    public Address() {
-    }
+	public Address(String name, String companyName, String street, String city, String postCode, String country) {
+		this.name = name;
+		this.companyName = companyName;
+		this.street = street;
+		this.city = city;
+		this.postCode = postCode;
+		this.country = country;
+	}
 
-    public UUID getUuid() {
-        return uuid;
-    }
+	public Address() {
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
+	}
 
-    public String getName() {
-        return name;
-    }
+	public UUID getId() {
+		return uuid;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setId(UUID uuid) {
+		this.uuid = uuid;
+	}
 
-    public String getCompanyName() {
-        return companyName;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getStreet() {
-        return street;
-    }
+	public String getCompanyName() {
+		return companyName;
+	}
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 
-    public String getCity() {
-        return city;
-    }
+	public String getStreet() {
+		return street;
+	}
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	public void setStreet(String street) {
+		this.street = street;
+	}
 
-    public String getPostCode() {
-        return postCode;
-    }
+	public String getCity() {
+		return city;
+	}
 
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-    public String getCountry() {
-        return country;
-    }
+	public String getPostCode() {
+		return postCode;
+	}
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return Objects.equals(uuid, address.uuid)
-                && Objects.equals(name, address.name)
-                && Objects.equals(companyName, address.companyName)
-                && Objects.equals(street, address.street)
-                && Objects.equals(city, address.city)
-                && Objects.equals(postCode, address.postCode)
-                && Objects.equals(country, address.country);
-    }
+	public String getCountry() {
+		return country;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(uuid, name, Objects.isNull(companyName) ? "42" : companyName, street, city, postCode, country);
-    }
+	public void setCountry(String country) {
+		this.country = country;
+	}
 
-    @Override
-    public String toString() {
-        return "Address{" +
-                "uuid=" + uuid +
-                ", name='" + name + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", street='" + street + '\'' +
-                ", city='" + city + '\'' +
-                ", postCode='" + postCode + '\'' +
-                ", country='" + country + '\'' +
-                '}';
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Address address = (Address) o;
+		return Objects.equals(uuid, address.uuid)
+				&& Objects.equals(name, address.name)
+				&& Objects.equals(companyName, address.companyName)
+				&& Objects.equals(street, address.street)
+				&& Objects.equals(city, address.city)
+				&& Objects.equals(postCode, address.postCode)
+				&& Objects.equals(country, address.country);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(uuid, name, companyName, street, city, postCode, country);
+	}
+
+	@Override
+	public String toString() {
+		return "Address{" +
+				"uuid=" + uuid +
+				", name='" + name + '\'' +
+				", companyName='" + companyName + '\'' +
+				", street='" + street + '\'' +
+				", city='" + city + '\'' +
+				", postCode='" + postCode + '\'' +
+				", country='" + country + '\'' +
+				'}';
+	}
 }
