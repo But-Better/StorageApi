@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -80,7 +81,7 @@ class CSVImportServiceTest {
 	@Test
 	void usingActualConverterTest() throws CsvConstraintViolationException, CsvDataTypeMismatchException, FaultyCSVException, StorageFileNotFoundException {
 		OffsetDateTime date = (OffsetDateTime) new BeanOffsetDateTimeConverter<String, OffsetDateTime>().convert("2021-11-20T14:20:53.128120+01:00");
-		Address address = (Address) new BeanAddressConverter<String, Address>().convert("Address{uuid=null, name='a', companyName='a', street='a', city='a', postCode='a', country='a'}");
+		Address address = new Address(UUID.fromString("68c9791a-280a-4da0-b403-48b8d15f1301"), "a", "a", "a", "a", "a", "a");
 
 		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation(date, 5, address)}).collect(Collectors.toList());
 
