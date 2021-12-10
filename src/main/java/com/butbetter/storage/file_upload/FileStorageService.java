@@ -232,10 +232,9 @@ public class FileStorageService implements StorageService {
 				}
 			});
 		} catch (IOException e) {
-			String message = "couldn't remove all files, either because " +
+			String message = "skipping deleting all current existing files, couldn't remove all files, either because " +
 					"of permission problems or the path doesn't exist anymore";
 			logger.error(message, e);
-			throw new StorageException(message, e);
 		}
 		logger.info("removed all known files");
 	}
