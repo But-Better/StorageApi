@@ -6,6 +6,7 @@ import com.butbetter.storage.custom_converter.BeanAddressConverter;
 import com.butbetter.storage.custom_converter.BeanOffsetDateTimeConverter;
 import com.butbetter.storage.model.Address;
 import com.butbetter.storage.model.ProductInformation;
+import com.butbetter.storage.repository.FileAddressRepository;
 import com.butbetter.storage.repository.FileProductRepository;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
@@ -30,23 +31,25 @@ class CSVImportServiceTest {
 	private Path testFile = Path.of(BASE_PATH + "test.csv");
 
 	private CSVConverter converter;
-	private FileProductRepository repo;
+	private FileProductRepository prodRepo;
+	private FileAddressRepository addrRepo;
 
 	private CSVImportService service;
 
 	@BeforeEach
 	void setUp() {
 		converter = mock(CSVConverter.class);
-		repo = mock(FileProductRepository.class);
+		prodRepo = mock(FileProductRepository.class);
+		addrRepo = mock(FileAddressRepository.class);
 
-		service = new CSVImportService(converter, repo);
+		service = new CSVImportService(converter, prodRepo, addrRepo);
 	}
 
 	@AfterEach
 	void tearDown() {
 		service = null;
 		converter = null;
-		repo = null;
+		prodRepo = null;
 	}
 
 	@Test
@@ -57,7 +60,7 @@ class CSVImportServiceTest {
 		service.fromFile(testFile);
 
 		verify(converter, times(1)).getFromCSV(testFile);
-		verify(repo, times(1)).saveAll(convertedList);
+		verify(prodRepo, times(1)).saveAll(convertedList);
 	}
 
 	@Test
@@ -67,7 +70,7 @@ class CSVImportServiceTest {
 		assertThrows(FaultyCSVException.class, () -> service.fromFile(testFile));
 
 		verify(converter, times(1)).getFromCSV(testFile);
-		verify(repo, times(0)).saveAll(any());
+		verify(prodRepo, times(0)).saveAll(any());
 	}
 
 	@Test
@@ -78,10 +81,10 @@ class CSVImportServiceTest {
 		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation(date, 5, address)}).collect(Collectors.toList());
 
 		converter = new CSVConverter();
-		service = new CSVImportService(converter, repo);
+		service = new CSVImportService(converter, prodRepo, addrRepo);
 
 		service.fromFile(testFile);
 
-		verify(repo, times(1)).saveAll(convertedList);
+		verify(prodRepo, times(1)).saveAll(convertedList);
 	}
 }

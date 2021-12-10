@@ -3,6 +3,7 @@ package com.butbetter.storage.csv;
 import com.butbetter.storage.csv.Exceptions.FaultyCSVException;
 import com.butbetter.storage.file_upload.Exceptions.StorageException;
 import com.butbetter.storage.file_upload.Exceptions.StorageFileNotFoundException;
+import com.butbetter.storage.repository.FileAddressRepository;
 import com.butbetter.storage.repository.FileProductRepository;
 import com.butbetter.storage.model.ProductInformation;
 import org.slf4j.Logger;
@@ -21,7 +22,8 @@ import java.util.List;
 public class CSVImportService {
 
 	private final CSVConverter converter;
-	private final FileProductRepository repo;
+	private final FileAddressRepository addressRepository;
+	private final FileProductRepository productRepository;
 
 	private final Logger logger = LoggerFactory.getLogger(CSVImportService.class);
 
@@ -29,12 +31,13 @@ public class CSVImportService {
 	 * Autowired CSVImportService Constructor
 	 *
 	 * @param converter Converter
-	 * @param repo      repo to save objects to
+	 * @param productRepository      repo to save objects to
 	 */
 	@Autowired
-	public CSVImportService(CSVConverter converter, FileProductRepository repo) {
+	public CSVImportService(CSVConverter converter, FileProductRepository productRepository, FileAddressRepository addressRepository) {
 		this.converter = converter;
-		this.repo = repo;
+		this.productRepository = productRepository;
+		this.addressRepository = addressRepository;
 	}
 
 	/**
