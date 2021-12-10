@@ -6,6 +6,7 @@ import com.butbetter.storage.file_upload.Exceptions.StorageFileNotFoundException
 import com.butbetter.storage.repository.FileAddressRepository;
 import com.butbetter.storage.repository.FileProductRepository;
 import com.butbetter.storage.model.ProductInformation;
+import com.butbetter.storage.validator.ProductInformationValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,19 +26,22 @@ public class CSVImportService {
 	private final FileAddressRepository addressRepository;
 	private final FileProductRepository productRepository;
 
+	private final ProductInformationValidator validator;
+
 	private final Logger logger = LoggerFactory.getLogger(CSVImportService.class);
 
 	/**
 	 * Autowired CSVImportService Constructor
-	 *
-	 * @param converter Converter
-	 * @param productRepository      repo to save objects to
+	 * @param converter             Converter
+	 * @param productRepository     repo to save objects to
+	 * @param validator             {@link ProductInformationValidator}
 	 */
 	@Autowired
-	public CSVImportService(CSVConverter converter, FileProductRepository productRepository, FileAddressRepository addressRepository) {
+	public CSVImportService(CSVConverter converter, FileProductRepository productRepository, FileAddressRepository addressRepository, ProductInformationValidator validator) {
 		this.converter = converter;
 		this.productRepository = productRepository;
 		this.addressRepository = addressRepository;
+		this.validator = validator;
 	}
 
 	/**
@@ -56,8 +60,24 @@ public class CSVImportService {
 			throw new FaultyCSVException(message);
 		}
 
-		// TODO: repo needs to be added here
-		// repo.saveAll(info);
+		try {
+			validateProductInformationList(info);
+		} catch (NullPointerException | IllegalArgumentException e) {
+			logger.error("couldn't validate all newly added Product-Information", e);
+		}
+
+		info.forEach(i -> addressRepository.save(i.getAddress()));
+		productRepository.saveAll(info);
+		logger.info("saved add new Product-Information (newly added:" + info.size() + ")");
+	}
+
+	/**
+	 * validates all given {@link ProductInformation} in a list using the {@link ProductInformationValidator}
+	 *
+	 * @param info list of {@link ProductInformation}
+	 */
+	private void validateProductInformationList(List<ProductInformation> info) {
+		info.forEach(validator::validateANewProductInformation);
 	}
 
 	/**
