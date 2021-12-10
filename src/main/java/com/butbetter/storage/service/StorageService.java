@@ -56,7 +56,7 @@ public class StorageService {
      * Create a new {@link ProductInformation} value
      *
      * @param productInformation = {@link ProductInformation}
-     * @throws NullPointerException = is checked by validateANewProductInformation
+     * @throws NullPointerException = is checked by {@link ProductInformationValidator}
      */
     public void newProductInformation(@NotNull ProductInformation productInformation) throws NullPointerException {
         validator.validateANewProductInformation(productInformation);
