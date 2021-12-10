@@ -8,6 +8,7 @@ import com.butbetter.storage.model.Address;
 import com.butbetter.storage.model.ProductInformation;
 import com.butbetter.storage.repository.FileAddressRepository;
 import com.butbetter.storage.repository.FileProductRepository;
+import com.butbetter.storage.validator.ProductInformationValidator;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import org.junit.jupiter.api.AfterEach;
@@ -34,6 +35,8 @@ class CSVImportServiceTest {
 	private FileProductRepository prodRepo;
 	private FileAddressRepository addrRepo;
 
+	private ProductInformationValidator validator;
+
 	private CSVImportService service;
 
 	@BeforeEach
@@ -41,8 +44,9 @@ class CSVImportServiceTest {
 		converter = mock(CSVConverter.class);
 		prodRepo = mock(FileProductRepository.class);
 		addrRepo = mock(FileAddressRepository.class);
+		validator = new ProductInformationValidator();
 
-		service = new CSVImportService(converter, prodRepo, addrRepo);
+		service = new CSVImportService(converter, prodRepo, addrRepo, validator);
 	}
 
 	@AfterEach
@@ -81,7 +85,7 @@ class CSVImportServiceTest {
 		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation(date, 5, address)}).collect(Collectors.toList());
 
 		converter = new CSVConverter();
-		service = new CSVImportService(converter, prodRepo, addrRepo);
+		service = new CSVImportService(converter, prodRepo, addrRepo, validator);
 
 		service.fromFile(testFile);
 
