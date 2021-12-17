@@ -1,6 +1,6 @@
 package com.butbetter.storage.fileUpload;
 
-import com.butbetter.storage.csv.CSVImportService;
+import com.butbetter.storage.csv.ICSVImportService;
 import com.butbetter.storage.csv.exceptions.FaultyCSVException;
 import com.butbetter.storage.fileUpload.exceptions.StorageException;
 import com.butbetter.storage.fileUpload.exceptions.StorageFileNotFoundException;
@@ -30,13 +30,13 @@ import java.util.stream.Stream;
 @Service
 public class FileStorageService implements IFileStorageService {
 
-	private final CSVImportService importer;
+	private final ICSVImportService importer;
 
 	private final Logger logger = LoggerFactory.getLogger(FileStorageService.class);
 	private final Path rootLocation;
 
 	@Autowired
-	public FileStorageService(StorageProperties properties, CSVImportService importer) {
+	public FileStorageService(StorageProperties properties, ICSVImportService importer) {
 		logger.info("Location: \"" + properties.getLocation() + "\" is getting used for the save location");
 		this.rootLocation = Paths.get(properties.getLocation());
 		this.importer = importer;

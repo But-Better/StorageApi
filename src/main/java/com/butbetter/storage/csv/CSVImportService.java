@@ -10,6 +10,7 @@ import com.butbetter.storage.validator.ProductInformationValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -20,9 +21,9 @@ import java.util.List;
  * File to CSV-Objects Converter Service
  */
 @Service
-public class CSVImportService {
+public class CSVImportService implements ICSVImportService {
 
-	private final CSVConverter converter;
+	private final ICSVProductInformationConverter converter;
 	private final FileAddressRepository addressRepository;
 	private final FileProductRepository productRepository;
 
@@ -38,21 +39,13 @@ public class CSVImportService {
 	 * @param validator         {@link IProductInformationValidator}
 	 */
 	@Autowired
-	public CSVImportService(CSVConverter converter, FileProductRepository productRepository, FileAddressRepository addressRepository, IProductInformationValidator validator) {
+	public CSVImportService(@Qualifier("CSVConverter") ICSVProductInformationConverter converter, FileProductRepository productRepository, FileAddressRepository addressRepository, IProductInformationValidator validator) {
 		this.converter = converter;
 		this.productRepository = productRepository;
 		this.addressRepository = addressRepository;
 		this.validator = validator;
 	}
 
-	/**
-	 * Converting and then Saving all objects from the given File at Path
-	 *
-	 * @param path Path to the File with CSV Information
-	 *
-	 * @throws StorageFileNotFoundException thrown, if the File couldn't be properly stored/processed before
-	 * @throws FaultyCSVException           thrown, if no convertable CSV Elements were found in the File
-	 */
 	public void fromFile(Path path) throws FaultyCSVException, StorageFileNotFoundException {
 		List<ProductInformation> info = getInformationOutOfFile(path);
 		if (info.isEmpty()) {

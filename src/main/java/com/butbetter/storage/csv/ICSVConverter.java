@@ -1,11 +1,12 @@
 package com.butbetter.storage.csv;
 
-import com.butbetter.storage.model.ProductInformation;
+import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.List;
 
+@Service
 public interface ICSVConverter<P> {
 
 	/**
