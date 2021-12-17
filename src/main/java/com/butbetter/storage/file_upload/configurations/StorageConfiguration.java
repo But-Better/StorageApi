@@ -1,4 +1,4 @@
-package com.butbetter.storage.file_upload.Configurations;
+package com.butbetter.storage.file_upload.configurations;
 
 import com.butbetter.storage.file_upload.StorageService;
 import org.slf4j.Logger;

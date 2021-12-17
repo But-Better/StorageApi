@@ -1,4 +1,4 @@
-package com.butbetter.storage.file_upload.Exceptions;
+package com.butbetter.storage.file_upload.exceptions;
 
 import java.io.IOException;
 

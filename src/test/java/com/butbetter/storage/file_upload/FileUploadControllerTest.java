@@ -3,7 +3,7 @@ package com.butbetter.storage.file_upload;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-import com.butbetter.storage.file_upload.Exceptions.StorageFileNotFoundException;
+import com.butbetter.storage.file_upload.exceptions.StorageFileNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
