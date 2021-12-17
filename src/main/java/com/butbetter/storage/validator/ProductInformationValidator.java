@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductInformationValidator {
+public class ProductInformationValidator implements Validator<ProductInformation> {
 
 	private final Logger logger = LoggerFactory.getLogger(ProductInformationValidator.class);
 
