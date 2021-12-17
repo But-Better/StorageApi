@@ -1,7 +1,7 @@
 package com.butbetter.storage.file_upload;
 
 import com.butbetter.storage.csv.CSVImportService;
-import com.butbetter.storage.csv.Exceptions.FaultyCSVException;
+import com.butbetter.storage.csv.exceptions.FaultyCSVException;
 import com.butbetter.storage.file_upload.Exceptions.StorageException;
 import com.butbetter.storage.file_upload.Exceptions.StorageFileNotFoundException;
 import com.butbetter.storage.file_upload.Properties.StorageProperties;
