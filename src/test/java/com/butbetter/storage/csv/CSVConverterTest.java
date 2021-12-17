@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CSVConverterTest {
 
 	private static final String BASE_PATH = "src/test/resources";
-	private File file = new File(BASE_PATH + "/test.csv");
+	private File file = new File(BASE_PATH + "/write_test.csv");
 	private List<ProductInformation> productInformation;
 	private final CSVConverter importer = new CSVConverter();
 
