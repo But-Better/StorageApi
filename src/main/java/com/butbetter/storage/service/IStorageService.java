@@ -2,6 +2,7 @@ package com.butbetter.storage.service;
 
 import com.butbetter.storage.controller.ProductInformationNotFoundException;
 import com.butbetter.storage.model.ProductInformation;
+import com.butbetter.storage.validator.IProductInformationValidator;
 import com.butbetter.storage.validator.ProductInformationValidator;
 
 import javax.validation.constraints.NotNull;
@@ -32,7 +33,7 @@ public interface IStorageService {
 	 *
 	 * @param productInformation = {@link ProductInformation}
 	 *
-	 * @throws NullPointerException = is checked by {@link ProductInformationValidator}
+	 * @throws NullPointerException = is checked by {@link IProductInformationValidator}
 	 */
 	void newProductInformation(@NotNull ProductInformation productInformation) throws NullPointerException;
 }

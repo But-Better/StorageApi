@@ -5,6 +5,7 @@ import com.butbetter.storage.fileUpload.exceptions.StorageFileNotFoundException;
 import com.butbetter.storage.model.ProductInformation;
 import com.butbetter.storage.repository.FileAddressRepository;
 import com.butbetter.storage.repository.FileProductRepository;
+import com.butbetter.storage.validator.IProductInformationValidator;
 import com.butbetter.storage.validator.ProductInformationValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class CSVImportService {
 	private final FileAddressRepository addressRepository;
 	private final FileProductRepository productRepository;
 
-	private final ProductInformationValidator validator;
+	private final IProductInformationValidator validator;
 
 	private final Logger logger = LoggerFactory.getLogger(CSVImportService.class);
 
@@ -34,10 +35,10 @@ public class CSVImportService {
 	 *
 	 * @param converter         Converter
 	 * @param productRepository repo to save objects to
-	 * @param validator         {@link ProductInformationValidator}
+	 * @param validator         {@link IProductInformationValidator}
 	 */
 	@Autowired
-	public CSVImportService(CSVConverter converter, FileProductRepository productRepository, FileAddressRepository addressRepository, ProductInformationValidator validator) {
+	public CSVImportService(CSVConverter converter, FileProductRepository productRepository, FileAddressRepository addressRepository, IProductInformationValidator validator) {
 		this.converter = converter;
 		this.productRepository = productRepository;
 		this.addressRepository = addressRepository;
@@ -72,7 +73,7 @@ public class CSVImportService {
 	}
 
 	/**
-	 * validates all given {@link ProductInformation} in a list using the {@link ProductInformationValidator}
+	 * validates all given {@link ProductInformation} in a list using the {@link IProductInformationValidator}
 	 *
 	 * @param info list of {@link ProductInformation}
 	 */

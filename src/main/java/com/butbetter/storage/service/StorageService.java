@@ -4,7 +4,9 @@ import com.butbetter.storage.controller.ProductInformationNotFoundException;
 import com.butbetter.storage.model.ProductInformation;
 import com.butbetter.storage.repository.AddressRepository;
 import com.butbetter.storage.repository.ProductRepository;
+import com.butbetter.storage.validator.IProductInformationValidator;
 import com.butbetter.storage.validator.ProductInformationValidator;
+import com.butbetter.storage.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,10 @@ public class StorageService implements IStorageService {
 	private final ProductRepository productRepository;
 	private final AddressRepository addressRepository;
 
-	private final ProductInformationValidator validator;
+	private final IProductInformationValidator validator;
 
 	@Autowired
-	public StorageService(ProductRepository productRepository, AddressRepository addressRepository, ProductInformationValidator validator) {
+	public StorageService(ProductRepository productRepository, AddressRepository addressRepository, IProductInformationValidator validator) {
 		this.productRepository = productRepository;
 		this.addressRepository = addressRepository;
 		this.validator = validator;
