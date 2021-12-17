@@ -4,6 +4,7 @@ import com.butbetter.storage.controller.ProductInformationNotFoundException;
 import com.butbetter.storage.model.ProductInformation;
 import com.butbetter.storage.repository.AddressRepository;
 import com.butbetter.storage.repository.ProductRepository;
+import com.butbetter.storage.validator.ProductInformationValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,13 @@ public class StorageService {
     private final ProductRepository productRepository;
     private final AddressRepository addressRepository;
 
+    private final ProductInformationValidator validator;
+
     @Autowired
-    public StorageService(ProductRepository productRepository, AddressRepository addressRepository) {
+    public StorageService(ProductRepository productRepository, AddressRepository addressRepository, ProductInformationValidator validator) {
         this.productRepository = productRepository;
         this.addressRepository = addressRepository;
+        this.validator = validator;
     }
 
     /**
@@ -52,32 +56,11 @@ public class StorageService {
      * Create a new {@link ProductInformation} value
      *
      * @param productInformation = {@link ProductInformation}
-     * @throws NullPointerException = is checked by ValidateANewProductInformation
+     * @throws NullPointerException = is checked by {@link ProductInformationValidator}
      */
     public void newProductInformation(@NotNull ProductInformation productInformation) throws NullPointerException {
-        this.ValidateANewProductInformation(productInformation);
+        validator.validateANewProductInformation(productInformation);
         this.addressRepository.save(productInformation.getAddress());
         this.productRepository.save(productInformation);
-    }
-
-    /**
-     * Validate the input of {@link ProductInformation}
-     *
-     * @param productInformation = {@link ProductInformation}
-     * @throws NullPointerException     = if Address or DeliveryTime null
-     * @throws IllegalArgumentException = if amount smaller then zero
-     */
-    private void ValidateANewProductInformation(ProductInformation productInformation) throws NullPointerException, IllegalArgumentException {
-        if (productInformation.getAddress() == null || productInformation.getDeliveryTime() == null) {
-            String message = "Address or DeliveryTime is null";
-            logger.error(message);
-            throw new NullPointerException(message);
-        }
-
-        if (productInformation.getAmount() < 0) {
-            String message = "Number is negative";
-            logger.error(message);
-            throw new IllegalArgumentException(message);
-        }
     }
 }

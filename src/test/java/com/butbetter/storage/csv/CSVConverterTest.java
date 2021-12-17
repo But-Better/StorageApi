@@ -16,13 +16,14 @@ import java.io.*;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CSVConverterTest {
 
 	private static final String BASE_PATH = "src/test/resources";
-	private File file = new File(BASE_PATH + "/test.csv");
+	private File file = new File(BASE_PATH + "/write_test.csv");
 	private List<ProductInformation> productInformation;
 	private final CSVConverter importer = new CSVConverter();
 
@@ -36,7 +37,7 @@ class CSVConverterTest {
 
 		productInformation = new ArrayList<>();
 
-		productInformation.add(new ProductInformation(OffsetDateTime.now(), 5, new Address("a", "a", "a", "a", "a", "a")));
+		productInformation.add(new ProductInformation(UUID.randomUUID(), OffsetDateTime.now(), 5, new Address(UUID.randomUUID(), "a", "a", "a", "a", "a", "a")));
 		Writer writer = new FileWriter(file);
 		StatefulBeanToCsv<ProductInformation> beanToCsv = new StatefulBeanToCsvBuilder<ProductInformation>(writer).build();
 		beanToCsv.write(productInformation);
@@ -44,7 +45,13 @@ class CSVConverterTest {
 	}
 
 	@Test
-	void generalTheoreticalSerializeTest() throws IOException, StorageFileNotFoundException {
+	void generalAddressConversionTest() throws IOException {
+		List<ProductInformation> beans = importer.getFromCSV(file.toPath());
+		assertEquals(productInformation.get(0).getAddress(), beans.get(0).getAddress());
+	}
+
+	@Test
+	void generalFullConversionTest() throws IOException {
 		List<ProductInformation> beans = importer.getFromCSV(file.toPath());
 		assertEquals(productInformation.get(0), beans.get(0));
 	}
@@ -52,6 +59,6 @@ class CSVConverterTest {
 	@Test
 	void noFileFoundTest() {
 		file = new File(RandomStringUtils.randomAlphabetic(10));
-		assertThrows(StorageFileNotFoundException.class, () -> importer.getFromCSV(file.toPath()));
+		assertThrows(FileNotFoundException.class, () -> importer.getFromCSV(file.toPath()));
 	}
 }

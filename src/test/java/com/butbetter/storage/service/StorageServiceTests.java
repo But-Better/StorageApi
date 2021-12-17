@@ -2,6 +2,7 @@ package com.butbetter.storage.service;
 
 import com.butbetter.storage.model.Address;
 import com.butbetter.storage.model.ProductInformation;
+import com.butbetter.storage.validator.ProductInformationValidator;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,7 +38,7 @@ public class StorageServiceTests {
     @Disabled("Address or DeliveryTime is null")
     @Test
     void productInformationThrowNullPointerException() {
-        this.storageService = new StorageService(null, null);
+        this.storageService = new StorageService(null, null, new ProductInformationValidator());
         assertThrows(NullPointerException.class, () -> {
             this.storageService.newProductInformation(new ProductInformation());
         });
