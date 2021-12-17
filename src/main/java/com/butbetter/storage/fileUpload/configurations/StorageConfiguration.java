@@ -13,11 +13,11 @@ public class StorageConfiguration {
 	private final Logger logger = LoggerFactory.getLogger(StorageConfiguration.class);
 
 	@Bean
-	CommandLineRunner init(IFileStorageService IFileStorageService) {
+	CommandLineRunner init(IFileStorageService fileStorageService) {
 		return (args) -> {
 			logger.info("initialize Storage");
-			IFileStorageService.deleteAll();
-			IFileStorageService.init();
+			fileStorageService.deleteAll();
+			fileStorageService.init();
 			logger.info("done Storage initialization");
 		};
 	}

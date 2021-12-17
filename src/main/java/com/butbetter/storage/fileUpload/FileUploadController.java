@@ -25,11 +25,11 @@ public class FileUploadController {
 
 	private final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
 
-	private final IFileStorageService IFileStorageService;
+	private final IFileStorageService fileStorageService;
 
 	@Autowired
-	public FileUploadController(IFileStorageService IFileStorageService) {
-		this.IFileStorageService = IFileStorageService;
+	public FileUploadController(IFileStorageService fileStorageService) {
+		this.fileStorageService = fileStorageService;
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class FileUploadController {
 	@PostMapping("/")
 	public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) throws StorageException, FaultyCSVException, StorageFileNotFoundException {
 		logger.info("file upload started, saving: " + file.getOriginalFilename());
-		IFileStorageService.store(file);
+		fileStorageService.store(file);
 		redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + file.getOriginalFilename() + "!");
 
 		return "redirect:/";
@@ -52,14 +52,14 @@ public class FileUploadController {
 	@GetMapping("/")
 	public ResponseEntity<List<Path>> listAllFiles() throws StorageException {
 		logger.info("request for listing all available files");
-		List<Path> availableList = IFileStorageService.loadAll().collect(Collectors.toList());
+		List<Path> availableList = fileStorageService.loadAll().collect(Collectors.toList());
 		return ResponseEntity.ok().body(availableList);
 	}
 
 	@GetMapping("/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws StorageFileNotFoundException {
-		Resource file = IFileStorageService.loadAsResource(filename);
+		Resource file = fileStorageService.loadAsResource(filename);
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
