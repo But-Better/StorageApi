@@ -34,18 +34,17 @@ public class FileUploadController {
 
 	/**
 	 * handling of post request for file upload
-	 * @param file file to upload
-	 * @param redirectAttributes
+	 *
+	 * @param file               file to upload
 	 * @return response
+	 *
 	 * @throws StorageException thrown, if file couldn't be stored
 	 */
 	@PostMapping("/")
-	public String handleFileUpload(@RequestParam("file") MultipartFile file,
-	                               RedirectAttributes redirectAttributes) throws StorageException, FaultyCSVException, StorageFileNotFoundException {
+	public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) throws StorageException, FaultyCSVException, StorageFileNotFoundException {
 		logger.info("file upload started, saving: " + file.getOriginalFilename());
 		storageService.store(file);
-		redirectAttributes.addFlashAttribute("message",
-				"You successfully uploaded " + file.getOriginalFilename() + "!");
+		redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + file.getOriginalFilename() + "!");
 
 		return "redirect:/";
 	}
@@ -61,14 +60,14 @@ public class FileUploadController {
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws StorageFileNotFoundException {
 		Resource file = storageService.loadAsResource(filename);
-		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-				.body(file);
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
 	/**
 	 * Controller Exception Handler for StorageFileNotFoundException
+	 *
 	 * @param e StorageFileNotFoundException
+	 *
 	 * @return Build Response-Entity
 	 */
 	@ExceptionHandler(StorageFileNotFoundException.class)
@@ -79,7 +78,9 @@ public class FileUploadController {
 
 	/**
 	 * Controller Exception Handler for IOException
+	 *
 	 * @param e IOException
+	 *
 	 * @return Build Response-Entity
 	 */
 	@ExceptionHandler(IOException.class)
@@ -90,7 +91,9 @@ public class FileUploadController {
 
 	/**
 	 * Controller Exception Handler for FaultyCSVException
+	 *
 	 * @param e FaultyCSVException
+	 *
 	 * @return Build Response-Entity
 	 */
 	@ExceptionHandler(FaultyCSVException.class)

@@ -12,7 +12,7 @@ public class Address implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id", insertable = false, updatable = false, nullable = false)
+	@Column(name = "id", insertable = false, updatable = false, nullable = false)
 	private UUID uuid;
 
 	@CsvBindByName(column = "name", required = true)
@@ -131,16 +131,12 @@ public class Address implements Serializable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		Address address = (Address) o;
-		return Objects.equals(uuid, address.uuid)
-				&& Objects.equals(name, address.name)
-				&& Objects.equals(companyName, address.companyName)
-				&& Objects.equals(street, address.street)
-				&& Objects.equals(city, address.city)
-				&& Objects.equals(postCode, address.postCode)
-				&& Objects.equals(country, address.country);
+		return Objects.equals(uuid, address.uuid) && Objects.equals(name, address.name) && Objects.equals(companyName, address.companyName) && Objects.equals(street, address.street) && Objects.equals(city, address.city) && Objects.equals(postCode, address.postCode) && Objects.equals(country, address.country);
 	}
 
 	@Override
@@ -150,14 +146,6 @@ public class Address implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Address{" +
-				"uuid=" + uuid +
-				", name='" + name + '\'' +
-				", companyName='" + companyName + '\'' +
-				", street='" + street + '\'' +
-				", city='" + city + '\'' +
-				", postCode='" + postCode + '\'' +
-				", country='" + country + '\'' +
-				'}';
+		return "Address{" + "uuid=" + uuid + ", name='" + name + '\'' + ", companyName='" + companyName + '\'' + ", street='" + street + '\'' + ", city='" + city + '\'' + ", postCode='" + postCode + '\'' + ", country='" + country + '\'' + '}';
 	}
 }

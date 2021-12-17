@@ -17,50 +17,52 @@ import java.util.UUID;
 @Service
 public class StorageService {
 
-    private static final Logger logger = LoggerFactory.getLogger(StorageService.class);
+	private static final Logger logger = LoggerFactory.getLogger(StorageService.class);
 
-    private final ProductRepository productRepository;
-    private final AddressRepository addressRepository;
+	private final ProductRepository productRepository;
+	private final AddressRepository addressRepository;
 
-    private final ProductInformationValidator validator;
+	private final ProductInformationValidator validator;
 
-    @Autowired
-    public StorageService(ProductRepository productRepository, AddressRepository addressRepository, ProductInformationValidator validator) {
-        this.productRepository = productRepository;
-        this.addressRepository = addressRepository;
-        this.validator = validator;
-    }
+	@Autowired
+	public StorageService(ProductRepository productRepository, AddressRepository addressRepository, ProductInformationValidator validator) {
+		this.productRepository = productRepository;
+		this.addressRepository = addressRepository;
+		this.validator = validator;
+	}
 
-    /**
-     * Get all {@link ProductInformation} value
-     *
-     * @return = a list of {@link ProductInformation}
-     */
-    public List<ProductInformation> all() {
-        return this.productRepository.findAll();
-    }
+	/**
+	 * Get all {@link ProductInformation} value
+	 *
+	 * @return = a list of {@link ProductInformation}
+	 */
+	public List<ProductInformation> all() {
+		return this.productRepository.findAll();
+	}
 
-    /**
-     * Get One {@link ProductInformation} value
-     *
-     * @param id = type UUID
-     * @return = one {@link ProductInformation}
-     * @throws ProductInformationNotFoundException = if no {@link ProductInformation} was found
-     */
-    public ProductInformation one(UUID id) throws ProductInformationNotFoundException {
-        return this.productRepository.findById(id)
-                .orElseThrow(() -> new ProductInformationNotFoundException("User could not found with the UUID", id));
-    }
+	/**
+	 * Get One {@link ProductInformation} value
+	 *
+	 * @param id = type UUID
+	 *
+	 * @return = one {@link ProductInformation}
+	 *
+	 * @throws ProductInformationNotFoundException = if no {@link ProductInformation} was found
+	 */
+	public ProductInformation one(UUID id) throws ProductInformationNotFoundException {
+		return this.productRepository.findById(id).orElseThrow(() -> new ProductInformationNotFoundException("User could not found with the UUID", id));
+	}
 
-    /**
-     * Create a new {@link ProductInformation} value
-     *
-     * @param productInformation = {@link ProductInformation}
-     * @throws NullPointerException = is checked by {@link ProductInformationValidator}
-     */
-    public void newProductInformation(@NotNull ProductInformation productInformation) throws NullPointerException {
-        validator.validate(productInformation);
-        this.addressRepository.save(productInformation.getAddress());
-        this.productRepository.save(productInformation);
-    }
+	/**
+	 * Create a new {@link ProductInformation} value
+	 *
+	 * @param productInformation = {@link ProductInformation}
+	 *
+	 * @throws NullPointerException = is checked by {@link ProductInformationValidator}
+	 */
+	public void newProductInformation(@NotNull ProductInformation productInformation) throws NullPointerException {
+		validator.validate(productInformation);
+		this.addressRepository.save(productInformation.getAddress());
+		this.productRepository.save(productInformation);
+	}
 }

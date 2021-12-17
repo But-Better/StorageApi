@@ -47,8 +47,7 @@ public class FileStorageService implements StorageService {
 		logger.info("initializing Storage");
 		try {
 			Files.createDirectories(rootLocation);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			String message = "Could not initialize storage, directory at \"" + rootLocation + "\" could not be created";
 			logger.error(message);
 			throw new StorageException(message, e);
@@ -79,8 +78,7 @@ public class FileStorageService implements StorageService {
 		try {
 			importToDatabase(load(file.getOriginalFilename()));
 		} catch (StorageFileNotFoundException e) {
-			String message = "file " + file.getOriginalFilename() + " seemed correctly stored, but in the end wasn't, " +
-					"if this message comes up, something terrible must have happened";
+			String message = "file " + file.getOriginalFilename() + " seemed correctly stored, but in the end wasn't, " + "if this message comes up, something terrible must have happened";
 			logger.error(message);
 			throw new StorageException(message, e);
 		}
@@ -114,9 +112,7 @@ public class FileStorageService implements StorageService {
 	}
 
 	private Path getSaveDestination(MultipartFile file) {
-		return this.rootLocation.resolve(
-						Paths.get(Objects.requireNonNull(file.getOriginalFilename())))
-				.normalize().toAbsolutePath();
+		return this.rootLocation.resolve(Paths.get(Objects.requireNonNull(file.getOriginalFilename()))).normalize().toAbsolutePath();
 	}
 
 	private void checkIfDestinationIsOutsideOfRootLocation(Path destinationFile) throws StorageException {
@@ -130,8 +126,7 @@ public class FileStorageService implements StorageService {
 
 	private void putFileTo(MultipartFile file, Path destinationFile) throws StorageException {
 		try (InputStream inputStream = file.getInputStream()) {
-			Files.copy(inputStream, destinationFile,
-					StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			String message = "wasn't able to store the contents of " + file.getOriginalFilename() + " in " + destinationFile;
 			logger.error(message);
@@ -143,9 +138,7 @@ public class FileStorageService implements StorageService {
 	public Stream<Path> loadAll() throws StorageException {
 		logger.info("loading all");
 		try {
-			Stream<Path> paths = Files.walk(this.rootLocation, 1)
-					.filter(path -> !path.equals(this.rootLocation))
-					.map(this.rootLocation::relativize);
+			Stream<Path> paths = Files.walk(this.rootLocation, 1).filter(path -> !path.equals(this.rootLocation)).map(this.rootLocation::relativize);
 			logger.info("loaded all");
 			return paths;
 		} catch (IOException e) {
@@ -159,10 +152,7 @@ public class FileStorageService implements StorageService {
 	public Path loadLast() throws StorageFileNotFoundException, StorageException {
 		logger.info("loading last");
 		try {
-			List<Path> all = Files.walk(this.rootLocation, 1)
-					.filter(path -> !path.equals(this.rootLocation))
-					.map(this.rootLocation::relativize)
-					.collect(Collectors.toList());
+			List<Path> all = Files.walk(this.rootLocation, 1).filter(path -> !path.equals(this.rootLocation)).map(this.rootLocation::relativize).collect(Collectors.toList());
 
 			checkIfPathStreamIsEmpty(all.stream());
 
@@ -177,7 +167,7 @@ public class FileStorageService implements StorageService {
 	}
 
 	private void checkIfPathStreamIsEmpty(Stream<Path> all) throws StorageFileNotFoundException {
-		if(all.findAny().isEmpty()) {
+		if (all.findAny().isEmpty()) {
 			String message = "last file can't be found, since no files were uploaded yet";
 			logger.error(message);
 			throw new StorageFileNotFoundException(message);
@@ -211,8 +201,7 @@ public class FileStorageService implements StorageService {
 				logger.error(message);
 				throw new StorageFileNotFoundException(message);
 			}
-		}
-		catch (MalformedURLException e) {
+		} catch (MalformedURLException e) {
 			String message = "Could not read file: " + filename;
 			logger.error(message);
 			throw new StorageFileNotFoundException(message, e);
@@ -220,7 +209,7 @@ public class FileStorageService implements StorageService {
 	}
 
 	@Override
-	public void deleteAll() throws StorageException {
+	public void deleteAll() {
 		logger.info("removing all known files");
 		try {
 			Files.list(rootLocation).forEach(filePath -> {
@@ -232,8 +221,7 @@ public class FileStorageService implements StorageService {
 				}
 			});
 		} catch (IOException e) {
-			String message = "skipping deleting all current existing files, couldn't remove all files, either because " +
-					"of permission problems or the path doesn't exist anymore";
+			String message = "skipping deleting all current existing files, couldn't remove all files, either because " + "of permission problems or the path doesn't exist anymore";
 			logger.error(message, e);
 		}
 		logger.info("removed all known files");

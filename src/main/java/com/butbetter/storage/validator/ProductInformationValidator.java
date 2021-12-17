@@ -14,6 +14,7 @@ public class ProductInformationValidator {
 	 * Validate the input of {@link ProductInformation}
 	 *
 	 * @param productInformation = {@link ProductInformation}
+	 *
 	 * @throws NullPointerException     = if Address or DeliveryTime null
 	 * @throws IllegalArgumentException = if amount smaller then zero
 	 */

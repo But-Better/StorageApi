@@ -20,8 +20,7 @@ public class CSVConverter {
 	private final Logger logger = LoggerFactory.getLogger(CSVConverter.class);
 
 	public List<ProductInformation> getFromCSV(Path file) throws FileNotFoundException {
-		return new CsvToBeanBuilder<ProductInformation>(new FileReader(String.valueOf(file)))
-				.withType(ProductInformation.class).build().parse();
+		return new CsvToBeanBuilder<ProductInformation>(new FileReader(String.valueOf(file))).withType(ProductInformation.class).build().parse();
 	}
 
 }

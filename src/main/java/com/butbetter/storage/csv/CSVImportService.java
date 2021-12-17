@@ -3,9 +3,9 @@ package com.butbetter.storage.csv;
 import com.butbetter.storage.csv.exceptions.FaultyCSVException;
 import com.butbetter.storage.file_upload.exceptions.StorageException;
 import com.butbetter.storage.file_upload.exceptions.StorageFileNotFoundException;
+import com.butbetter.storage.model.ProductInformation;
 import com.butbetter.storage.repository.FileAddressRepository;
 import com.butbetter.storage.repository.FileProductRepository;
-import com.butbetter.storage.model.ProductInformation;
 import com.butbetter.storage.validator.ProductInformationValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +32,10 @@ public class CSVImportService {
 
 	/**
 	 * Autowired CSVImportService Constructor
-	 * @param converter             Converter
-	 * @param productRepository     repo to save objects to
-	 * @param validator             {@link ProductInformationValidator}
+	 *
+	 * @param converter         Converter
+	 * @param productRepository repo to save objects to
+	 * @param validator         {@link ProductInformationValidator}
 	 */
 	@Autowired
 	public CSVImportService(CSVConverter converter, FileProductRepository productRepository, FileAddressRepository addressRepository, ProductInformationValidator validator) {
@@ -50,7 +51,7 @@ public class CSVImportService {
 	 * @param path Path to the File with CSV Information
 	 *
 	 * @throws StorageFileNotFoundException thrown, if the File couldn't be properly stored/processed before
-	 * @throws FaultyCSVException thrown, if no convertable CSV Elements were found in the File
+	 * @throws FaultyCSVException           thrown, if no convertable CSV Elements were found in the File
 	 */
 	public void fromFile(Path path) throws FaultyCSVException, StorageFileNotFoundException {
 		List<ProductInformation> info = getInformationOutOfFile(path);
@@ -82,9 +83,12 @@ public class CSVImportService {
 
 	/**
 	 * pulling information out of the file at given path
+	 *
 	 * @param path path to csv file
+	 *
 	 * @return List of converted ProductInformation
-	 * @throws StorageException thrown, if file can't be processed or File was not properly stored beforehand
+	 *
+	 * @throws StorageFileNotFoundException thrown, if file can't be processed or File was not properly stored beforehand
 	 */
 	private List<ProductInformation> getInformationOutOfFile(Path path) throws StorageFileNotFoundException {
 		try {
