@@ -1,6 +1,7 @@
 package com.butbetter.storage.controller;
 
 import com.butbetter.storage.model.ProductInformation;
+import com.butbetter.storage.service.IStorageService;
 import com.butbetter.storage.service.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +21,10 @@ public class StorageController {
 
 	private static final Logger logger = LoggerFactory.getLogger(StorageController.class);
 
-	private final StorageService storageService;
+	private final IStorageService storageService;
 
 	@Autowired
-	public StorageController(StorageService storageService) {
+	public StorageController(IStorageService storageService) {
 		this.storageService = storageService;
 	}
 
