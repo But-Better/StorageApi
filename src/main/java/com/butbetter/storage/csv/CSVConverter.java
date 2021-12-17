@@ -15,7 +15,7 @@ import java.util.List;
  * CSV-File-to-Objects-Converter
  */
 @Component
-public class CSVConverter {
+public class CSVConverter implements ICSVConverter<ProductInformation> {
 
 	private final Logger logger = LoggerFactory.getLogger(CSVConverter.class);
 
