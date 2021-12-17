@@ -8,6 +8,7 @@ import com.butbetter.storage.model.ProductInformation;
 import com.butbetter.storage.repository.FileAddressRepository;
 import com.butbetter.storage.repository.FileProductRepository;
 import com.butbetter.storage.validator.ProductInformationValidator;
+import com.github.javafaker.Faker;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import org.junit.jupiter.api.AfterEach;
@@ -58,7 +59,7 @@ class CSVImportServiceTest {
 
 	@Test
 	void normalFromFileConversionTest() throws FaultyCSVException, FileNotFoundException, StorageFileNotFoundException {
-		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation()}).collect(Collectors.toList());
+		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation(UUID.randomUUID(), OffsetDateTime.now(), Faker.instance().number().randomDigit(), new Address())}).collect(Collectors.toList());
 		when(converter.getFromCSV(any())).thenReturn(convertedList);
 
 		service.fromFile(testFile);
