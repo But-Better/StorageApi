@@ -77,7 +77,7 @@ public class CSVImportService {
 	 * @param info list of {@link ProductInformation}
 	 */
 	private void validateProductInformationList(List<ProductInformation> info) {
-		info.forEach(validator::validateANewProductInformation);
+		info.forEach(validator::validate);
 	}
 
 	/**

@@ -17,7 +17,7 @@ public class ProductInformationValidator {
 	 * @throws NullPointerException     = if Address or DeliveryTime null
 	 * @throws IllegalArgumentException = if amount smaller then zero
 	 */
-	public void validateANewProductInformation(ProductInformation productInformation) throws NullPointerException, IllegalArgumentException {
+	public void validate(ProductInformation productInformation) throws NullPointerException, IllegalArgumentException {
 		if (productInformation.getAddress() == null || productInformation.getDeliveryTime() == null) {
 			String message = "Address or DeliveryTime is null";
 			logger.error(message);

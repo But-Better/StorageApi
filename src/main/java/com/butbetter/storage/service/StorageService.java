@@ -59,7 +59,7 @@ public class StorageService {
      * @throws NullPointerException = is checked by {@link ProductInformationValidator}
      */
     public void newProductInformation(@NotNull ProductInformation productInformation) throws NullPointerException {
-        validator.validateANewProductInformation(productInformation);
+        validator.validate(productInformation);
         this.addressRepository.save(productInformation.getAddress());
         this.productRepository.save(productInformation);
     }
