@@ -16,7 +16,7 @@ class BeanAddressConverterTest {
 
 	@Test
 	void generalConvert() {
-		String input = "Address{uuid='68c9791a-280a-4da0-b403-48b8d15f1301', name='a', companyName='a', street='a', city='a', postCode='a', country='a'}";
+		String input = "Address{uuid=68c9791a-280a-4da0-b403-48b8d15f1301, name='a', companyName='a', street='a', city='a', postCode='a', country='a'}";
 		Address address = new Address(UUID.fromString("68c9791a-280a-4da0-b403-48b8d15f1301"), "a", "a", "a", "a", "a", "a");
 		try {
 			assertEquals(address, converter.convert(input));
@@ -26,9 +26,9 @@ class BeanAddressConverterTest {
 	}
 
 	@Test
-	void noUUIDConversionTest() {
+	void noUUIDConversionFailTest() {
 		String input = "Address{uuid=null, name='a', companyName='a', street='a', city='a', postCode='a', country='a'}";
-		assertThrows(CsvConstraintViolationException.class,  () -> converter.convert(input));
+		assertThrows(CsvDataTypeMismatchException.class,  () -> converter.convert(input));
 	}
 
 	@Test
