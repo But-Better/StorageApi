@@ -51,6 +51,13 @@ public class ProductInformation implements Serializable {
         this.address = address;
     }
 
+    public ProductInformation(UUID uuid, OffsetDateTime date, int amount, Address address) {
+        this.uuid = uuid;
+        this.date = date;
+        this.amount = amount;
+        this.address = address;
+    }
+
     public ProductInformation() {
 
     }
