@@ -28,6 +28,7 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 	private static final String COUNTRY_IDENTIFIER = "country=";
 
 	private static final String VALUE_PACKAGE = "'";
+	private static final String VALUE_DIVIDER = ",";
 
 	private final Pattern check_pattern = Pattern.compile("(Address.)" +
 			UUID_IDENTIFIER + ".+?" +
@@ -39,7 +40,7 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 			COUNTRY_IDENTIFIER );
 
 
-	private final Pattern uuid_pattern = Pattern.compile("(" + UUID_IDENTIFIER + VALUE_PACKAGE + ").+?(" + VALUE_PACKAGE + ")");
+	private final Pattern uuid_pattern = Pattern.compile("(" + UUID_IDENTIFIER + ").+?(" + VALUE_DIVIDER + ")");
 	private final Pattern name_pattern = Pattern.compile("(" + NAME_IDENTIFIER + VALUE_PACKAGE + ").+?(" + VALUE_PACKAGE + ")");
 	private final Pattern company_name_pattern = Pattern.compile("("+ COMPANY_NAME_IDENTIFIER + VALUE_PACKAGE + ").+?(" + VALUE_PACKAGE + ")");
 	private final Pattern street_pattern = Pattern.compile("(" + STREET_IDENTIFIER + VALUE_PACKAGE + ").+?(" + VALUE_PACKAGE + ")");
@@ -97,8 +98,8 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 
 		String uuid = getCleanValue(
 				getGroup(uuid_matcher, 0),
-				UUID_IDENTIFIER + VALUE_PACKAGE,
-				VALUE_PACKAGE);
+				UUID_IDENTIFIER,
+				VALUE_DIVIDER);
 
 		UUID actualUUID = parseUUIDFromString(uuid);
 
@@ -144,7 +145,7 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 		try {
 			return UUID.fromString(uuid);
 		} catch (IllegalArgumentException e) {
-			String message = "the given UUID cannot be converted into its representable Object";
+			String message = "the given UUID cannot be converted into its representable Object (uuid => " + uuid + " )";
 			logger.error(message, e);
 			throw new CsvDataTypeMismatchException(message);
 		}

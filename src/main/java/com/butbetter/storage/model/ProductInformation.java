@@ -19,11 +19,12 @@ import java.util.UUID;
 public class ProductInformation implements Serializable {
 
     @Id
+    @CsvBindByName(column = "uuid", required = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", insertable = false, updatable = false, nullable = false)
     private UUID uuid;
 
-	@CsvCustomBindByName(converter = BeanOffsetDateTimeConverter.class, column = "deliveryTime", required = true)
+    @CsvCustomBindByName(converter = BeanOffsetDateTimeConverter.class, column = "deliveryTime", required = true)
 	@Column(name = "delivery_time", nullable = false)
     private OffsetDateTime date;
 
