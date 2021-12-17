@@ -83,7 +83,7 @@ class CSVImportServiceTest {
 		OffsetDateTime date = (OffsetDateTime) new BeanOffsetDateTimeConverter<String, OffsetDateTime>().convert("2021-11-20T14:20:53.128120+01:00");
 		Address address = new Address(UUID.fromString("68c9791a-280a-4da0-b403-48b8d15f1301"), "a", "a", "a", "a", "a", "a");
 
-		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation(date, 5, address)}).collect(Collectors.toList());
+		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation(UUID.fromString("68c9791a-280a-4da0-b403-48b8d15f1301"), date, 5, address)}).collect(Collectors.toList());
 
 		converter = new CSVConverter();
 		service = new CSVImportService(converter, prodRepo, addrRepo, validator);
