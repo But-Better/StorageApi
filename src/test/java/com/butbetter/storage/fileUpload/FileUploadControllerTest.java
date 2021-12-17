@@ -29,11 +29,11 @@ public class FileUploadControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private StorageService storageService;
+    private IFileStorageService IFileStorageService;
 
     @Test
     public void shouldListAllFiles() throws Exception {
-        given(this.storageService.loadAll())
+        given(this.IFileStorageService.loadAll())
                 .willReturn(Stream.of(Paths.get("first.txt"), Paths.get("second.txt")));
 
         this.mvc.perform(get("/csv/v1/")).andExpect(status().isOk());
@@ -47,12 +47,12 @@ public class FileUploadControllerTest {
                 .andExpect(status().isFound())
                 .andExpect(header().string("Location", "/"));
 
-        then(this.storageService).should().store(multipartFile);
+        then(this.IFileStorageService).should().store(multipartFile);
     }
 
     @Test
     public void should404WhenMissingFile() throws Exception, StorageFileNotFoundException {
-        given(this.storageService.loadAsResource("test.txt")).willThrow(StorageFileNotFoundException.class);
+        given(this.IFileStorageService.loadAsResource("test.txt")).willThrow(StorageFileNotFoundException.class);
 
         this.mvc.perform(get("/csv/v1/test.txt")).andExpect(status().isNotFound());
     }

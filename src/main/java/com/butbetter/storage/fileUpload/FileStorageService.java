@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-public class FileStorageService implements StorageService {
+public class FileStorageService implements IFileStorageService {
 
 	private final CSVImportService importer;
 
