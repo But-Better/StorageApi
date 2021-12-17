@@ -1,8 +1,8 @@
 package com.butbetter.storage.csv;
 
 import com.butbetter.storage.csv.exceptions.FaultyCSVException;
-import com.butbetter.storage.file_upload.exceptions.StorageFileNotFoundException;
-import com.butbetter.storage.custom_converter.BeanOffsetDateTimeConverter;
+import com.butbetter.storage.fileUpload.exceptions.StorageFileNotFoundException;
+import com.butbetter.storage.customConverter.BeanOffsetDateTimeConverter;
 import com.butbetter.storage.model.Address;
 import com.butbetter.storage.model.ProductInformation;
 import com.butbetter.storage.repository.FileAddressRepository;

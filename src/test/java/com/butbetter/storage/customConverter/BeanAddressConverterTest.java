@@ -1,9 +1,8 @@
-package com.butbetter.storage.custom_converter;
+package com.butbetter.storage.customConverter;
 
 import com.butbetter.storage.model.Address;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

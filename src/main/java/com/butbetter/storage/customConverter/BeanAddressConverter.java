@@ -1,4 +1,4 @@
-package com.butbetter.storage.custom_converter;
+package com.butbetter.storage.customConverter;
 
 import com.butbetter.storage.model.Address;
 import com.opencsv.bean.AbstractBeanField;

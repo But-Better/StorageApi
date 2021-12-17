@@ -1,8 +1,8 @@
-package com.butbetter.storage.file_upload;
+package com.butbetter.storage.fileUpload;
 
 import com.butbetter.storage.csv.exceptions.FaultyCSVException;
-import com.butbetter.storage.file_upload.exceptions.StorageException;
-import com.butbetter.storage.file_upload.exceptions.StorageFileNotFoundException;
+import com.butbetter.storage.fileUpload.exceptions.StorageException;
+import com.butbetter.storage.fileUpload.exceptions.StorageFileNotFoundException;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 

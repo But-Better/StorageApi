@@ -1,4 +1,4 @@
-package com.butbetter.storage.file_upload.exceptions;
+package com.butbetter.storage.fileUpload.exceptions;
 
 public class StorageFileNotFoundException extends Throwable {
 

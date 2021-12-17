@@ -1,10 +1,10 @@
-package com.butbetter.storage.file_upload;
+package com.butbetter.storage.fileUpload;
 
 import com.butbetter.storage.csv.CSVImportService;
 import com.butbetter.storage.csv.exceptions.FaultyCSVException;
-import com.butbetter.storage.file_upload.exceptions.StorageException;
-import com.butbetter.storage.file_upload.exceptions.StorageFileNotFoundException;
-import com.butbetter.storage.file_upload.properties.StorageProperties;
+import com.butbetter.storage.fileUpload.exceptions.StorageException;
+import com.butbetter.storage.fileUpload.exceptions.StorageFileNotFoundException;
+import com.butbetter.storage.fileUpload.properties.StorageProperties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

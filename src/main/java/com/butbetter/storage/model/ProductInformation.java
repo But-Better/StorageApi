@@ -1,8 +1,8 @@
 package com.butbetter.storage.model;
 
 
-import com.butbetter.storage.custom_converter.BeanAddressConverter;
-import com.butbetter.storage.custom_converter.BeanOffsetDateTimeConverter;
+import com.butbetter.storage.customConverter.BeanAddressConverter;
+import com.butbetter.storage.customConverter.BeanOffsetDateTimeConverter;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
 import org.hibernate.validator.constraints.Range;
