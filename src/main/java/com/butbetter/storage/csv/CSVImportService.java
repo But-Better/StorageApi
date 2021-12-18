@@ -47,22 +47,25 @@ public class CSVImportService implements ICSVImportService {
 	}
 
 	public void fromFile(Path path) throws FaultyCSVException, StorageFileNotFoundException {
-		List<ProductInformation> info = getInformationOutOfFile(path);
-		if (info.isEmpty()) {
+		List<ProductInformation> productInformationList = getInformationOutOfFile(path);
+		if (productInformationList.isEmpty()) {
 			String message = "no elements where found in csv file at: " + path.toString();
 			logger.error(message);
 			throw new FaultyCSVException(message);
 		}
 
 		try {
-			validateProductInformationList(info);
+			validateProductInformationList(productInformationList);
 		} catch (NullPointerException | IllegalArgumentException e) {
 			logger.error("couldn't validate all newly added Product-Information", e);
 		}
 
-		info.forEach(i -> addressRepository.save(i.getAddress()));
-		productRepository.saveAll(info);
-		logger.info("saved add new Product-Information (newly added:" + info.size() + ")");
+		productInformationList
+				.forEach(productInformation -> addressRepository
+						.save(productInformation.getAddress()));
+
+		productRepository.saveAll(productInformationList);
+		logger.info("saved add new Product-Information (newly added:" + productInformationList.size() + ")");
 	}
 
 	/**

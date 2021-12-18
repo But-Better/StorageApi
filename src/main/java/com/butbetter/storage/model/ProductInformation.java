@@ -18,7 +18,6 @@ import java.util.UUID;
 public class ProductInformation implements Serializable {
 
 	@Id
-	@CsvBindByName(column = "uuid", required = true)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", insertable = false, updatable = false, nullable = false)
 	private UUID uuid;
@@ -45,13 +44,6 @@ public class ProductInformation implements Serializable {
 	 * @param address = address of product location
 	 */
 	public ProductInformation(OffsetDateTime date, int amount, Address address) {
-		this.date = date;
-		this.amount = amount;
-		this.address = address;
-	}
-
-	public ProductInformation(UUID uuid, OffsetDateTime date, int amount, Address address) {
-		this.uuid = uuid;
 		this.date = date;
 		this.amount = amount;
 		this.address = address;

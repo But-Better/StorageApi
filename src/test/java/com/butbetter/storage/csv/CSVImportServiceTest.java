@@ -59,7 +59,7 @@ class CSVImportServiceTest {
 
 	@Test
 	void normalFromFileConversionTest() throws FaultyCSVException, FileNotFoundException, StorageFileNotFoundException {
-		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation(UUID.randomUUID(), OffsetDateTime.now(), Faker.instance().number().randomDigit(), new Address())}).collect(Collectors.toList());
+		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation(OffsetDateTime.now(), Faker.instance().number().randomDigit(), new Address())}).collect(Collectors.toList());
 		when(converter.getFromCSV(any())).thenReturn(convertedList);
 
 		service.fromFile(testFile);
@@ -81,9 +81,9 @@ class CSVImportServiceTest {
 	@Test
 	void usingActualConverterTest() throws CsvConstraintViolationException, CsvDataTypeMismatchException, FaultyCSVException, StorageFileNotFoundException {
 		OffsetDateTime date = (OffsetDateTime) new BeanOffsetDateTimeConverter<String, OffsetDateTime>().convert("2021-11-20T14:20:53.128120+01:00");
-		Address address = new Address(UUID.fromString("68c9791a-280a-4da0-b403-48b8d15f1301"), "a", "a", "a", "a", "a", "a");
+		Address address = new Address("a", "a", "a", "a", "a", "a");
 
-		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation(UUID.fromString("68c9791a-280a-4da0-b403-48b8d15f1301"), date, 5, address)}).collect(Collectors.toList());
+		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation(date, 5, address)}).collect(Collectors.toList());
 
 		converter = new CSVConverter();
 		service = new CSVImportService(converter, prodRepo, addrRepo, validator);

@@ -6,7 +6,7 @@
 function ps_default_connection() {
   input=$1
   echo input
-  docker exec -it f7a42cb1e007 psql -U postgres
+  docker exec -it 84282d897a80 psql -U postgres
 }
 
 ps_default_connection

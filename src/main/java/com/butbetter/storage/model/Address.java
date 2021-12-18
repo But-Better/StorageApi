@@ -42,7 +42,6 @@ public class Address implements Serializable {
 	/**
 	 * Model of Product
 	 *
-	 * @param uuid        = identifier
 	 * @param name        = your name
 	 * @param companyName = your company name
 	 * @param street      = your street
@@ -50,16 +49,6 @@ public class Address implements Serializable {
 	 * @param postCode    = your postcode
 	 * @param country     = your country
 	 */
-	public Address(UUID uuid, String name, String companyName, String street, String city, String postCode, String country) {
-		this.uuid = uuid;
-		this.name = name;
-		this.companyName = companyName;
-		this.street = street;
-		this.city = city;
-		this.postCode = postCode;
-		this.country = country;
-	}
-
 	public Address(String name, String companyName, String street, String city, String postCode, String country) {
 		this.name = name;
 		this.companyName = companyName;
