@@ -1,2 +1,2 @@
-"ADDRESS","AMOUNT","DELIVERYTIME","UUID"
-"Address{uuid=8056fe6e-5922-4532-ac47-da37a127ffb8, name='a', companyName='a', street='a', city='a', postCode='a', country='a'}","5","2021-12-18T21:04:02.942571+01:00","c30e2c75-76e0-4925-825b-7cf999d3b066"
+"ADDRESS","AMOUNT","DELIVERYTIME"
+"Address{name='a', companyName='a', street='a', city='a', postCode='a', country='a'}","5","2021-12-18T21:04:02.942571+01:00"

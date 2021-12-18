@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
  */
 public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 
-	private static final String UUID_IDENTIFIER = "uuid=";
 	private static final String NAME_IDENTIFIER = "name=";
 	private static final String COMPANY_NAME_IDENTIFIER = "companyName=";
 	private static final String STREET_IDENTIFIER = "street=";
@@ -26,12 +25,10 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 	private static final String POSTCODE_IDENTIFIER = "postCode=";
 	private static final String COUNTRY_IDENTIFIER = "country=";
 	private static final String VALUE_PACKAGE = "'";
-	private static final String VALUE_DIVIDER = ",";
 	private final Logger logger = LoggerFactory.getLogger(BeanAddressConverter.class);
-	private final Pattern check_pattern = Pattern.compile("(Address.)" + UUID_IDENTIFIER + ".+?" + NAME_IDENTIFIER + ".+?" + COMPANY_NAME_IDENTIFIER + ".+?" + STREET_IDENTIFIER + ".+?" + CITY_IDENTIFIER + ".+?" + POSTCODE_IDENTIFIER + ".+?" + COUNTRY_IDENTIFIER);
+	private final Pattern check_pattern = Pattern.compile("(Address.)" + NAME_IDENTIFIER + ".+?" + COMPANY_NAME_IDENTIFIER + ".+?" + STREET_IDENTIFIER + ".+?" + CITY_IDENTIFIER + ".+?" + POSTCODE_IDENTIFIER + ".+?" + COUNTRY_IDENTIFIER);
 
 
-	private final Pattern uuid_pattern = Pattern.compile("(" + UUID_IDENTIFIER + ").+?(" + VALUE_DIVIDER + ")");
 	private final Pattern name_pattern = Pattern.compile("(" + NAME_IDENTIFIER + VALUE_PACKAGE + ").+?(" + VALUE_PACKAGE + ")");
 	private final Pattern company_name_pattern = Pattern.compile("(" + COMPANY_NAME_IDENTIFIER + VALUE_PACKAGE + ").+?(" + VALUE_PACKAGE + ")");
 	private final Pattern street_pattern = Pattern.compile("(" + STREET_IDENTIFIER + VALUE_PACKAGE + ").+?(" + VALUE_PACKAGE + ")");
@@ -71,24 +68,18 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 	public final Object convert(String value) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
 		// Pattern check, if the String contains the needed value and is in the right format
 		if (!check_pattern.matcher(value).find()) {
-			CsvDataTypeMismatchException ex = new CsvDataTypeMismatchException();
-			logger.error(ex.getMessage());
-			throw ex;
+			String message = "given Input-String could not be validated (Input: " + value + ")";
+			logger.error(message);
+			throw new CsvDataTypeMismatchException(message);
 		}
 
 		// Matching of all needed information
-		Matcher uuid_matcher = uuid_pattern.matcher(value);
 		Matcher name_matcher = name_pattern.matcher(value);
 		Matcher company_name_matcher = company_name_pattern.matcher(value);
 		Matcher street_matcher = street_pattern.matcher(value);
 		Matcher city_matcher = city_pattern.matcher(value);
 		Matcher postCode_matcher = postCode_pattern.matcher(value);
 		Matcher country_matcher = country_pattern.matcher(value);
-
-
-		String uuid = getCleanValue(getGroup(uuid_matcher, 0), UUID_IDENTIFIER, VALUE_DIVIDER);
-
-		UUID actualUUID = parseUUIDFromString(uuid);
 
 		String name = getCleanValue(getGroup(name_matcher, 0), NAME_IDENTIFIER + VALUE_PACKAGE, VALUE_PACKAGE);
 
@@ -102,7 +93,7 @@ public class BeanAddressConverter<T, I> extends AbstractBeanField<T, I> {
 
 		String country = getCleanValue(getGroup(country_matcher, 0), COUNTRY_IDENTIFIER + VALUE_PACKAGE, VALUE_PACKAGE);
 
-		return new Address(actualUUID, name, company_name, street, city, postCode, country);
+		return new Address(name, company_name, street, city, postCode, country);
 	}
 
 	/**

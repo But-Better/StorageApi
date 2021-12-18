@@ -36,7 +36,7 @@ class CSVConverterTest {
 
 		productInformation = new ArrayList<>();
 
-		productInformation.add(new ProductInformation(UUID.randomUUID(), OffsetDateTime.now(), 5, new Address(UUID.randomUUID(), "a", "a", "a", "a", "a", "a")));
+		productInformation.add(new ProductInformation(OffsetDateTime.now(), 5, new Address( "a", "a", "a", "a", "a", "a")));
 		Writer writer = new FileWriter(file);
 		StatefulBeanToCsv<ProductInformation> beanToCsv = new StatefulBeanToCsvBuilder<ProductInformation>(writer).build();
 		beanToCsv.write(productInformation);
