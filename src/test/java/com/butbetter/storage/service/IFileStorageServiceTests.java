@@ -1,8 +1,9 @@
 package com.butbetter.storage.service;
 
-import com.butbetter.storage.model.Address;
-import com.butbetter.storage.model.ProductInformation;
-import com.butbetter.storage.validator.ProductInformationValidator;
+import com.butbetter.storage.restApi.model.Address;
+import com.butbetter.storage.restApi.model.ProductInformation;
+import com.butbetter.storage.restApi.service.StorageService;
+import com.butbetter.storage.restApi.validator.ProductInformationValidator;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

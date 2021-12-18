@@ -1,8 +1,9 @@
 package com.butbetter.storage.controller;
 
-import com.butbetter.storage.model.Address;
-import com.butbetter.storage.model.ProductInformation;
-import com.butbetter.storage.repository.ProductRepository;
+import com.butbetter.storage.restApi.controller.StorageController;
+import com.butbetter.storage.restApi.model.Address;
+import com.butbetter.storage.restApi.model.ProductInformation;
+import com.butbetter.storage.restApi.repository.ProductRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

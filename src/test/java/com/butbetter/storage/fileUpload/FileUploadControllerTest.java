@@ -3,7 +3,7 @@ package com.butbetter.storage.fileUpload;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-import com.butbetter.storage.fileUpload.exceptions.StorageFileNotFoundException;
+import com.butbetter.storage.csvImport.exception.StorageFileNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class FileUploadControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private IFileStorageService IFileStorageService;
+    private com.butbetter.storage.csvImport.service.fileStorage.IFileStorageService IFileStorageService;
 
     @Test
     public void shouldListAllFiles() throws Exception {

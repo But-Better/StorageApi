@@ -1,13 +1,15 @@
 package com.butbetter.storage.csv;
 
-import com.butbetter.storage.csv.exceptions.FaultyCSVException;
-import com.butbetter.storage.fileUpload.exceptions.StorageFileNotFoundException;
-import com.butbetter.storage.customConverter.BeanOffsetDateTimeConverter;
-import com.butbetter.storage.model.Address;
-import com.butbetter.storage.model.ProductInformation;
-import com.butbetter.storage.repository.FileAddressRepository;
-import com.butbetter.storage.repository.FileProductRepository;
-import com.butbetter.storage.validator.ProductInformationValidator;
+import com.butbetter.storage.csvImport.service.converter.CSVConverter;
+import com.butbetter.storage.csvImport.service.importer.CSVImportService;
+import com.butbetter.storage.csvImport.exception.FaultyCSVException;
+import com.butbetter.storage.csvImport.exception.StorageFileNotFoundException;
+import com.butbetter.storage.csvImport.customConverter.BeanOffsetDateTimeConverter;
+import com.butbetter.storage.csvImport.model.AddressCsv;
+import com.butbetter.storage.csvImport.model.ProductInformationCsv;
+import com.butbetter.storage.csvImport.repository.FileAddressRepository;
+import com.butbetter.storage.csvImport.repository.FileProductRepository;
+import com.butbetter.storage.csvImport.validator.ProductInformationCsvValidator;
 import com.github.javafaker.Faker;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
@@ -20,7 +22,6 @@ import java.nio.file.Path;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -36,7 +37,7 @@ class CSVImportServiceTest {
 	private FileProductRepository prodRepo;
 	private FileAddressRepository addrRepo;
 
-	private ProductInformationValidator validator;
+	private ProductInformationCsvValidator validator;
 
 	private CSVImportService service;
 
@@ -45,7 +46,7 @@ class CSVImportServiceTest {
 		converter = mock(CSVConverter.class);
 		prodRepo = mock(FileProductRepository.class);
 		addrRepo = mock(FileAddressRepository.class);
-		validator = new ProductInformationValidator();
+		validator = new ProductInformationCsvValidator();
 
 		service = new CSVImportService(converter, prodRepo, addrRepo, validator);
 	}
@@ -59,7 +60,7 @@ class CSVImportServiceTest {
 
 	@Test
 	void normalFromFileConversionTest() throws FaultyCSVException, FileNotFoundException, StorageFileNotFoundException {
-		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation(OffsetDateTime.now(), Faker.instance().number().randomDigit(), new Address())}).collect(Collectors.toList());
+		List<ProductInformationCsv> convertedList = Arrays.stream(new ProductInformationCsv[]{new ProductInformationCsv(OffsetDateTime.now(), Faker.instance().number().randomDigit(), new AddressCsv())}).collect(Collectors.toList());
 		when(converter.getFromCSV(any())).thenReturn(convertedList);
 
 		service.fromFile(testFile);
@@ -70,7 +71,7 @@ class CSVImportServiceTest {
 
 	@Test
 	void noElementsInFileTest() throws FileNotFoundException {
-		when(converter.getFromCSV(any())).thenReturn(Arrays.stream(new ProductInformation[0]).collect(Collectors.toList()));
+		when(converter.getFromCSV(any())).thenReturn(Arrays.stream(new ProductInformationCsv[0]).collect(Collectors.toList()));
 
 		assertThrows(FaultyCSVException.class, () -> service.fromFile(testFile));
 
@@ -81,9 +82,9 @@ class CSVImportServiceTest {
 	@Test
 	void usingActualConverterTest() throws CsvConstraintViolationException, CsvDataTypeMismatchException, FaultyCSVException, StorageFileNotFoundException {
 		OffsetDateTime date = (OffsetDateTime) new BeanOffsetDateTimeConverter<String, OffsetDateTime>().convert("2021-11-20T14:20:53.128120+01:00");
-		Address address = new Address("a", "a", "a", "a", "a", "a");
+		AddressCsv address = new AddressCsv("a", "a", "a", "a", "a", "a");
 
-		List<ProductInformation> convertedList = Arrays.stream(new ProductInformation[]{new ProductInformation(date, 5, address)}).collect(Collectors.toList());
+		List<ProductInformationCsv> convertedList = Arrays.stream(new ProductInformationCsv[]{new ProductInformationCsv(date, 5, address)}).collect(Collectors.toList());
 
 		converter = new CSVConverter();
 		service = new CSVImportService(converter, prodRepo, addrRepo, validator);

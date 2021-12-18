@@ -1,5 +1,6 @@
 package com.butbetter.storage.model;
 
+import com.butbetter.storage.restApi.model.Address;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
