@@ -97,23 +97,6 @@ public class BeanAddressCsvConverter<T, I> extends AbstractBeanField<T, I> {
 	}
 
 	/**
-	 * parses a string into its uuid equivalent
-	 *
-	 * @param uuid string to parse
-	 *
-	 * @return parsed UUID
-	 */
-	private UUID parseUUIDFromString(String uuid) throws CsvDataTypeMismatchException {
-		try {
-			return UUID.fromString(uuid);
-		} catch (IllegalArgumentException e) {
-			String message = "the given UUID cannot be converted into its representable Object (uuid => " + uuid + " )";
-			logger.error(message, e);
-			throw new CsvDataTypeMismatchException(message);
-		}
-	}
-
-	/**
 	 * method for getting a specific Group in a matched pattern, if there is one
 	 *
 	 * @param matcher matcher with the pattern and group
