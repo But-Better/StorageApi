@@ -136,7 +136,13 @@ public class Address implements Serializable {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		Address address = (Address) o;
-		return Objects.equals(uuid, address.uuid) && Objects.equals(name, address.name) && Objects.equals(companyName, address.companyName) && Objects.equals(street, address.street) && Objects.equals(city, address.city) && Objects.equals(postCode, address.postCode) && Objects.equals(country, address.country);
+		return Objects.equals(uuid, address.uuid)
+				&& Objects.equals(name, address.name)
+				&& Objects.equals(companyName, address.companyName)
+				&& Objects.equals(street, address.street)
+				&& Objects.equals(city, address.city)
+				&& Objects.equals(postCode, address.postCode)
+				&& Objects.equals(country, address.country);
 	}
 
 	@Override
@@ -146,6 +152,14 @@ public class Address implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Address{" + "uuid=" + uuid + ", name='" + name + '\'' + ", companyName='" + companyName + '\'' + ", street='" + street + '\'' + ", city='" + city + '\'' + ", postCode='" + postCode + '\'' + ", country='" + country + '\'' + '}';
+		return "Address{" +
+				"uuid=" + uuid +
+				", name='" + name + '\'' +
+				", companyName='" + companyName + '\'' +
+				", street='" + street + '\'' +
+				", city='" + city + '\'' +
+				", postCode='" + postCode + '\'' +
+				", country='" + country + '\'' +
+				'}';
 	}
 }

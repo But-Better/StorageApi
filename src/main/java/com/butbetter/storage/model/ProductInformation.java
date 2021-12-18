@@ -100,7 +100,10 @@ public class ProductInformation implements Serializable {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		ProductInformation that = (ProductInformation) o;
-		return amount == that.amount && Objects.equals(uuid, that.uuid) && Objects.equals(date, that.date) && Objects.equals(address, that.address);
+		return amount == that.amount &&
+				Objects.equals(uuid, that.uuid) &&
+				Objects.equals(date, that.date) &&
+				Objects.equals(address, that.address);
 	}
 
 	@Override
@@ -110,6 +113,11 @@ public class ProductInformation implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ProductInformation{" + "uuid=" + uuid + ", deliveryTime=" + date + ", amount=" + amount + ", address=" + address + '}';
+		return "ProductInformation{" +
+				"uuid=" + uuid +
+				", deliveryTime=" + date +
+				", amount=" + amount +
+				", address=" + address +
+				'}';
 	}
 }
