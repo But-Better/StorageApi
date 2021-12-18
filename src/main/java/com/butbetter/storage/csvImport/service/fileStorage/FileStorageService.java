@@ -5,6 +5,7 @@ import com.butbetter.storage.csvImport.exception.StorageException;
 import com.butbetter.storage.csvImport.exception.StorageFileNotFoundException;
 import com.butbetter.storage.csvImport.properties.StorageProperties;
 import com.butbetter.storage.csvImport.service.importer.ICSVImportService;
+import com.opencsv.exceptions.CsvException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class FileStorageService implements IFileStorageService {
 	}
 
 	@Override
-	public void store(MultipartFile file) throws StorageException, FaultyCSVException {
+	public void store(MultipartFile file) throws StorageException, FaultyCSVException, CsvException {
 		logger.info("storing " + file.getOriginalFilename());
 		try {
 			checkIfFileWasEmpty(file);
@@ -70,7 +71,7 @@ public class FileStorageService implements IFileStorageService {
 
 			putFileTo(file, destinationFile);
 		} catch (IOException e) {
-			String message = "Failed to store file";
+			String message = "Failed to store file with filename: " + file.getOriginalFilename();
 			logger.error(message);
 			throw new StorageException(message, e);
 		}
@@ -100,7 +101,7 @@ public class FileStorageService implements IFileStorageService {
 		}
 	}
 
-	private void importToDatabase(Path load) throws FaultyCSVException, StorageFileNotFoundException {
+	private void importToDatabase(Path load) throws FaultyCSVException, StorageFileNotFoundException, CsvException {
 		importer.fromFile(load);
 	}
 
@@ -223,7 +224,7 @@ public class FileStorageService implements IFileStorageService {
 			});
 		} catch (IOException e) {
 			String message = "skipping deleting all current existing files, couldn't remove all files, either because " + "of permission problems or the path doesn't exist anymore";
-			logger.error(message, e);
+			logger.warn(message);
 		}
 		logger.info("removed all known files");
 	}

@@ -1,5 +1,7 @@
 package com.butbetter.storage.csvImport.service.converter;
 
+import com.opencsv.exceptions.CsvException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -17,5 +19,5 @@ public interface ICSVConverter<P> {
 	 *
 	 * @throws FileNotFoundException thrown, if file can't be found
 	 */
-	List<P> getFromCSV(Path file) throws FileNotFoundException;
+	List<P> getFromCSV(Path file) throws FileNotFoundException, CsvException;
 }

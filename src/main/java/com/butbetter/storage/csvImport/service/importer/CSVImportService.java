@@ -8,6 +8,8 @@ import com.butbetter.storage.csvImport.repository.FileProductRepository;
 import com.butbetter.storage.csvImport.service.converter.ICSVProductInformationConverter;
 import com.butbetter.storage.csvImport.validator.IProductInformationCsvValidator;
 import com.butbetter.storage.restApi.validator.IProductInformationValidator;
+import com.opencsv.exceptions.CsvException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,7 @@ public class CSVImportService implements ICSVImportService {
 		this.validator = validator;
 	}
 
-	public void fromFile(Path path) throws FaultyCSVException, StorageFileNotFoundException {
+	public void fromFile(Path path) throws FaultyCSVException, StorageFileNotFoundException, CsvException {
 		List<ProductInformationCsv> productInformationList = getInformationOutOfFile(path);
 		if (productInformationList.isEmpty()) {
 			String message = "no elements where found in csv file at: " + path.toString();
@@ -87,7 +89,7 @@ public class CSVImportService implements ICSVImportService {
 	 *
 	 * @throws StorageFileNotFoundException thrown, if file can't be processed or File was not properly stored beforehand
 	 */
-	private List<ProductInformationCsv> getInformationOutOfFile(Path path) throws StorageFileNotFoundException {
+	private List<ProductInformationCsv> getInformationOutOfFile(Path path) throws StorageFileNotFoundException, CsvException {
 		try {
 			return converter.getFromCSV(path);
 		} catch (FileNotFoundException e) {

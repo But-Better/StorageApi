@@ -13,6 +13,8 @@ import com.butbetter.storage.csvImport.validator.ProductInformationCsvValidator;
 import com.github.javafaker.Faker;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,7 +61,7 @@ class CSVImportServiceTest {
 	}
 
 	@Test
-	void normalFromFileConversionTest() throws FaultyCSVException, FileNotFoundException, StorageFileNotFoundException {
+	void normalFromFileConversionTest() throws FaultyCSVException, FileNotFoundException, StorageFileNotFoundException, CsvException {
 		List<ProductInformationCsv> convertedList = Arrays.stream(new ProductInformationCsv[]{new ProductInformationCsv(OffsetDateTime.now(), Faker.instance().number().randomDigit(), new AddressCsv())}).collect(Collectors.toList());
 		when(converter.getFromCSV(any())).thenReturn(convertedList);
 
@@ -70,7 +72,7 @@ class CSVImportServiceTest {
 	}
 
 	@Test
-	void noElementsInFileTest() throws FileNotFoundException {
+	void noElementsInFileTest() throws FileNotFoundException, CsvException {
 		when(converter.getFromCSV(any())).thenReturn(Arrays.stream(new ProductInformationCsv[0]).collect(Collectors.toList()));
 
 		assertThrows(FaultyCSVException.class, () -> service.fromFile(testFile));
@@ -80,7 +82,7 @@ class CSVImportServiceTest {
 	}
 
 	@Test
-	void usingActualConverterTest() throws CsvConstraintViolationException, CsvDataTypeMismatchException, FaultyCSVException, StorageFileNotFoundException {
+	void usingActualConverterTest() throws CsvConstraintViolationException, CsvDataTypeMismatchException, FaultyCSVException, StorageFileNotFoundException, CsvException {
 		OffsetDateTime date = (OffsetDateTime) new BeanOffsetDateTimeConverter<String, OffsetDateTime>().convert("2021-11-20T14:20:53.128120+01:00");
 		AddressCsv address = new AddressCsv("a", "a", "a", "a", "a", "a");
 

@@ -8,6 +8,7 @@ import com.butbetter.storage.csvImport.model.ProductInformationCsv;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,13 +46,13 @@ class CSVConverterTest {
 	}
 
 	@Test
-	void generalAddressConversionTest() throws IOException {
+	void generalAddressConversionTest() throws IOException, CsvException {
 		List<ProductInformationCsv> beans = importer.getFromCSV(file.toPath());
 		assertEquals(productInformation.get(0).getAddress(), beans.get(0).getAddress());
 	}
 
 	@Test
-	void generalFullConversionTest() throws IOException {
+	void generalFullConversionTest() throws IOException, CsvException {
 		List<ProductInformationCsv> beans = importer.getFromCSV(file.toPath());
 		assertEquals(productInformation.get(0), beans.get(0));
 	}
