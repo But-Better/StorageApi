@@ -35,18 +35,16 @@ public class FileUploadController {
 	/**
 	 * handling of post request for file upload
 	 *
-	 * @param file               file to upload
-	 * @return response
+	 * @param  file             file to upload
+	 * @return ResponseEntity
 	 *
 	 * @throws StorageException thrown, if file couldn't be stored
 	 */
 	@PostMapping("/")
-	public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) throws StorageException, FaultyCSVException, StorageFileNotFoundException {
+	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) throws StorageException, FaultyCSVException, StorageFileNotFoundException {
 		logger.info("file upload started, saving: " + file.getOriginalFilename());
 		fileStorageService.store(file);
-		redirectAttributes.addFlashAttribute("message", "You successfully uploaded " + file.getOriginalFilename() + "!");
-
-		return "redirect:/";
+		return ResponseEntity.ok().body("file " + file.getOriginalFilename() + " was successfully migrated");
 	}
 
 	@GetMapping("/")
