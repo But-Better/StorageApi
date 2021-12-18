@@ -9,7 +9,6 @@ import com.butbetter.storage.csvImport.service.converter.ICSVProductInformationC
 import com.butbetter.storage.csvImport.validator.IProductInformationCsvValidator;
 import com.butbetter.storage.restApi.validator.IProductInformationValidator;
 import com.opencsv.exceptions.CsvException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +62,7 @@ public class CSVImportService implements ICSVImportService {
 			logger.error("couldn't validate all newly added Product-Information", e);
 		}
 
-		productInformationList
-				.forEach(productInformation -> addressRepository
-						.save(productInformation.getAddress()));
+		productInformationList.forEach(productInformation -> addressRepository.save(productInformation.getAddress()));
 
 		productRepository.saveAll(productInformationList);
 		logger.info("saved add new Product-Information (newly added:" + productInformationList.size() + ")");
@@ -87,7 +84,8 @@ public class CSVImportService implements ICSVImportService {
 	 *
 	 * @return List of converted ProductInformation
 	 *
-	 * @throws StorageFileNotFoundException thrown, if file can't be processed or File was not properly stored beforehand
+	 * @throws StorageFileNotFoundException thrown, if file can't be processed or File was not properly stored
+	 *                                      beforehand
 	 */
 	private List<ProductInformationCsv> getInformationOutOfFile(Path path) throws StorageFileNotFoundException, CsvException {
 		try {

@@ -3,7 +3,6 @@ package com.butbetter.storage.csvImport.service.converter;
 import com.butbetter.storage.csvImport.model.ProductInformationCsv;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.exceptions.CsvException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
