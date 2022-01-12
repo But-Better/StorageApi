@@ -3,6 +3,7 @@ package com.butbetter.storage.csvImport.service.fileStorage;
 import com.butbetter.storage.csvImport.exception.FaultyCSVException;
 import com.butbetter.storage.csvImport.exception.StorageException;
 import com.butbetter.storage.csvImport.exception.StorageFileNotFoundException;
+import com.butbetter.storage.csvImport.exception.StorageFileNotProcessableException;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +28,7 @@ public interface IFileStorageService {
 	 * @throws StorageException   thrown, if file couldn't be stored
 	 * @throws FaultyCSVException thrown, if file couldn't be correctly processed
 	 */
-	void store(MultipartFile file) throws StorageException, FaultyCSVException, StorageFileNotFoundException, CsvException;
+	void store(MultipartFile file) throws StorageException, FaultyCSVException, StorageFileNotFoundException, CsvException, StorageFileNotProcessableException;
 
 	/**
 	 * get all available file-paths

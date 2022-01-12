@@ -21,28 +21,19 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// TODO: FIX STUFF
 class CSVConverterTest {
 
 	private static final String BASE_PATH = "src/test/resources";
-	private File file = new File(BASE_PATH + "/write_test.csv");
+	private File file = new File(BASE_PATH + "/test.csv");
 	private List<ProductInformation> productInformation;
 	private final CSVConverter importer = new CSVConverter();
 
 	@BeforeEach
-	void setup() throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
-		if (!file.exists()){
-			if (!file.createNewFile()) {
-				throw new IOException("not able to create temp file, probably no permissions");
-			}
-		}
-
+	void setup() {
 		productInformation = new ArrayList<>();
 
-		productInformation.add(new ProductInformation(OffsetDateTime.now(), 5, new Address( "a", "a", "a", "a", "a", "a")));
-		Writer writer = new FileWriter(file);
-		StatefulBeanToCsv<ProductInformation> beanToCsv = new StatefulBeanToCsvBuilder<ProductInformation>(writer).build();
-		beanToCsv.write(productInformation);
-		writer.close();
+		productInformation.add(new ProductInformation(OffsetDateTime.parse("2021-12-19T19:28:36.615032+01:00"), 5, new Address( "a", "a", "a", "a", "a", "a")));
 	}
 
 	@Test

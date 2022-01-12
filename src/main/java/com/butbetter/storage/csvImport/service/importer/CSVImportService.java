@@ -2,6 +2,7 @@ package com.butbetter.storage.csvImport.service.importer;
 
 import com.butbetter.storage.csvImport.exception.FaultyCSVException;
 import com.butbetter.storage.csvImport.exception.StorageFileNotFoundException;
+import com.butbetter.storage.csvImport.exception.StorageFileNotProcessableException;
 import com.butbetter.storage.csvImport.model.ProductInformationCsv;
 import com.butbetter.storage.csvImport.repository.FileAddressRepository;
 import com.butbetter.storage.csvImport.repository.FileProductRepository;
@@ -48,7 +49,7 @@ public class CSVImportService implements ICSVImportService {
 		this.validator = validator;
 	}
 
-	public void fromFile(Path path) throws FaultyCSVException, StorageFileNotFoundException, CsvException {
+	public void fromFile(Path path) throws FaultyCSVException, CsvException, StorageFileNotProcessableException {
 		List<ProductInformationCsv> productInformationList = getInformationOutOfFile(path);
 		if (productInformationList.isEmpty()) {
 			String message = "no elements where found in csv file at: " + path.toString();
@@ -84,16 +85,16 @@ public class CSVImportService implements ICSVImportService {
 	 *
 	 * @return List of converted ProductInformation
 	 *
-	 * @throws StorageFileNotFoundException thrown, if file can't be processed or File was not properly stored
-	 *                                      beforehand
+	 * @throws StorageFileNotProcessableException thrown, if file can't be processed or File was not properly stored
+	 *                                            beforehand
 	 */
-	private List<ProductInformationCsv> getInformationOutOfFile(Path path) throws StorageFileNotFoundException, CsvException {
+	private List<ProductInformationCsv> getInformationOutOfFile(Path path) throws StorageFileNotProcessableException, CsvException {
 		try {
 			return converter.getFromCSV(path);
 		} catch (FileNotFoundException e) {
 			String message = "the file wasn't stored properly/is nowhere to be found, and therefore couldn't be further processed";
 			logger.error(message);
-			throw new StorageFileNotFoundException(message, e);
+			throw new StorageFileNotProcessableException(message, e);
 		}
 	}
 }

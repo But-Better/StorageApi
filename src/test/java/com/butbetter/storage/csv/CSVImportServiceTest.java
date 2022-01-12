@@ -1,5 +1,6 @@
 package com.butbetter.storage.csv;
 
+import com.butbetter.storage.csvImport.exception.StorageFileNotProcessableException;
 import com.butbetter.storage.csvImport.service.converter.CSVConverter;
 import com.butbetter.storage.csvImport.service.importer.CSVImportService;
 import com.butbetter.storage.csvImport.exception.FaultyCSVException;
@@ -33,7 +34,7 @@ class CSVImportServiceTest {
 
 	private static final String BASE_PATH = "src/test/resources/";
 
-	private Path testFile = Path.of(BASE_PATH + "test.csv");
+	private final Path testFile = Path.of(BASE_PATH + "test.csv");
 
 	private CSVConverter converter;
 	private FileProductRepository prodRepo;
@@ -61,7 +62,7 @@ class CSVImportServiceTest {
 	}
 
 	@Test
-	void normalFromFileConversionTest() throws FaultyCSVException, FileNotFoundException, StorageFileNotFoundException, CsvException {
+	void normalFromFileConversionTest() throws FaultyCSVException, FileNotFoundException, StorageFileNotProcessableException, CsvException {
 		List<ProductInformationCsv> convertedList = Arrays.stream(new ProductInformationCsv[]{new ProductInformationCsv(OffsetDateTime.now(), Faker.instance().number().randomDigit(), new AddressCsv())}).collect(Collectors.toList());
 		when(converter.getFromCSV(any())).thenReturn(convertedList);
 
@@ -82,7 +83,7 @@ class CSVImportServiceTest {
 	}
 
 	@Test
-	void usingActualConverterTest() throws CsvConstraintViolationException, CsvDataTypeMismatchException, FaultyCSVException, StorageFileNotFoundException, CsvException {
+	void usingActualConverterTest() throws FaultyCSVException, CsvException, StorageFileNotProcessableException {
 		OffsetDateTime date = (OffsetDateTime) new BeanOffsetDateTimeConverter<String, OffsetDateTime>().convert("2021-11-20T14:20:53.128120+01:00");
 		AddressCsv address = new AddressCsv("a", "a", "a", "a", "a", "a");
 

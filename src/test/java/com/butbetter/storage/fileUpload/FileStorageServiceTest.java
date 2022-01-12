@@ -1,5 +1,6 @@
 package com.butbetter.storage.fileUpload;
 
+import com.butbetter.storage.csvImport.exception.StorageFileNotProcessableException;
 import com.butbetter.storage.csvImport.service.importer.CSVImportService;
 import com.butbetter.storage.csvImport.exception.FaultyCSVException;
 import com.butbetter.storage.csvImport.service.fileStorage.FileStorageService;
@@ -26,6 +27,7 @@ import java.util.stream.Stream;
 
 import static com.butbetter.storage.FileUtilities.readEntireFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +43,7 @@ class FileStorageServiceTest {
 
 	private FileStorageService service;
 
-	private final String fileName = "test.csv";
+	private final String fileName = "write_test.csv";
 
 	@BeforeEach
 	void setUp() throws IOException {
@@ -77,13 +79,13 @@ class FileStorageServiceTest {
 	}
 
 	@Test
-	void newFileIsStored() throws IOException, FaultyCSVException, CsvException {
+	void newFileIsStored() throws IOException, FaultyCSVException, CsvException, StorageFileNotProcessableException {
 		service.store(file);
 		assert Files.list(properties_path).findAny().isPresent();
 	}
 
 	@Test
-	void fileNameAreTheSame() throws StorageException, FaultyCSVException, CsvException {
+	void fileNameAreTheSame() throws StorageException, FaultyCSVException, CsvException, StorageFileNotProcessableException {
 		when(file.getOriginalFilename()).thenReturn("this_is_a_file");
 		service.store(file);
 		File newFileHandle = new File(property.getLocation() + "/" + file.getOriginalFilename());
@@ -91,34 +93,42 @@ class FileStorageServiceTest {
 	}
 
 	@Test
-	void contentsOfFileAreSame() throws IOException, FaultyCSVException, CsvException {
+	void contentsOfFileAreSame() throws IOException, FaultyCSVException, CsvException, StorageFileNotProcessableException {
 		service.store(file);
 		File newFileHandle = new File(property.getLocation() + "/" + file.getOriginalFilename());
 		assertEquals(readEntireFile(fileHandle), readEntireFile(newFileHandle));
 	}
 
 	@Test
-	void loadAllGeneralTest() throws FaultyCSVException, StorageException, CsvException {
+	void loadAllFileExistsTest() throws FaultyCSVException, StorageException, CsvException, StorageFileNotProcessableException {
 		service.store(file);
+
+		assertTrue(service.loadAll().findFirst().isPresent());
+	}
+
+	@Test
+	void loadAllGeneralTest() throws FaultyCSVException, StorageException, CsvException, StorageFileNotProcessableException {
+		service.store(file);
+
 		Stream<Path> loadedFiles = service.loadAll();
 		assertEquals(file.getOriginalFilename(), loadedFiles.findFirst().get().toString());
 	}
 
 	@Test
-	void simpleLoadLastTest() throws FaultyCSVException, StorageException, StorageFileNotFoundException, CsvException {
+	void simpleLoadLastTest() throws FaultyCSVException, StorageException, StorageFileNotFoundException, CsvException, StorageFileNotProcessableException {
 		service.store(file);
 		Path loadedFile = service.loadLast();
 		assertEquals(file.getOriginalFilename(), loadedFile.toString());
 	}
 
 	@Test
-	void simpleLoadTest() throws FaultyCSVException, StorageException, StorageFileNotFoundException, CsvException {
+	void simpleLoadTest() throws FaultyCSVException, StorageException, StorageFileNotFoundException, CsvException, StorageFileNotProcessableException {
 		service.store(file);
 		assertEquals(properties_path.toString() + "/" + fileName, service.load(file.getOriginalFilename()).toString());
 	}
 
 	@Test
-	void simpleLoadAsResourceTest() throws FaultyCSVException, IOException, StorageFileNotFoundException, CsvException {
+	void simpleLoadAsResourceTest() throws FaultyCSVException, IOException, StorageFileNotFoundException, CsvException, StorageFileNotProcessableException {
 		service.store(file);
 		File expectedFileHandle = new File(properties_path.toAbsolutePath() + "/" + fileName);
 		Resource expected = new UrlResource(expectedFileHandle.toURI());
@@ -126,7 +136,7 @@ class FileStorageServiceTest {
 	}
 
 	@Test
-	void singleDeleteAllTest() throws FaultyCSVException, StorageException, CsvException {
+	void singleDeleteAllTest() throws FaultyCSVException, StorageException, CsvException, StorageFileNotProcessableException {
 		service.store(file);
 		service.deleteAll();
 		assert service.loadAll().findAny().isEmpty();

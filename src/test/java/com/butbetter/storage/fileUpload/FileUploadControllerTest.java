@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 import com.butbetter.storage.csvImport.exception.StorageFileNotFoundException;
+import com.butbetter.storage.csvImport.exception.StorageFileNotProcessableException;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class FileUploadControllerTest {
     }
 
     @Test
-    public void shouldSaveUploadedFile() throws Exception, StorageFileNotFoundException {
+    public void shouldSaveUploadedFile() throws Exception, StorageFileNotFoundException, StorageFileNotProcessableException {
         MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
                 "text/plain", "Spring Framework".getBytes());
         this.mvc.perform(multipart("/csv/v1/").file(multipartFile))

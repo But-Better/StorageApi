@@ -3,6 +3,7 @@ package com.butbetter.storage.csvImport.controller;
 import com.butbetter.storage.csvImport.exception.FaultyCSVException;
 import com.butbetter.storage.csvImport.exception.StorageException;
 import com.butbetter.storage.csvImport.exception.StorageFileNotFoundException;
+import com.butbetter.storage.csvImport.exception.StorageFileNotProcessableException;
 import com.butbetter.storage.csvImport.service.fileStorage.IFileStorageService;
 import com.opencsv.exceptions.CsvException;
 import org.slf4j.Logger;
@@ -43,7 +44,7 @@ public class FileUploadController {
 	 * @throws StorageException thrown, if file couldn't be stored
 	 */
 	@PostMapping("/")
-	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) throws StorageException, FaultyCSVException, StorageFileNotFoundException, CsvException {
+	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) throws StorageException, FaultyCSVException, StorageFileNotFoundException, CsvException, StorageFileNotProcessableException {
 		logger.info("file upload started, saving: " + file.getOriginalFilename());
 		fileStorageService.store(file);
 		return ResponseEntity.ok().body("file " + file.getOriginalFilename() + " was successfully migrated");
@@ -120,10 +121,23 @@ public class FileUploadController {
 	 *
 	 * @param e StorageFileNotFoundException
 	 *
-	 * @return build Response-Entity with internal server error and information of stacktrace
+	 * @return build Response-Entity with bad request and information of stacktrace
 	 */
 	@ExceptionHandler(StorageFileNotFoundException.class)
 	public ResponseEntity<?> handleStorageFileNotFoundException(StorageFileNotFoundException e) {
+		logger.error(e.getMessage());
+		return ResponseEntity.badRequest().body(e.getMessage());
+	}
+
+	/**
+	 * Controller Exception Handler for StorageFileNotProcessableException
+	 *
+	 * @param e StorageFileNotProcessableException
+	 *
+	 * @return build Response-Entity with internal server error and information of stacktrace
+	 */
+	@ExceptionHandler(StorageFileNotProcessableException.class)
+	public ResponseEntity<?> handleStorageFileNotProcessableException(StorageFileNotProcessableException e) {
 		logger.error(e.getMessage());
 		return ResponseEntity.internalServerError().body(e.getMessage());
 	}

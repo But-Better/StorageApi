@@ -2,6 +2,7 @@ package com.butbetter.storage.csvImport.service.importer;
 
 import com.butbetter.storage.csvImport.exception.FaultyCSVException;
 import com.butbetter.storage.csvImport.exception.StorageFileNotFoundException;
+import com.butbetter.storage.csvImport.exception.StorageFileNotProcessableException;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,5 @@ public interface ICSVImportService {
 	 * @throws StorageFileNotFoundException thrown, if the File couldn't be properly stored/processed before
 	 * @throws FaultyCSVException           thrown, if no convertable CSV Elements were found in the File
 	 */
-	void fromFile(Path path) throws FaultyCSVException, StorageFileNotFoundException, CsvException;
+	void fromFile(Path path) throws FaultyCSVException, StorageFileNotProcessableException, CsvException, StorageFileNotFoundException;
 }
