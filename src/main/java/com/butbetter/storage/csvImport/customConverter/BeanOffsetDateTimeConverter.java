@@ -13,18 +13,14 @@ public class BeanOffsetDateTimeConverter<T, I> extends AbstractBeanField<T, I> {
 	private final Logger logger = LoggerFactory.getLogger(BeanOffsetDateTimeConverter.class);
 
 	/**
-	 * converts String to OffsetDateTime, by using the build in OffsetDateTime parser
-	 *
-	 * @param value value to parse
-	 *
-	 * @return Offset DateTime parsed
+	 * converts String to OffsetDateTime
 	 *
 	 * @throws CsvDataTypeMismatchException thrown, if the default OffsetDateTime converter, couldn't convert the given
 	 *                                      String
 	 * @see AbstractBeanField
 	 */
 	@Override
-	public final Object convert(String value) throws CsvDataTypeMismatchException {
+	public final OffsetDateTime convert(String value) throws CsvDataTypeMismatchException {
 		try {
 			return OffsetDateTime.parse(value);
 		} catch (DateTimeParseException ex) {
