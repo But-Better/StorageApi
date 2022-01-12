@@ -1,5 +1,7 @@
 package com.butbetter.storage.model;
 
+import com.butbetter.storage.restApi.model.Address;
+import com.butbetter.storage.restApi.model.ProductInformation;
 import org.junit.jupiter.api.*;
 
 import java.time.OffsetDateTime;
