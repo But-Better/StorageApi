@@ -34,15 +34,6 @@ public class FileUploadController {
 		this.fileStorageService = fileStorageService;
 	}
 
-	/**
-	 * handling of post request for file upload
-	 *
-	 * @param file file to upload
-	 *
-	 * @return ResponseEntity
-	 *
-	 * @throws StorageException thrown, if file couldn't be stored
-	 */
 	@PostMapping("/")
 	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) throws StorageException, FaultyCSVException, StorageFileNotFoundException, CsvException, StorageFileNotProcessableException {
 		logger.info("file upload started, saving: " + file.getOriginalFilename());
@@ -64,78 +55,37 @@ public class FileUploadController {
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
-	/**
-	 * Controller Exception Handler for IOException
-	 *
-	 * @param e IOException
-	 *
-	 * @return Build Response-Entity and information of stacktrace
-	 */
+
 	@ExceptionHandler(IOException.class)
 	public ResponseEntity<?> handleIOException(IOException e) {
 		logger.error(e.getMessage());
 		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
-	/**
-	 * Controller Exception Handler for FaultyCSVException
-	 *
-	 * @param e FaultyCSVException
-	 *
-	 * @return build Response-Entity with bad request and information of stacktrace
-	 */
 	@ExceptionHandler(FaultyCSVException.class)
 	public ResponseEntity<?> handleFaultyCSVException(FaultyCSVException e) {
 		logger.error(e.getMessage());
 		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
-	/**
-	 * Controller Exception Handler for CsvException
-	 *
-	 * @param e CsvException
-	 *
-	 * @return build Response-Entity with bad request and information of stacktrace
-	 */
 	@ExceptionHandler(CsvException.class)
 	public ResponseEntity<?> handleGeneralCsvException(CsvException e) {
 		logger.error(e.getMessage());
 		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
-	/**
-	 * Controller Exception Handler for StorageException
-	 *
-	 * @param e StorageException
-	 *
-	 * @return build Response-Entity with bad request and information of stacktrace
-	 */
 	@ExceptionHandler(StorageException.class)
 	public ResponseEntity<?> handleStorageException(StorageException e) {
 		logger.error(e.getMessage());
 		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
-	/**
-	 * Controller Exception Handler for StorageFileNotFoundException
-	 *
-	 * @param e StorageFileNotFoundException
-	 *
-	 * @return build Response-Entity with bad request and information of stacktrace
-	 */
 	@ExceptionHandler(StorageFileNotFoundException.class)
 	public ResponseEntity<?> handleStorageFileNotFoundException(StorageFileNotFoundException e) {
 		logger.error(e.getMessage());
 		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
-	/**
-	 * Controller Exception Handler for StorageFileNotProcessableException
-	 *
-	 * @param e StorageFileNotProcessableException
-	 *
-	 * @return build Response-Entity with internal server error and information of stacktrace
-	 */
 	@ExceptionHandler(StorageFileNotProcessableException.class)
 	public ResponseEntity<?> handleStorageFileNotProcessableException(StorageFileNotProcessableException e) {
 		logger.error(e.getMessage());
