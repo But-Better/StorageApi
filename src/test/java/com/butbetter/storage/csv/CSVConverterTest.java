@@ -21,11 +21,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// TODO: FIX STUFF
 class CSVConverterTest {
 
 	private static final String BASE_PATH = "src/test/resources";
-	private File file = new File(BASE_PATH + "/test.csv");
+	private File file = new File(BASE_PATH + "/test2.csv");
 	private List<ProductInformation> productInformation;
 	private final CSVConverter importer = new CSVConverter();
 
@@ -39,13 +38,13 @@ class CSVConverterTest {
 	@Test
 	void generalAddressConversionTest() throws IOException, CsvException {
 		List<ProductInformationCsv> beans = importer.getFromCSV(file.toPath());
-		assertEquals(productInformation.get(0).getAddress(), beans.get(0).getAddress());
+		assertEquals(productInformation.get(0).getAddress().toString(), beans.get(0).getAddress().toString());
 	}
 
 	@Test
 	void generalFullConversionTest() throws IOException, CsvException {
 		List<ProductInformationCsv> beans = importer.getFromCSV(file.toPath());
-		assertEquals(productInformation.get(0), beans.get(0));
+		assertEquals(productInformation.get(0).toString(), beans.get(0).toString());
 	}
 
 	@Test

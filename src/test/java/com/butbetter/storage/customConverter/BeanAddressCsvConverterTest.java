@@ -1,7 +1,7 @@
 package com.butbetter.storage.customConverter;
 
 import com.butbetter.storage.csvImport.customConverter.BeanAddressCsvConverter;
-import com.butbetter.storage.restApi.model.Address;
+import com.butbetter.storage.csvImport.model.AddressCsv;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import org.junit.jupiter.api.Test;
@@ -14,19 +14,13 @@ class BeanAddressCsvConverterTest {
 
 	@Test
 	void generalConvert() throws CsvConstraintViolationException, CsvDataTypeMismatchException {
-		String input = "Address{name='a', companyName='a', street='a', city='a', postCode='a', country='a'}";
-		Address address = new Address("a", "a", "a", "a", "a", "a");
-		Address converted = (Address) converter.convert(input);
+		String input = "Address{uuid=null, name='a', companyName='a', street='a', city='a', postCode='a', country='a'}";
+		AddressCsv address = new AddressCsv("a", "a", "a", "a", "a", "a");
+		AddressCsv converted = (AddressCsv) converter.convert(input);
 
 		address.setId(converted.getId());
 
 		assertEquals(address, converted);
-	}
-
-	@Test
-	void throwDataTypeMismatchOnGivenUuid() {
-		String input = "Address{uuid=null, name='a', companyName='a', street='a', city='a', postCode='a', country='a'}";
-		assertThrows(CsvDataTypeMismatchException.class,  () -> converter.convert(input));
 	}
 
 	@Test

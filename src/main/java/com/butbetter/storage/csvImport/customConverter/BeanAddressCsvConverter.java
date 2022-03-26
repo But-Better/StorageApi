@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
  */
 public class BeanAddressCsvConverter<T, I> extends AbstractBeanField<T, I> {
 
+	private static final String UUID_IDENTIFIER = "uuid=";
 	private static final String NAME_IDENTIFIER = "name=";
 	private static final String COMPANY_NAME_IDENTIFIER = "companyName=";
 	private static final String STREET_IDENTIFIER = "street=";
@@ -25,7 +26,7 @@ public class BeanAddressCsvConverter<T, I> extends AbstractBeanField<T, I> {
 	private static final String COUNTRY_IDENTIFIER = "country=";
 	private static final String VALUE_PACKAGE = "'";
 	private final Logger logger = LoggerFactory.getLogger(BeanAddressCsvConverter.class);
-	private final Pattern check_pattern = Pattern.compile("(Address.)" + NAME_IDENTIFIER + ".+?" + COMPANY_NAME_IDENTIFIER + ".+?" + STREET_IDENTIFIER + ".+?" + CITY_IDENTIFIER + ".+?" + POSTCODE_IDENTIFIER + ".+?" + COUNTRY_IDENTIFIER);
+	private final Pattern check_pattern = Pattern.compile("(Address.)" + UUID_IDENTIFIER + ".+?" + NAME_IDENTIFIER + ".+?" + COMPANY_NAME_IDENTIFIER + ".+?" + STREET_IDENTIFIER + ".+?" + CITY_IDENTIFIER + ".+?" + POSTCODE_IDENTIFIER + ".+?" + COUNTRY_IDENTIFIER);
 
 
 	private final Pattern name_pattern = Pattern.compile("(" + NAME_IDENTIFIER + VALUE_PACKAGE + ").+?(" + VALUE_PACKAGE + ")");

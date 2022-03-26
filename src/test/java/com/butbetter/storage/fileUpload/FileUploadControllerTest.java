@@ -45,8 +45,7 @@ public class FileUploadControllerTest {
         MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
                 "text/plain", "Spring Framework".getBytes());
         this.mvc.perform(multipart("/csv/v1/").file(multipartFile))
-                .andExpect(status().isFound())
-                .andExpect(header().string("Location", "/"));
+                .andExpect(status().is2xxSuccessful());
 
         then(this.IFileStorageService).should().store(multipartFile);
     }
@@ -55,7 +54,7 @@ public class FileUploadControllerTest {
     public void should404WhenMissingFile() throws Exception, StorageFileNotFoundException {
         given(this.IFileStorageService.loadAsResource("test.txt")).willThrow(StorageFileNotFoundException.class);
 
-        this.mvc.perform(get("/csv/v1/test.txt")).andExpect(status().isNotFound());
+        this.mvc.perform(get("/csv/v1/test.txt")).andExpect(status().is4xxClientError());
     }
 
 }
